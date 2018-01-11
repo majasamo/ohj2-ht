@@ -2,3 +2,6 @@
 kuvat/paaikkunak.png = ohjelman pääikkuna (käsin piirretty)
 kuvat/avaak.png      = kuva ohjelman alusta (kp)
 kuvat/eiaukeak.png   = virheilmoitus jos tiedostoa ei ole (kp)
+putsaus/tyolaiset.dat  = työntekijöiden tiedot
+putsaus/kohteet.dat    = kohteiden nimet
+putsaus/tyolaistenKohteet.dat  = kohteiden ja työntekijöiden relaatio
