@@ -1,7 +1,9 @@
 !https://tim.jyu.fi/view/kurssit/tie/ohj2/2018k/ht/majasamo = Suunnitelma TIMissä
-kuvat/paaikkunak.png = ohjelman pääikkuna (käsin piirretty)
-kuvat/avaak.png      = kuva ohjelman alusta (kp)
-kuvat/eiaukeak.png   = virheilmoitus jos tiedostoa ei ole (kp)
+kuvat/paaikkunat.png  = ohjelman pääikkuna
+kuvat/avaat.png  = kuva ohjelman alusta (käsin piirretty)
+kuvat/eilydyt.png  = ilmoitus, joka annetaan, kun annettua työnantajaa
+                   = ei löydy(kp)
+
 putsaus/tyolaiset.dat  = työntekijöiden tiedot
-putsaus/kohteet.dat    = kohteiden nimet
-putsaus/tyolaistenKohteet.dat  = kohteiden ja työntekijöiden relaatio
+putsaus/kohteet.dat  = kohteiden ja työntekijöiden relaatio
+putsaus/tyolaistenKohteet.dat  = kohteiden nimet
