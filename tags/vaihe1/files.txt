@@ -1,0 +1,4 @@
+!https://tim.jyu.fi/view/kurssit/tie/ohj2/2018k/ht/majasamo = Suunnitelma TIMissä
+kuvat/paaikkunat.png  = ohjelman pääikkuna
+kuvat/avaat.png  = kuva ohjelman alusta (käsin piirretty)
+kuvat/eiloydyt.png  = ilmoitus, joka annetaan, kun työnantajaa ei löydy (kp)
