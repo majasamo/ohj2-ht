@@ -3,3 +3,6 @@ kuvat/paaikkuna.png  = ohjelman pääikkuna
 kuvat/avaa.png  = kuva ohjelman alusta
 kuvat/eiloydy.png  = ilmoitus, joka annetaan, kun työnantajaa ei löydy
 kuvat/tallennetaanko.png  = kysytään, tallennetaanko tallentamattomat muokkaukset
+kuvat/poistetaankotyont.png  = kysytään, poistetaanko valittu työntekijä
+kuvat/poistetetaankokohde.png  = kysytään, poistetaanko kohde työntekijältä
+kuvat/luodaanko.png  = kysytään, luodaanko uusi kohde
