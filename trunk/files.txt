@@ -6,4 +6,4 @@ kuvat/tallennetaanko.png  = kysytään, tallennetaanko tallentamattomat muokkauk
 kuvat/poistetaankotyont.png  = kysytään, poistetaanko valittu työntekijä
 kuvat/poistetaankokohde.png  = kysytään, poistetaanko kohde työntekijältä
 kuvat/luodaanko.png  = kysytään, luodaanko uusi kohde
-kuvat/tietoja  = tietoja ohjelmasta
+kuvat/tietoja.png  = tietoja ohjelmasta
