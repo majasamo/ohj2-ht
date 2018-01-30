@@ -14,6 +14,7 @@ kuvat/luodaanko.png  = kysyt‰‰n, luodaanko uusi kohde
 kuvat/lisaa.png  = kysyt‰‰n lis‰tt‰v‰n kohteen nime‰
 kuvat/tietoja.png  = tietoja ohjelmasta
 kuvat/pakolliset.png  = ilmoitus, kun yritet‰‰n tallentaa t‰ytt‰m‰tt‰ pakollisia kentti‰
+kuvat/haku.png  = kuva hakutoiminnosta
 =
 = <h3>Ohjelman esisuunnitelma</h3>
 kuvat/avaat.png  = kuva ohjelman alusta (k‰sin piirretty)
