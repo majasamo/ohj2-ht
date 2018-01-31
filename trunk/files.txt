@@ -4,7 +4,6 @@
 =
 =
 = <h3>Ohjelman avustus</h3>
-!https://tim.jyu.fi/view/kurssit/tie/ohj2/2018k/ht/majasamo = Suunnitelma TIMissä
 kuvat/paaikkuna.png  = ohjelman pääikkuna
 kuvat/avaa.png  = kuva ohjelman alusta
 kuvat/eiloydy.png  = ilmoitus, joka annetaan, kun työnantajaa ei löydy
@@ -20,6 +19,7 @@ kuvat/syotauusi.png  = kuva uuden työntekijän syöttämisestä
 =
 =
 = <h3>Ohjelman esisuunnitelma</h3>
+!https://tim.jyu.fi/view/kurssit/tie/ohj2/2018k/ht/majasamo = Suunnitelma TIMissä
 kuvat/avaat.png  = kuva ohjelman alusta (käsin piirretty)
 kuvat/eiloydyt.png  = ilmoitus, kun työntekijää ei löydy (käsin piirretty)
 kuvat/paaikkunat.png  = ohjelman pääikkuna
