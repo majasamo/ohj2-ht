@@ -15,6 +15,7 @@ kuvat/lisaa.png  = kysytään lisättävän kohteen nimeä
 kuvat/tietoja.png  = tietoja ohjelmasta
 kuvat/pakolliset.png  = ilmoitus, kun yritetään tallentaa täyttämättä pakollisia kenttiä
 kuvat/haku.png  = kuva hakutoiminnosta
+kuvat/syotauusi.png  = kuva uuden työntekijän syöttämisestä
 =
 = <h3>Ohjelman esisuunnitelma</h3>
 kuvat/avaat.png  = kuva ohjelman alusta (käsin piirretty)
