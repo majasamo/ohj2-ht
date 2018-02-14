@@ -30,25 +30,31 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Avaa..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAvaa" text="Avaa...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#handleLopeta" text="Lopeta">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Muokkaa">
+          <Menu text="_Muokkaa">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleUusiTyontekija" text="Lisää työntekijä..." />
-                  <MenuItem mnemonicParsing="false" text="Poista työntekijä" />
-                  <MenuItem mnemonicParsing="false" text="Lisää kohde..." />
-                  <MenuItem mnemonicParsing="false" text="Poista kohde" />
+              <MenuItem mnemonicParsing="false" onAction="#handleLisaaTyontekija" text="Lisää työntekijä...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaTyontekija" text="Poista työntekijä" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLisaaKohde" text="Lisää kohde..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaKohde" text="Poista kohde" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Apua">
+          <Menu mnemonicParsing="false" text="A_pua">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Apua" />
-              <MenuItem mnemonicParsing="false" text="Tietoja..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleApua" text="Apua" />
+              <MenuItem mnemonicParsing="false" onAction="#handleTietoja" text="Tietoja..." />
             </items>
           </Menu>
         </menus>
@@ -66,7 +72,7 @@
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hakuehto" />
                         <ComboBoxChooser maxWidth="300.0" rivit="nimi&#10;henkilönumero&#10;aloitusvuosi&#10;koulutus&#10;lisätietoja&#10;kohteet" />
-                        <TextField />
+                        <TextField fx:id="hakusana" />
                         <Label alignment="CENTER" maxWidth="300.0" text="Työntekijät" />
                      </children>
                   </VBox>
@@ -127,7 +133,7 @@
          <left>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button onAction="#handleUusiTyontekija" text="_Uusi työntekijä">
+                  <Button onAction="#handleLisaaTyontekija" text="_Uusi työntekijä">
                      <tooltip>
                         <Tooltip text="Lisää uusi työntekijä" />
                      </tooltip>
@@ -149,8 +155,8 @@
          <right>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Lisää kohde" />
-                  <Button mnemonicParsing="false" text="Poista kohde" />
+                  <Button onAction="#handleLisaaKohde" text="_Lisää kohde" />
+                  <Button onAction="#handlePoistaKohde" text="P_oista kohde" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -9,10 +9,8 @@ import javafx.fxml.FXMLLoader;
 
 /**
  * Pääohjelma, joka käynnistää työntekijärekisterin.
- * 
  * @author Marko Moilanen
  * @version 13.1.2018
- *
  */
 public class TrekisteriMain extends Application {
 	@Override
@@ -43,7 +41,7 @@ public class TrekisteriMain extends Application {
 	
 	/**
 	 * Käynnistää käyttöliittymän.
-	 * @param args komentoriviparemetrit
+	 * @param args komentoriviparametrit
 	 * 
 	 */
 	public static void main(String[] args) {
