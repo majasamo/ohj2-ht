@@ -106,7 +106,8 @@ public class TrekisteriGUIController {
      * Lisää uuden työntekijän.
      */
     private void lisaaTyontekija() {  // Oletuskäsittelijä.
-        ModalController.showModal(TrekisteriGUIController.class.getResource("UusiView.fxml"), "Lisää työntekijä", null, "");
+        ModalController.showModal(TrekisteriGUIController.class.getResource("UusiView.fxml"), "Lisää työntekijä", 
+                null, "");
     }
 
     
@@ -121,8 +122,9 @@ public class TrekisteriGUIController {
     /**
      * Lisää kohteen työntekijän kohdeluetteloon.
      */
-    private void lisaaKohde() {
-        Dialogs.showMessageDialog("Ei toimi vielä.");
+    private void lisaaKohde() { // Oletuskäsittelijä.
+        ModalController.showModal(TrekisteriGUIController.class.getResource("UusiKohdeView.fxml"), "Lisää kohde",
+                null, "");
     }
     
     
