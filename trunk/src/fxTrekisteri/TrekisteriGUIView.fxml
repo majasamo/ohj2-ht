@@ -47,6 +47,7 @@
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaTyontekija" text="Poista työntekijä" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaTyontekija" text="Muokkaa työntekijän tietoja..." />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaKohde" text="Lisää kohde..." />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaKohde" text="Poista kohde" />
             </items>

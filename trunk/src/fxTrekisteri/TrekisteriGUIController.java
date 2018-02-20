@@ -1,8 +1,9 @@
 package fxTrekisteri;
 
+import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import fi.jyu.mit.fxgui.*;
 
 
 /**
@@ -51,6 +52,14 @@ public class TrekisteriGUIController {
      */
     @FXML private void handlePoistaTyontekija() {
         poistaTyontekija();
+    }
+    
+    
+    /**
+     * Käsittelee työntekijän tietojen muokkauksen.
+     */
+    @FXML private void handleMuokkaaTyontekija() {
+        muokkaaTyontekija();
     }
     
     
@@ -116,6 +125,15 @@ public class TrekisteriGUIController {
      */
     private void poistaTyontekija() {
         Dialogs.showMessageDialog("Ei toimi vielä.");
+    }
+    
+    
+    /**
+     * Muuttaa työntekijän tietoja.
+     */
+    private void muokkaaTyontekija() { // Oletuskäsittelijä.
+        ModalController.showModal(TrekisteriGUIController.class.getResource("MuokkaaView.fxml"), 
+                "Muokkaa työntekijää", null, "");
     }
         
     
