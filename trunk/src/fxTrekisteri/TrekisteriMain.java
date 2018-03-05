@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
  * @version 13.1.2018
  */
 public class TrekisteriMain extends Application {
+    
 	@Override
 	public void start(Stage primaryStage) {
 		try {

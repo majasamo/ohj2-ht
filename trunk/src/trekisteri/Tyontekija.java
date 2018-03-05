@@ -6,7 +6,7 @@ import java.io.PrintStream;
 /**
  * Työntekijä-luokka.
  * @author Marko Moilanen
- * @version 22.2.2018
+ * @version 4.3.2018
  *
  */
 public class Tyontekija {
@@ -20,12 +20,55 @@ public class Tyontekija {
     
     private static int seuraavaId = 1;
     
+    
+    /**
+     * Antaa satunnaisen kokonaisluvun annetulta väliltä
+     * TODO: tämä metodi poistetaan, kun sitä ei tarvita.
+     * @param ala alaraja
+     * @param yla yläraja
+     * @return satunnaisluku väliltä [ala, yla[
+     */
+    public static int rand(int ala, int yla) {
+        double n = (yla - ala) * Math.random() + ala; 
+        return (int) Math.round(n);
+    }
+    
+    
+    /**
+     * Tarkastaa henkilönumeron oikeellisuuden.
+     * @param hlonro tarkastettava henkilönumero
+     * @return true, jos henkilönumero on oikea
+     * @example
+     * <pre name="test">
+     *   tarkastaHlonro(5) === false;
+     *   tarkastaHlonro(-1000) === false;
+     *   tarkastaHlonro(1000) === true;
+     *   tarkastaHlonro(999) === false;
+     *   tarkastaHlonro(1001) === true;
+     *   tarkastaHlonro(-1001) === false;
+     *   tarkastaHlonro(7508) === true;
+     *   tarkastaHlonro(-7508) === false;
+     *   tarkastaHlonro(9999) === true;
+     *   tarkastaHlonro(-9999) === false;
+     *   tarkastaHlonro(10000) === false;
+     *   tarkastaHlonro(-10000) === false;
+     *   tarkastaHlonro(10001) === false;
+     *   tarkastaHlonro(-10001) === false;
+     * </pre>
+     */
+    public static boolean tarkastaHlonro(int hlonro) {
+        return (1000 <= hlonro && hlonro <= 9999);
+    }
+    
+    
     /**
      * Apumetodi, joka täyttää testiarvot.
+     * Henkilönumero arvotaan.
+     * TODO: tämä metodi poistetaan, kun sitä ei enää tarvita.
      */
     public void taytaTiedot() {
         this.nimi = "Hermanson Taavi-Ernesti";
-        this.hlonumero = 0;
+        this.hlonumero = rand(1000, 9999);
         this.aloitusvuosi = 2012;
         this.koulutus = "";
         this.lisatietoja = "";
@@ -37,7 +80,10 @@ public class Tyontekija {
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println("virtanen");
+        out.println(this.tyolainenId + " " + this.nimi + " " + this.hlonumero);
+        out.println("aloittanut " + this.aloitusvuosi);
+        out.println("koulutus: " + this.koulutus);
+        out.println("lisätietoja: " + this.lisatietoja);
         //TODO: korjaa (tarvitaanko tätä?)
     }
     
@@ -61,11 +107,15 @@ public class Tyontekija {
      *   Tyontekija mottonen = new Tyontekija();
      *   mottonen.getId() === 0;
      *   mottonen.rekisteroi();
-     *   int nv = virtanen.getId();
-     *   int nm = mottonen.getId();
-     *   nv === nm - 1;
+     *   
+     *   // Peräkkäin rekisteröityjen työntekijöiden id:t ovat peräkkäisiä.
+     *   int idV = virtanen.getId();
+     *   int idM = mottonen.getId();
+     *   idV === idM - 1;
+     *   
+     *   // Jo rekisteröidyn työntekijän id ei muutu.
      *   virtanen.rekisteroi();
-     *   virtanen.getId() === nv;
+     *   virtanen.getId() === idV;
      * </pre>
      */
     public void rekisteroi() {
@@ -93,16 +143,17 @@ public class Tyontekija {
     public static void main(String[] args) {
         Tyontekija mottonen = new Tyontekija();
         Tyontekija virtanen = new Tyontekija();
+        
         mottonen.rekisteroi();
         virtanen.rekisteroi();
         
-        mottonen.tulosta(System.out);
-        virtanen.tulosta(System.out);
+        mottonen.tulosta(System.out); System.out.println();
+        virtanen.tulosta(System.out); System.out.println();
         
         mottonen.taytaTiedot();
         virtanen.taytaTiedot();
         
-        mottonen.tulosta(System.out);
-        virtanen.tulosta(System.out);
+        mottonen.tulosta(System.out); System.out.println();
+        virtanen.tulosta(System.out); System.out.println();
     }
 }
