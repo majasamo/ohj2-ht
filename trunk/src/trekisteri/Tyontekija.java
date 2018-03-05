@@ -134,7 +134,17 @@ public class Tyontekija {
     public int getId() {
         return this.tyolainenId;
     }
-        
+
+
+    /**
+     * Palauttaa työntekijän nimen.
+     * TODO: testit!
+     * @return työntekijän nimi merkkijonona
+     */
+    public String getNimi() {
+        return this.nimi;
+    }
+
     
     /**
      * Pääohjelma, jossa testataan luokkaa.

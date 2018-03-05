@@ -77,10 +77,16 @@ public class Rekisteri {
         try {
             rekisteri.lisaa(virtanen1);
             rekisteri.lisaa(virtanen2);
+            rekisteri.lisaa(virtanen2);
+            rekisteri.lisaa(virtanen2);
+            rekisteri.lisaa(virtanen2);
+            rekisteri.lisaa(virtanen2);
         } catch (SailoException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         
+        System.out.println();        
         for (int i = 0; i < rekisteri.getLkm(); i++) {
             Tyontekija tyontekija = rekisteri.anna(i);
             System.out.println("Työntekijä paikassa " + i);

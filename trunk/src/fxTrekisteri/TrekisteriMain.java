@@ -2,6 +2,7 @@ package fxTrekisteri;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
+import trekisteri.Rekisteri;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -26,11 +27,14 @@ public class TrekisteriMain extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Työntekijärekisteri");
         
+        Rekisteri rekisteri = new Rekisteri();
+        trekisteriCtrl.setRekisteri(rekisteri);
+        
         // Platform.setImplicitExit(false); // jos tämän laittaa, pitää itse sulkea
        
         primaryStage.setOnCloseRequest((event) -> {
             // Kutsutaan voikoSulkea-metodia
-            if ( !trekisteriCtrl.voikoSulkea() ) event.consume(); // korjaa nimi
+            if (!trekisteriCtrl.voikoSulkea()) event.consume();
         });
         
         primaryStage.show();

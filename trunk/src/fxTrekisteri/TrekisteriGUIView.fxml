@@ -66,7 +66,7 @@
          <items>
             <BorderPane maxWidth="330.0" minWidth="270.0" prefWidth="300.0">
                <center>
-                  <ListChooser maxWidth="350.0" nollataanko="true" prefWidth="300.0" rivit="Hermanson Emmi Johanna&#10;Lörvänder Jani Erik Håkan&#10;Riisimetsä Saara Tytti&#10;Röppönen Ernesti Eerikinpoika&#10;Susiaho Eveliina Karoliina&#10;Taavitsainen-Möttönen Irmeli Kaarina&#10;Tötteröaho Kustaa Jaakko&#10;Viita-aho Janika Camilla" BorderPane.alignment="CENTER" />
+                  <ListChooser fx:id="chooserTyontekijat" maxWidth="350.0" nollataanko="true" prefWidth="300.0" rivit="Hermanson Emmi Johanna&#10;Lörvänder Jani Erik Håkan&#10;Riisimetsä Saara Tytti&#10;Röppönen Ernesti Eerikinpoika&#10;Susiaho Eveliina Karoliina&#10;Taavitsainen-Möttönen Irmeli Kaarina&#10;Tötteröaho Kustaa Jaakko&#10;Viita-aho Janika Camilla" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <VBox BorderPane.alignment="CENTER">
@@ -84,7 +84,7 @@
                   <Label text="Työntekijän tiedot" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="panelTyontekija" fitToWidth="true" BorderPane.alignment="CENTER">
                      <content>
                         <GridPane hgap="10.0">
                           <columnConstraints>

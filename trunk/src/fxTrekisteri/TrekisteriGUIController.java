@@ -1,9 +1,22 @@
 package fxTrekisteri;
 
+import java.io.PrintStream;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
+import trekisteri.Rekisteri;
+import trekisteri.SailoException;
+import trekisteri.Tyontekija;
 
 
 /**
@@ -12,13 +25,24 @@ import javafx.fxml.FXML;
  * @version 13.2.2018
  *
  */
-public class TrekisteriGUIController {
+public class TrekisteriGUIController implements Initializable {
+    
+    @FXML private ListChooser<Tyontekija> chooserTyontekijat;
+    @FXML private ScrollPane panelTyontekija; 
+    
+    
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        alusta();
+        
+    }
+    
     
     /**
      * Käsittelee tallennuskäskyn.
      */
     @FXML private void handleTallenna() {
-        tallenna();
+        this.tallenna();
     }
 
     
@@ -26,7 +50,7 @@ public class TrekisteriGUIController {
      * Käsittelee Avaa-käskyn.
      */
     @FXML private void handleAvaa() {
-        avaa();
+        this.avaa();
     }
     
     
@@ -34,7 +58,7 @@ public class TrekisteriGUIController {
      * Käsittelee lopetuskäskyn.
      */
     @FXML private void handleLopeta() {
-        tallenna();
+        this.tallenna();
         Platform.exit();
     }
 
@@ -43,7 +67,7 @@ public class TrekisteriGUIController {
      * Käsittelee uuden työntekijän lisäämisen.
      */
     @FXML private void handleLisaaTyontekija() {
-        lisaaTyontekija();
+        this.lisaaTyontekija();
     }
 
 
@@ -51,7 +75,7 @@ public class TrekisteriGUIController {
      * Käsittelee työntekijän poistamisen.
      */
     @FXML private void handlePoistaTyontekija() {
-        poistaTyontekija();
+        this.poistaTyontekija();
     }
     
     
@@ -59,7 +83,7 @@ public class TrekisteriGUIController {
      * Käsittelee työntekijän tietojen muokkauksen.
      */
     @FXML private void handleMuokkaaTyontekija() {
-        muokkaaTyontekija();
+        this.muokkaaTyontekija();
     }
     
     
@@ -67,7 +91,7 @@ public class TrekisteriGUIController {
      * Käsittelee kohteen lisäyksen.
      */
     @FXML private void handleLisaaKohde() {
-        lisaaKohde();
+        this.lisaaKohde();
     }
     
     
@@ -75,7 +99,7 @@ public class TrekisteriGUIController {
      * Käsittelee kohteen poistamisen.
      */
     @FXML private void handlePoistaKohde() {
-        poistaKohde();
+        this.poistaKohde();
     }
     
     
@@ -83,7 +107,7 @@ public class TrekisteriGUIController {
      * Käsittelee Apua-käskyn.
      */
     @FXML private void handleApua() {
-        naytaHelp();
+        this.naytaHelp();
     }
     
     
@@ -91,7 +115,39 @@ public class TrekisteriGUIController {
      * Käsittelee Tietoja-käskyn.
      */
     @FXML private void handleTietoja() {
-        naytaTiedot();
+        this.naytaTiedot();
+    }
+    
+    
+    // Suoraan käyttöliittymään liittyvät asiat ovat tämän yläpuolella.
+    //********************************************************************************
+    
+    private Rekisteri rekisteri;
+    private TextArea areaTyontekija = new TextArea();
+    
+    
+    /**
+     * Näyttää valittuna olevan työntekijän tiedot.
+     */
+    private void naytaTyontekija() {
+        Tyontekija tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
+        if (tyontekijaValittuna == null) return;
+        areaTyontekija.setText("");
+        
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
+            tyontekijaValittuna.tulosta(os);
+        }        
+    }
+    
+    
+    /**
+     * Alustaa jäsenlistan kuuntelijan.
+     */
+    private void alusta() {
+        this.panelTyontekija.setContent(this.areaTyontekija);
+        areaTyontekija.setFont(new Font("Courier New", 12));
+        this.chooserTyontekijat.clear();
+        this.chooserTyontekijat.addSelectionListener(e -> this.naytaTyontekija());
     }
     
     
@@ -112,11 +168,38 @@ public class TrekisteriGUIController {
     
     
     /**
+     * Hakee jäsenen tiedot listaan.
+     * @param sen työntekijän numero, joka haun jälkeen aktivoidaan
+     */
+    private void hae(int tnro) {
+        this.chooserTyontekijat.clear();
+        int aktivoitava = 0;
+        for (int i = 0; i < this.rekisteri.getLkm(); i++) {
+            Tyontekija tyontekija = rekisteri.anna(i);
+            if (tyontekija.getId() == tnro) aktivoitava = i;
+            this.chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
+        }
+        
+        this.chooserTyontekijat.getSelectionModel().select(aktivoitava);
+    }
+    
+    
+    /**
      * Lisää uuden työntekijän.
      */
     private void lisaaTyontekija() {  // Oletuskäsittelijä.
-        ModalController.showModal(TrekisteriGUIController.class.getResource("UusiView.fxml"), "Lisää työntekijä", 
-                null, "");
+        Tyontekija tyontekija = new Tyontekija();
+        tyontekija.rekisteroi();
+        tyontekija.taytaTiedot();
+        try {
+            rekisteri.lisaa(tyontekija);
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ei onnistu: " + e.getMessage());
+            return;
+        }
+        this.hae(tyontekija.getId());        
+        //ModalController.showModal(TrekisteriGUIController.class.getResource("UusiView.fxml"), "Lisää työntekijä", 
+                //null, "");
     }
 
     
@@ -175,7 +258,16 @@ public class TrekisteriGUIController {
      * @return true, jos saa sulkea
      */
     public boolean voikoSulkea() {
-        tallenna();
+        this.tallenna();
         return true;
+    }
+    
+    
+    /**
+     * Asettaa käyttöliittymässä käytettävän rekisterin.
+     * @param rekisteri lisättävä rekisteri.
+     */
+    public void setRekisteri(Rekisteri rekisteri) {
+        this.rekisteri = rekisteri;        
     }
 }
