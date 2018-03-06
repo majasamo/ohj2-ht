@@ -7,7 +7,6 @@ import java.io.PrintStream;
  * Työntekijä-luokka.
  * @author Marko Moilanen
  * @version 4.3.2018
- *
  */
 public class Tyontekija {
     
@@ -119,7 +118,7 @@ public class Tyontekija {
      * </pre>
      */
     public void rekisteroi() {
-        if (this.getId() != 0) return;  // Jos id on jo olemassa, ei tehdä mitään.
+        if (this.getId() != 0) return;  // Jos id on jo annettu, ei tehdä mitään.
         this.tyolainenId = seuraavaId;
         seuraavaId++;
         // TODO: Kun tiedosto luetaan, kuinka saadaan seuraavaId pidettyä oikeana?

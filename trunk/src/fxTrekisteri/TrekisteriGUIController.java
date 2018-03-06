@@ -23,7 +23,6 @@ import trekisteri.Tyontekija;
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
  * @version 13.2.2018
- *
  */
 public class TrekisteriGUIController implements Initializable {
     
