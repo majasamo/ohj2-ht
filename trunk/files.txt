@@ -37,6 +37,7 @@ src/trekisteri/Tyontekijat.java  = luokka, joka käsittelee työntekijöitä
 src/trekisteri/Kohde.java  = luokka, joka sisältää yhden kohteen tiedot
 src/trekisteri/Kohteet.java  = luokka, joka käsittelee kohteita
 src/trekisteri/KohteenTekija.java  = luokka, joka yhdistää työntekijän ja kohteen
+src/trekisteri/KohteenTekijat.java  = luokka, joka pitää yllä luetteloa kohteen tekijöistä
 src/trekisteri/Rekisteri.java  = luokka, joka huolehtii rekisterin toiminnasta ja kommunikoi varsinaisen käyttöliittymän kanssa
 =
 =

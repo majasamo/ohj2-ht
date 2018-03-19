@@ -98,6 +98,8 @@ public class Tyontekija {
     
     /**
      * Antaa työntekijälle id:n.
+     * TODO: Sitten kun taytaTiedot on poistettu, niin olisiko järkevää kutsua tätä
+     * metodia konstruktorissa?
      * @example
      * <pre name="test">
      *   Tyontekija virtanen = new Tyontekija();

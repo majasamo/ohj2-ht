@@ -23,9 +23,19 @@ public class KohteenTekija {
      * @param kohde kohde, joka liitetään työntekijään
      */
     public KohteenTekija(Tyontekija tyontekija, Kohde kohde) {
+        this(tyontekija.getId(), kohde.getId());
+    }
+    
+    
+    /**
+     * Luo uuden kohteen tekijän.
+     * @param tyolainenId kohteeseen liitettävän työntekijän id-numero
+     * @param kohdeId työntekijään liitettävän kohteen id-numero
+     */
+    public KohteenTekija(int tyolainenId, int kohdeId) {
         this.rekisteroi();
-        this.tyolainenId = tyontekija.getId();
-        this.kohdeId = kohde.getId();
+        this.tyolainenId = tyolainenId;
+        this.kohdeId = kohdeId;
     }
     
     

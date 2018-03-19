@@ -30,12 +30,27 @@ public class Kohde {
      * TODO: t‰m‰ on rakennusteline.
      */
     public void taytaTiedot() {
-        this.nimi = "Avotoimistoh‰ss‰kk‰ Oy";
+        this.nimi = "Avotoimistoh‰ss‰kk‰ Oy " + rand(1, 100);  // Per‰‰n satunnainen luku erottelun vuoksi.
+    }
+
+
+    /**
+     * Antaa satunnaisen kokonaisluvun annetulta v‰lilt‰
+     * TODO: t‰m‰ metodi poistetaan, kun sit‰ ei tarvita.
+     * @param ala alaraja
+     * @param yla yl‰raja
+     * @return satunnaisluku v‰lilt‰ [ala, yla[
+     */
+    public static int rand(int ala, int yla) {
+        double n = (yla - ala) * Math.random() + ala; 
+        return (int) Math.round(n);
     }
     
     
     /**
      * Antaa kohteelle id:n.
+     * TODO: Sitten kun taytaTiedot() on poistettu, niin olisiko j‰rkev‰‰
+     * kutsua t‰t‰ metodia konstruktorissa?
      * @example
      * <pre name="test">
      *   Kohde kohde1 = new Kohde();
