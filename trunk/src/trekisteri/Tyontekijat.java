@@ -43,7 +43,7 @@ public class Tyontekijat {
         this.alkiot[this.lkm] = lisattava;
         this.lkm++;
     }
-
+        
     
     /**
      * Palauttaa työntekijöiden lukumäärän.

@@ -41,6 +41,20 @@ public class Kohteet {
     public int getLkm() {
         return this.alkiot.size();
     }
+    
+    
+    /**
+     * Palauttaa annettua id-numeroa vastaavan kohteen.
+     * @param kohdeId haettavan kohteen id-numero 
+     * @return id-numeroa vastaava kohde; jos ei löydy, palautetaan null
+     * @example TODO: testit
+     */
+    public Kohde anna(int kohdeId) {
+        for (Kohde kohde : this.alkiot) {
+            if (kohde.getId() == kohdeId) return kohde;
+        }
+        return null;
+    }
        
     
     /**

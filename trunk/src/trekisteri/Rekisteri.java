@@ -1,5 +1,8 @@
 package trekisteri;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
@@ -8,6 +11,8 @@ package trekisteri;
 public class Rekisteri {
 
     private final Tyontekijat tyolaiset = new Tyontekijat();
+    private final KohteenTekijat kohteenTekijat = new KohteenTekijat();
+    private final Kohteet kohteet = new Kohteet();
     
     
     /**
@@ -37,7 +42,28 @@ public class Rekisteri {
     public void lisaa(Tyontekija lisattava) throws SailoException {
         this.tyolaiset.lisaa(lisattava);
     }
-
+        
+    
+    /**
+     * Palauttaa listan työntekijän kohteista.
+     * @param tyolainenId sen työntekijän id-numero, jonka
+     * kohteet halutaan
+     * @return työntekijän kohteet listana
+     * TODO: testit (voi tehdä vasta sitten kun tässä luokassa on kohteiden ja työntekijöiden
+     * lisääminen)
+     */
+    public List<Kohde> annaKohteet(int tyolainenId) {
+        List<Kohde> loydetyt = new ArrayList<Kohde>();  // Tänne lisätään.
+        List<Integer> kohdeIdt = this.kohteenTekijat.annaKohdeIdt(tyolainenId);  // Täältä etsitään.
+        
+        for (int kohdeId : kohdeIdt) {
+            Kohde lisattava = this.kohteet.anna(kohdeId);
+            loydetyt.add(lisattava);
+        }
+        
+        return loydetyt;
+    }
+    
     
     /**
      * Palauttaa i:nnen rekisterissä olevan työntekijän.
