@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
- * @version 5.3.2018
+ * @version 20.3.2018
  */
 public class Rekisteri {
 
@@ -41,6 +41,34 @@ public class Rekisteri {
      */
     public void lisaa(Tyontekija lisattava) throws SailoException {
         this.tyolaiset.lisaa(lisattava);
+    }
+    
+    
+    /**
+     * Lisää uuden kohteen.
+     * @param lisattava lisättävä kohde
+     */
+    public void lisaa(Kohde lisattava) {
+        // TODO: Testejä ei ole, koska kohteet-attribuuttiin ei päästä käsiksi.
+        // Jos attribuutille joskus joudutaan tekemään saantimetodi, niin lisää
+        // testit.
+        // TODO: Nyt tätä metodia tarvitaan, koska tätä kutsutaan TrekisteriGUIController-luokasta,
+        // mutta tarvitaanko tätä jatkossa?
+        this.kohteet.lisaa(lisattava);
+    }
+    
+    
+    /**
+     * Lisää uuden työntekijälle uuden kohteen.
+     * @param tyolainenId sen työntekijän id, jolle kohde lisätään
+     * @param kohdeId sen kohteen id, joka työntekijälle lisätään
+     */
+    public void lisaaKohteenTekija(int tyolainenId, int kohdeId) {
+        // TODO: Onko kohde kohteet-luettelossa, vai luodaanko sinne uusi?
+        // TODO: Onko työntekijä tyontekijat-luokassa? Jos ei ole, ei ole mitään
+        // järkeä lisätä.
+        this.kohteenTekijat.lisaa(tyolainenId, kohdeId);
+        // TODO: testit!
     }
         
     

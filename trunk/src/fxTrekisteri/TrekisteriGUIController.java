@@ -2,6 +2,7 @@ package fxTrekisteri;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
+import trekisteri.Kohde;
 import trekisteri.Rekisteri;
 import trekisteri.SailoException;
 import trekisteri.Tyontekija;
@@ -22,7 +24,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 13.2.2018
+ * @version 20.3.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -122,6 +124,7 @@ public class TrekisteriGUIController implements Initializable {
     //********************************************************************************
     
     private Rekisteri rekisteri;
+    private Tyontekija tyontekijaValittuna;
     private TextArea areaTyontekija = new TextArea();
     
     
@@ -129,12 +132,18 @@ public class TrekisteriGUIController implements Initializable {
      * Näyttää valittuna olevan työntekijän tiedot.
      */
     private void naytaTyontekija() {
-        Tyontekija tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
-        if (tyontekijaValittuna == null) return;
-        areaTyontekija.setText("");
+        this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
+        if (this.tyontekijaValittuna == null) return;
+        this.areaTyontekija.setText("");
         
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
-            tyontekijaValittuna.tulosta(os);
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(this.areaTyontekija)) {
+            this.tyontekijaValittuna.tulosta(os);
+            
+            // Näytetään tässä väliaikaisesti myös kohteet:
+            List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());
+            for (Kohde kohde : kohteet) {
+                kohde.tulosta(os);
+            }
         }        
     }
     
@@ -144,7 +153,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     private void alusta() {
         this.panelTyontekija.setContent(this.areaTyontekija);
-        areaTyontekija.setFont(new Font("Courier New", 12));
+        this.areaTyontekija.setFont(new Font("Courier New", 12));
         this.chooserTyontekijat.clear();
         this.chooserTyontekijat.addSelectionListener(e -> this.naytaTyontekija());
     }
@@ -167,19 +176,19 @@ public class TrekisteriGUIController implements Initializable {
     
     
     /**
-     * Hakee jäsenen tiedot listaan.
+     * Hakee työntekijän tiedot listaan.
      * @param sen työntekijän numero, joka haun jälkeen aktivoidaan
      */
     private void hae(int tnro) {
         this.chooserTyontekijat.clear();
         int aktivoitava = 0;
         for (int i = 0; i < this.rekisteri.getLkm(); i++) {
-            Tyontekija tyontekija = rekisteri.anna(i);
+            Tyontekija tyontekija = this.rekisteri.anna(i);
             if (tyontekija.getId() == tnro) aktivoitava = i;
             this.chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
         }
         
-        this.chooserTyontekijat.getSelectionModel().select(aktivoitava);
+        this.chooserTyontekijat.setSelectedIndex(aktivoitava);
     }
     
     
@@ -191,7 +200,7 @@ public class TrekisteriGUIController implements Initializable {
         tyontekija.rekisteroi();
         tyontekija.taytaTiedot();
         try {
-            rekisteri.lisaa(tyontekija);
+            this.rekisteri.lisaa(tyontekija);
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ei onnistu: " + e.getMessage());
             return;
@@ -223,8 +232,16 @@ public class TrekisteriGUIController implements Initializable {
      * Lisää kohteen työntekijän kohdeluetteloon.
      */
     private void lisaaKohde() { // Oletuskäsittelijä.
-        ModalController.showModal(TrekisteriGUIController.class.getResource("UusiKohdeView.fxml"), "Lisää kohde",
-                null, "");
+        //ModalController.showModal(TrekisteriGUIController.class.getResource("UusiKohdeView.fxml"), "Lisää kohde",
+                //null, "");
+        // Väliaikainen ratkaisu: tehdään uusi kohde, täytetään se höpöhöpötiedoilla ja lisätään luetteloon.
+        Kohde lisattavaKohde = new Kohde();
+        lisattavaKohde.rekisteroi();
+        lisattavaKohde.taytaTiedot();
+        this.rekisteri.lisaa(lisattavaKohde);  // Tämä on siis hyvin tilapäinen ratkaisu! (Tässähän kohde ja
+                                               // kohteentekijä lisätään manuaalisesti erikseen.)
+        this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
+        this.hae(this.tyontekijaValittuna.getId());
     }
     
     
