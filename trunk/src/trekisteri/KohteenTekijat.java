@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * KohteenTekijat-luokka pitää yllä listaa kohteen tekijöistä.
+ * KohteenTekijat-luokka hallinnoi yksittäisiä kohteen tekijöitä.
  * @author Marko Moilanen
- * @version 19.3.2018
+ * @version 20.3.2018
  */
 public class KohteenTekijat {
     
@@ -69,7 +69,7 @@ public class KohteenTekijat {
     
     /**
      * Lisää luetteloon uuden kohteen tekijän.
-     * @param tyolainenId lisättäväntyöntekijän id-numero
+     * @param tyolainenId lisättävän työntekijän id-numero
      * @param kohdeId lisättävän kohteen id-numero
      */
     public void lisaa(int tyolainenId, int kohdeId) {

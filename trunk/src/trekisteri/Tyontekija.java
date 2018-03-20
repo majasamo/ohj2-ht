@@ -4,9 +4,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 /**
- * Työntekijä-luokka.
+ * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 4.3.2018
+ * @version 20.3.2018
  */
 public class Tyontekija {
     
@@ -75,7 +75,7 @@ public class Tyontekija {
     
          
     /**
-     * Tuostaa työntekijän tiedot.
+     * Tulostaa työntekijän tiedot.
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
@@ -83,7 +83,6 @@ public class Tyontekija {
         out.println("aloittanut " + this.aloitusvuosi);
         out.println("koulutus: " + this.koulutus);
         out.println("lisätietoja: " + this.lisatietoja);
-        //TODO: korjaa (tarvitaanko tätä?)
     }
     
     
@@ -98,8 +97,6 @@ public class Tyontekija {
     
     /**
      * Antaa työntekijälle id:n.
-     * TODO: Sitten kun taytaTiedot() on poistettu, niin olisiko järkevää kutsua tätä
-     * metodia konstruktorissa?
      * @example
      * <pre name="test">
      *   Tyontekija virtanen = new Tyontekija();
@@ -139,7 +136,7 @@ public class Tyontekija {
 
     /**
      * Palauttaa työntekijän nimen.
-     * TODO: testit!
+     * TODO: jos tämän jossakin vaiheessa voi testata, niin tee testit.
      * @return työntekijän nimi merkkijonona
      */
     public String getNimi() {

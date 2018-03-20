@@ -6,7 +6,7 @@ import java.io.PrintStream;
 /**
  * Kohde tietää oman id:nsä ja nimensä.
  * @author Marko Moilanen
- * @version 6.3.2018
+ * @version 20.3.2018
  */
 public class Kohde {
 
@@ -49,8 +49,6 @@ public class Kohde {
     
     /**
      * Antaa kohteelle id:n.
-     * TODO: Sitten kun taytaTiedot() on poistettu, niin olisiko järkevää
-     * kutsua tätä metodia konstruktorissa?
      * @example
      * <pre name="test">
      *   Kohde kohde1 = new Kohde();
@@ -79,7 +77,7 @@ public class Kohde {
 
     
     /**
-     * Tuostaa kohteen tiedot.
+     * Tulostaa kohteen tiedot.
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
@@ -89,7 +87,7 @@ public class Kohde {
     
     
     /**
-     * Tulostaa työntekijän tiedot.
+     * Tulostaa kohteen tiedot.
      * @param os tietovirta, johon tulostetaan
      */
     public void tulosta(OutputStream os) {

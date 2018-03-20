@@ -1,10 +1,9 @@
 package trekisteri;
 
 /**
- * Työntekijat-luokka pitää huolta työntekijöiden poistamisesta, lisäämisestä,
- * lajittelusta ja niin edelleen. 
+ * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 5.3.2018
+ * @version 20.3.2018
  */
 public class Tyontekijat {
     

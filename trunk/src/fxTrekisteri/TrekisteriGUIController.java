@@ -182,7 +182,7 @@ public class TrekisteriGUIController implements Initializable {
     private void hae(int tnro) {
         this.chooserTyontekijat.clear();
         int aktivoitava = 0;
-        for (int i = 0; i < this.rekisteri.getLkm(); i++) {
+        for (int i = 0; i < this.rekisteri.getTyolaisetLkm(); i++) {
             Tyontekija tyontekija = this.rekisteri.anna(i);
             if (tyontekija.getId() == tnro) aktivoitava = i;
             this.chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
@@ -241,7 +241,6 @@ public class TrekisteriGUIController implements Initializable {
         this.rekisteri.lisaa(lisattavaKohde);  // Tämä on siis hyvin tilapäinen ratkaisu! (Tässähän kohde ja
                                                // kohteentekijä lisätään manuaalisesti erikseen.)
         this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
-        this.hae(this.tyontekijaValittuna.getId());
     }
     
     

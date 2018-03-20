@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Kohteet-luokka vastaa kohteiden lisäämisestä, poistamisesta ja niin
- * edelleen.
+ * Kohteet-luokka hallinnoi yksittäisiä kohteita.
  * @author Marko Moilanen
- * @version 6.3.2018
+ * @version 20.3.2018
  */
 public class Kohteet {
 
@@ -20,13 +19,16 @@ public class Kohteet {
      * @example
      * <pre name="test">
      *   Kohteet kohteet = new Kohteet();
-     *   Kohde kohde1 = new Kohde();
-     *   Kohde kohde2 = new Kohde();
+     *   Kohde kohde1 = new Kohde(); kohde1.rekisteroi();
+     *   Kohde kohde2 = new Kohde(); kohde2.rekisteroi();
      *   kohteet.getLkm() === 0;
      *   kohteet.lisaa(kohde1); kohteet.getLkm() === 1;
      *   kohteet.lisaa(kohde2); kohteet.getLkm() === 2;
      *   kohteet.lisaa(kohde1); kohteet.getLkm() === 3;
      *   kohteet.lisaa(kohde1); kohteet.getLkm() === 4;
+     *   kohteet.anna(kohde1.getId()) === kohde1;
+     *   kohteet.anna(kohde2.getId()) === kohde2;
+     *   kohteet.anna(kohde2.getId() + 1) === null;
      * </pre>
      */
     public void lisaa(Kohde lisattava) {
@@ -47,7 +49,6 @@ public class Kohteet {
      * Palauttaa annettua id-numeroa vastaavan kohteen.
      * @param kohdeId haettavan kohteen id-numero 
      * @return id-numeroa vastaava kohde; jos ei löydy, palautetaan null
-     * @example TODO: testit
      */
     public Kohde anna(int kohdeId) {
         for (Kohde kohde : this.alkiot) {

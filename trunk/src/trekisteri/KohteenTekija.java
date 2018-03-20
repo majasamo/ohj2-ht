@@ -6,7 +6,7 @@ import java.io.PrintStream;
 /**
  * KohteenTekija yhdistää toisiinsa yhden kohteen ja yhden työntekijän.
  * @author Marko Moilanen
- * @version 7.3.2018
+ * @version 20.3.2018
  */
 public class KohteenTekija {
 
@@ -41,7 +41,6 @@ public class KohteenTekija {
     
     /**
      * Antaa kohteen tekijälle id:n.
-     * TODO: public vai private?
      * @example
      * <pre name="test">
      *   Tyontekija virtanen1 = new Tyontekija();
@@ -109,8 +108,7 @@ public class KohteenTekija {
     
     
     /**
-     * Tulostaa työntekijän ja kohteen tiedot.
-     * TODO: testit
+     * Tulostaa työntekijän ja kohteen id:t.
      * @param out tietovirta, johon tulostetaan
      */
     public void tulosta(PrintStream out) {
@@ -121,7 +119,7 @@ public class KohteenTekija {
     
     
     /**
-     * Tulostaa työtekijän ja kohteen tiedot.
+     * Tulostaa työtekijän ja kohteen id:t.
      * @param os tietovirta, johon tulostetaan
      */
     public void tulosta(OutputStream os) {
