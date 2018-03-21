@@ -241,6 +241,7 @@ public class TrekisteriGUIController implements Initializable {
         this.rekisteri.lisaa(lisattavaKohde);  // T‰m‰ on siis hyvin tilap‰inen ratkaisu! (T‰ss‰h‰n kohde ja
                                                // kohteentekij‰ lis‰t‰‰n manuaalisesti erikseen.)
         this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
+        this.hae(this.tyontekijaValittuna.getId());
     }
     
     
