@@ -1,11 +1,14 @@
 package trekisteri;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 2.4.2018
  */
-public class Tyontekijat {
+public class Tyontekijat implements Iterable<Tyontekija> {
     
     private int lkm;
     private Tyontekija[] alkiot = new Tyontekija[LKM_MAX];
@@ -55,7 +58,7 @@ public class Tyontekijat {
     
     /**
      * Palauttaa i:nnen työntekijän.
-     * TODO: tämä on rakennusteline.
+     * TODO: tämä on rakennusteline. ... vai onko?
      * @param i luku,joka kertoo, kuinka mones työntekijä halutaan
      * @return i:s työntekijä
      * @throws IndexOutOfBoundsException jos i on sallitun alueen ulkopuolella 
@@ -64,6 +67,82 @@ public class Tyontekijat {
         if (i < 0 || this.lkm <= i) 
             throw new IndexOutOfBoundsException("Laiton indeksi " + i);
         return this.alkiot[i];
+    }
+    
+
+    /**
+     * Palauttaa iteraattorin, jolla voi käydä läpi tietorakenteeseen tallennetut
+     * työntekijät.
+     * @return iteraattori
+     */
+    @Override
+    public Iterator<Tyontekija> iterator() {
+        return new TyontekijatIter();
+    }
+    
+    
+    /**
+     * Luokka työntekijöiden iteroimista varten.
+     * @author Marko Moilanen
+     * @version 2.4.2018
+     * @example 
+     * <pre name="test">
+     * #THROWS SailoException
+     * #THROWS NoSuchElementException
+     * #import java.util.Iterator;
+     * #import java.util.NoSuchElementException;
+     * 
+     *   Tyontekijat tyontekijat = new Tyontekijat();
+     *   Tyontekija tyol1 = new Tyontekija(); tyol1.rekisteroi();
+     *   Tyontekija tyol2 = new Tyontekija(); tyol2.rekisteroi();
+     *   Tyontekija tyol3 = new Tyontekija(); tyol3.rekisteroi(); 
+     *   tyontekijat.lisaa(tyol1);
+     *   tyontekijat.lisaa(tyol2);
+     *   tyontekijat.lisaa(tyol3);
+     *   tyontekijat.lisaa(tyol2);
+
+     *   // foreach-silmukka:
+     *   StringBuilder idt = new StringBuilder();
+     *   for (Tyontekija tyol : tyontekijat) {
+     *     idt.append(tyol.getId());
+     *   }
+     *   idt.toString() === "" + tyol1.getId() + tyol2.getId() + tyol3.getId() + tyol2.getId();
+     *   
+     *   // Iteraattori:
+     *   Iterator<Tyontekija> vipellin = tyontekijat.iterator();
+     *   vipellin.next() === tyol1;
+     *   vipellin.next() === tyol2;
+     *   vipellin.next() === tyol3;
+     *   vipellin.next() === tyol2;
+     *   
+     *   vipellin.next();  #THROWS NoSuchElementException
+     * </pre>
+     */
+    public class TyontekijatIter implements Iterator<Tyontekija> {
+        
+        private int kohdalla = 0;
+        
+        
+        /**
+         * Palauttaa tiedon siitä, onko seuraavaa työntekijää.
+         * @return true, jos seuraava työntekijä on olemassa
+         */
+        @Override
+        public boolean hasNext() {
+            return (this.kohdalla < getLkm());
+        }
+
+        
+        /**
+         * Palauttaa seuraavan työntekijän.
+         * @return seuraava työntekijä
+         * @thows NoSuchElementException jos seuraavaa työntekijää ei ole
+         */
+        @Override
+        public Tyontekija next() {
+            if (!hasNext()) throw new NoSuchElementException("Ei enää alkioita.");
+            return anna(this.kohdalla++);
+        }
     }
     
     
