@@ -24,7 +24,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 3.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -123,6 +123,7 @@ public class TrekisteriGUIController implements Initializable {
     // Suoraan käyttöliittymään liittyvät asiat ovat tämän yläpuolella.
     //********************************************************************************
     
+    private String nimi = "putsaus";
     private Rekisteri rekisteri;
     private Tyontekija tyontekijaValittuna;
     private TextArea areaTyontekija = new TextArea();
@@ -169,9 +170,25 @@ public class TrekisteriGUIController implements Initializable {
     
     /**
      * Kysyy tiedoston nimen ja lukee kyseisen tiedoston.
+     * @return true, jos onnistui, muuten false
      */
-    private void avaa() {  // Oletuskäsittelijä.
-        ModalController.showModal(TrekisteriGUIController.class.getResource("AvaaView.fxml"), "Avaa", null, "");
+    private boolean avaa() {  // Oletuskäsittelijä.
+        String uusiNimi = AvaaController.kysyNimi(null, this.nimi);
+        if (uusiNimi == null) return false;
+        //this.lueTiedosto(uusiNimi);
+        return true;
+    }
+    
+    
+    /**
+     * 
+     * @param nimi
+     * @return
+     */
+    private String lueTiedosto(String nimi) {
+        this.nimi = nimi;
+        //TODO: täydennä
+        return "";
     }
     
     
