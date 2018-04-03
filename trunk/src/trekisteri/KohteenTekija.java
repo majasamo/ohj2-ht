@@ -3,16 +3,18 @@ package trekisteri;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * KohteenTekija yhdistää toisiinsa yhden kohteen ja yhden työntekijän.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 3.4.2018
  */
 public class KohteenTekija {
 
     private int kohteenTekijaId;
-    private final int tyolainenId;
-    private final int kohdeId;
+    private int tyolainenId;
+    private int kohdeId;
     
     private static int seuraaravaId = 1;
     
@@ -23,7 +25,7 @@ public class KohteenTekija {
      * @param kohde kohde, joka liitetään työntekijään
      */
     public KohteenTekija(Tyontekija tyontekija, Kohde kohde) {
-        this(tyontekija.getId(), kohde.getId());
+        this(tyontekija.getId(), kohde.getId());  
     }
     
     
@@ -33,10 +35,16 @@ public class KohteenTekija {
      * @param kohdeId työntekijään liitettävän kohteen id-numero
      */
     public KohteenTekija(int tyolainenId, int kohdeId) {
-        this.rekisteroi();
+        // this.rekisteroi();  // TODO: Tarvitaanko tätä?
         this.tyolainenId = tyolainenId;
         this.kohdeId = kohdeId;
     }
+    
+    
+    /**
+     * Luo uuden kohteen tekijän.
+     */
+    public KohteenTekija() { }
     
     
     /**
@@ -52,9 +60,9 @@ public class KohteenTekija {
      *   Kohde kohde2 = new Kohde();
      *   kohde2.rekisteroi();
      *   
-     *   KohteenTekija tekija1 = new KohteenTekija(virtanen1, kohde1);
-     *   KohteenTekija tekija2 = new KohteenTekija(virtanen1, kohde2);
-     *   KohteenTekija tekija3 = new KohteenTekija(virtanen2, kohde2);
+     *   KohteenTekija tekija1 = new KohteenTekija(virtanen1, kohde1); tekija1.rekisteroi();
+     *   KohteenTekija tekija2 = new KohteenTekija(virtanen1, kohde2); tekija2.rekisteroi();
+     *   KohteenTekija tekija3 = new KohteenTekija(virtanen2, kohde2); tekija3.rekisteroi();
      *   
      *   // Peräkkäin rekisteröidyillä olioilla on peräkkäiset id:t.
      *   int id1 = tekija1.getId();
@@ -104,6 +112,37 @@ public class KohteenTekija {
      */
     public int getKohdeId() {
         return this.kohdeId;
+    }
+    
+    
+    /**
+     * Selvittää ja tallentaa kohteentekijän tiedot tolppamerkein erotellusta
+     * merkkijonosta.
+     * @param tiedot kohteentekijän tiedot tolppamerkein eroteltuna
+     */
+    public void parse(String tiedot) {
+        StringBuilder rivi = new StringBuilder(tiedot);
+        this.kohteenTekijaId = Mjonot.erota(rivi, '|', this.kohteenTekijaId);
+        this.tyolainenId = Mjonot.erota(rivi, '|', this.tyolainenId);
+        this.kohdeId = Mjonot.erota(rivi, '|', this.kohdeId);
+    }
+    
+    
+    /**
+     * Palauttaa kohteentekijän tiedot tolppamerkein eroteltuna merkkijonona.
+     * @return kohteentekijän tiedot merkkijonona
+     * @example 
+     * <pre name="test">
+     *   KohteenTekija kt = new KohteenTekija();
+     *   kt.parse("  10  | 12   | 3  ");
+     *   kt.toString() === "10|12|3";
+     * </pre>
+     */
+    @Override
+    public String toString() {
+        return "" + this.kohteenTekijaId + "|"
+                  + this.tyolainenId + "|"
+                  + this.kohdeId;
     }
     
     
@@ -162,5 +201,4 @@ public class KohteenTekija {
         tekija3.rekisteroi();
         tekija3.tulosta(System.out);
     }
-
 }

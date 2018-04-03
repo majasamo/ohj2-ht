@@ -1,12 +1,16 @@
 package trekisteri;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 2.4.2018
+ * @version 3.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -14,7 +18,9 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     private Tyontekija[] alkiot = new Tyontekija[LKM_MAX];
     private static final int LKM_MAX = 5;
     
+    private String perusnimi = "tyolaiset";
     
+        
     /**
      * Lisää uuden työntekijän.
      * @param lisattava työntekijä, joka lisätään
@@ -67,6 +73,66 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         if (i < 0 || this.lkm <= i) 
             throw new IndexOutOfBoundsException("Laiton indeksi " + i);
         return this.alkiot[i];
+    }
+    
+    
+    /**
+     * Luetaan tiedostosta, jonka nimi on annettu aiemmin.
+     * @throws SailoException jos tiedoston lukeminen ei onnistu 
+     */
+    public void lueTiedostosta() throws SailoException {
+        this.lueTiedostosta(this.getTiedostonPerusnimi());
+    }
+    
+    
+    /**
+     * Lukee työntekijöiden tiedot tiedostosta.
+     * @param tiedosto luettavan tiedoston nimi ilman tiedostopäätettä
+     * @throws SailoException jos tiedoston lukeminen ei onnistu
+     * TODO testit
+     */
+    public void lueTiedostosta(String tiedosto) throws SailoException {
+        setTiedostonPerusnimi(tiedosto);
+        try (Scanner lukija = new Scanner(new FileInputStream(new File(this.getTiedostonNimi())))) {
+            
+            while (lukija.hasNextLine()) {
+                String rivi = lukija.nextLine();
+                if ("".equals(rivi) || rivi.charAt(0) == ';') continue;
+                Tyontekija tyontekija = new Tyontekija();
+                tyontekija.parse(rivi);
+                this.lisaa(tyontekija);
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
+        }
+
+    }
+    
+    
+    /**
+     * Asettaa tiedoston perusnimen (ilman tiedostopäätettä).
+     * @param nimi asetettava nimi
+     */
+    public void setTiedostonPerusnimi(String nimi) {
+        this.perusnimi = nimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen (ilman tiedostopäätettä).
+     * @return tiedoston nimi
+     */
+    public String getTiedostonPerusnimi() {
+        return this.perusnimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen (tiedostonpääte mukana).
+     * @return tallennettavan tiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return this.perusnimi + ".dat";
     }
     
 

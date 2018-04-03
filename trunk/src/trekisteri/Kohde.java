@@ -3,10 +3,12 @@ package trekisteri;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * Kohde tiet‰‰ oman id:ns‰ ja nimens‰.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 3.4.2018
  */
 public class Kohde {
 
@@ -83,6 +85,38 @@ public class Kohde {
     public void tulosta(PrintStream out) {
         out.println(this.kohdeId + " " + this.nimi);
         //TODO: korjaa (tarvitaanko t‰t‰?)
+    }
+    
+    
+    /**
+     * Selvitt‰‰ ja tallentaa kohteen tiedot tolppamerkein erotellusta merkkijonosta.
+     * @param tiedot kohteen tiedot tolppamerkein eroteltuna
+     */
+    public void parse(String tiedot) {
+        StringBuilder rivi = new StringBuilder(tiedot);
+        this.kohdeId = Mjonot.erota(rivi, '|', this.kohdeId);
+        this.nimi = Mjonot.erota(rivi, '|').trim();
+    }
+    
+    
+    /**
+     * Palauttaa kohteen tiedot tolppamerkein eroteltuna merkkijonona.
+     * @return kohteen tiedot merkkijonona
+     * @example
+     * <pre name="test">
+     *   Kohde kohde1 = new Kohde();
+     *   kohde1.parse("  91 | Toimisto Oy  ");
+     *   kohde1.toString() === "91|Toimisto Oy";
+     *   
+     *   Kohde kohde2 = new Kohde();
+     *   kohde2.parse("  73  | ");
+     *   kohde2.toString() === "73|";
+     * </pre>
+     */
+    @Override
+    public String toString() {
+        return "" + this.getId() + "|"
+                  + this.nimi;
     }
     
     
