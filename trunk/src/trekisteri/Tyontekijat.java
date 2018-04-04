@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 3.4.2018
+ * @version 4.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -24,10 +24,8 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     /**
      * Lisää uuden työntekijän.
      * @param lisattava työntekijä, joka lisätään
-     * @throws SailoException jos tietorakenne on täynnä
      * @example
      * <pre name="test">
-     *   #THROWS SailoException
      *   Tyontekijat tyontekijat = new Tyontekijat();
      *   Tyontekija virtanen1 = new Tyontekija();
      *   Tyontekija virtanen2 = new Tyontekija();
@@ -43,13 +41,28 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      *   tyontekijat.anna(3) === virtanen1; #THROWS IndexOutOfBoundsException
      *   tyontekijat.lisaa(virtanen1); tyontekijat.getLkm() === 4;
      *   tyontekijat.lisaa(virtanen1); tyontekijat.getLkm() === 5;
-     *   tyontekijat.lisaa(virtanen1); #THROWS SailoException
+     *   tyontekijat.lisaa(virtanen1); tyontekijat.getLkm() === 6;  // Koon kasvatus.
+     *   tyontekijat.lisaa(virtanen1); tyontekijat.getLkm() === 7;  
      * </pre>
      */
-    public void lisaa(Tyontekija lisattava) throws SailoException {
-        if (this.lkm >= LKM_MAX) throw new SailoException("Tietorakenteeseen ei mahdu!"); // TODO: korvaa tämä.        
+    public void lisaa(Tyontekija lisattava) {
+        if (this.lkm >= this.alkiot.length) this.kasvataKokoa();
         this.alkiot[this.lkm] = lisattava;
         this.lkm++;
+    }
+    
+    
+    /**
+     * Kasvattaa tietorakenteen kokoa.
+     */
+    private void kasvataKokoa() {
+        Tyontekija[] uusi = new Tyontekija[2 * this.alkiot.length];
+        
+        for (int i = 0; i < this.lkm; i++) {
+            uusi[i] = this.alkiot[i];
+        }
+        
+        this.alkiot = uusi;
     }
         
     
@@ -105,6 +118,16 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         } catch (FileNotFoundException e) {
             throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
         }
+    }
+    
+    
+    /**
+     * Tallentaa työntekijät tiedostoon.
+     * TODO: testit
+     */
+    public void tallenna() {
+        // TODO: Varmuuskopiointi?
+                
     }
     
     
@@ -225,17 +248,13 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         Tyontekija virtanen2 = new Tyontekija();
         virtanen2.rekisteroi();
         virtanen2.taytaTiedot();
-               
-        try {
-            tyontekijat.lisaa(virtanen);
-            tyontekijat.lisaa(virtanen2);
-            tyontekijat.lisaa(virtanen2);
-            tyontekijat.lisaa(virtanen2);
-            tyontekijat.lisaa(virtanen2);
-            tyontekijat.lisaa(virtanen2);
-        } catch (SailoException e) {
-            e.printStackTrace();
-        }        
+                       
+        tyontekijat.lisaa(virtanen);
+        tyontekijat.lisaa(virtanen2);
+        tyontekijat.lisaa(virtanen2);
+        tyontekijat.lisaa(virtanen2);
+        tyontekijat.lisaa(virtanen2);
+        tyontekijat.lisaa(virtanen2);                
         
         for (int i = 0; i < tyontekijat.getLkm(); i++) {
             Tyontekija tyontekija = tyontekijat.anna(i);

@@ -67,3 +67,7 @@ trekisteri.jar  = ajettava ohjelma
 build.xml  = Ant-skripti, joka tekee .jar-tiedoston
 .project  = Eclipsen projekti
 .classpath  = Eclipsen luokkapolku
+
+putsaus/tyolaiset.dat  = työntekijät
+putsaus/kohteet.dat  = kohteet
+putsaus/kohteenTekijat.dat  = kohteen tekijät

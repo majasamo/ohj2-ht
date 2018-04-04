@@ -141,6 +141,7 @@ public class TrekisteriGUIController implements Initializable {
             this.tyontekijaValittuna.tulosta(os);
             
             // Näytetään tässä väliaikaisesti myös kohteet:
+            os.println("----------");
             List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());
             for (Kohde kohde : kohteet) {
                 kohde.tulosta(os);
