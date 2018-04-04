@@ -3,6 +3,8 @@ package trekisteri;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -19,6 +21,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     private static final int LKM_MAX = 5;
     
     private String perusnimi = "tyolaiset";
+    private boolean onkoMuutettu = false;  // Onko tallentamattomia muutoksia?
     
         
     /**
@@ -49,6 +52,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         if (this.lkm >= this.alkiot.length) this.kasvataKokoa();
         this.alkiot[this.lkm] = lisattava;
         this.lkm++;
+        this.onkoMuutettu = true;
     }
     
     
@@ -110,11 +114,13 @@ public class Tyontekijat implements Iterable<Tyontekija> {
             
             while (lukija.hasNextLine()) {
                 String rivi = lukija.nextLine();
+                rivi = rivi.trim();
                 if ("".equals(rivi) || rivi.charAt(0) == ';') continue;
                 Tyontekija tyontekija = new Tyontekija();
                 tyontekija.parse(rivi);
                 this.lisaa(tyontekija);
             }
+            this.onkoMuutettu = false;
         } catch (FileNotFoundException e) {
             throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
         }
@@ -123,11 +129,23 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     
     /**
      * Tallentaa työntekijät tiedostoon.
+     * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
      * TODO: testit
      */
-    public void tallenna() {
+    public void tallenna() throws SailoException {
         // TODO: Varmuuskopiointi?
-                
+        
+        if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
+        
+        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), true))) {            
+            for (Tyontekija tyontekija : this) {
+                kirjoittaja.println(tyontekija.toString());
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedostoon kirjoittaminen ei onnistu: " + e.getMessage());
+        }
+                                                                                                        
+        this.onkoMuutettu = false;
     }
     
     

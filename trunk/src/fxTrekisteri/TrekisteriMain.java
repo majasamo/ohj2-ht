@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 /**
  * Pääohjelma, joka käynnistää työntekijärekisterin.
  * @author Marko Moilanen
- * @version 13.1.2018
+ * @version 4.4.2018
  */
 public class TrekisteriMain extends Application {
     

@@ -3,6 +3,8 @@ package trekisteri;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,6 +20,7 @@ public class KohteenTekijat {
     
     private Collection<KohteenTekija> alkiot = new LinkedList<KohteenTekija>();
     private String perusnimi = "kohteenTekijat";
+    private boolean onkoMuutettu = false;
     
     
     /**
@@ -89,6 +92,7 @@ public class KohteenTekijat {
      */
     public void lisaa(KohteenTekija lisattava) {
         this.alkiot.add(lisattava);
+        this.onkoMuutettu = true;
     }
     
     
@@ -113,15 +117,39 @@ public class KohteenTekijat {
             
             while (lukija.hasNextLine()) {
                 String rivi = lukija.nextLine();
+                rivi = rivi.trim();
                 if ("".equals(rivi) || rivi.charAt(0) == ';') continue;
                 KohteenTekija tekija = new KohteenTekija();
                 tekija.parse(rivi);
                 this.lisaa(tekija);
             }
+            this.onkoMuutettu = false;
         } catch (FileNotFoundException e) {
             throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
         }
     }
+    
+    
+    /**
+     * Tallentaa kohteen tekijät tiedostoon.
+     * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
+     * TODO: testit
+     */
+    public void tallenna() throws SailoException {
+        // TODO: Varmuuskopiointi?
+        
+        if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
+        
+        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), true))) {            
+            for (KohteenTekija tekija : this.alkiot) {
+                kirjoittaja.println(tekija.toString());
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedostoon kirjoittaminen ei onnistu: " + e.getMessage());
+        }
+                                                                                                        
+        this.onkoMuutettu = false;
+    }    
     
     
     /**
@@ -190,6 +218,5 @@ public class KohteenTekijat {
         for (int id : kakkosenKohteet) {
             System.out.println(id);
         }
-
     }
 }

@@ -3,6 +3,8 @@ package trekisteri;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
@@ -16,6 +18,7 @@ public class Kohteet {
 
     private Collection<Kohde> alkiot = new ArrayList<Kohde>();
     private String perusnimi = "kohteet";
+    private boolean onkoMuutettu = false;
     
     
     /**
@@ -38,6 +41,7 @@ public class Kohteet {
      */
     public void lisaa(Kohde lisattava) {
         this.alkiot.add(lisattava);
+        this.onkoMuutettu = true;
     }
     
     
@@ -84,16 +88,40 @@ public class Kohteet {
             
             while (lukija.hasNextLine()) {
                 String rivi = lukija.nextLine();
+                rivi = rivi.trim();
                 if ("".equals(rivi) || rivi.charAt(0) == ';') continue;
                 Kohde kohde = new Kohde();
                 kohde.parse(rivi);
                 this.lisaa(kohde);
             }
+            this.onkoMuutettu = false;
         } catch (FileNotFoundException e) {
             throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
         }
     }
     
+    
+    /**
+     * Tallentaa kohteet tiedostoon.
+     * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
+     * TODO: testit
+     */
+    public void tallenna() throws SailoException {
+        // TODO: Varmuuskopiointi?
+        
+        if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
+        
+        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), true))) {            
+            for (Kohde kohde : this.alkiot) {
+                kirjoittaja.println(kohde.toString());
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedostoon kirjoittaminen ei onnistu: " + e.getMessage());
+        }
+                                                                                                        
+        this.onkoMuutettu = false;
+    }
+        
     
     /**
      * Asettaa tiedoston perusnimen (ilman tiedostop‰‰tett‰).

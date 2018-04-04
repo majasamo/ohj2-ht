@@ -179,6 +179,35 @@ public class Rekisteri {
 
     
     /**
+     * Tallentaa rekisterin tiedot tiedostoihin.
+     * @throws SailoException jos tallentamisessa on ongelmia
+     */
+    public void tallenna() throws SailoException {
+        String virhe = "";  // Kerätään kaikki mahdolliset virheet yhteen pötköön.
+        
+        try {
+            this.tyolaiset.tallenna();
+        } catch (SailoException e) {
+            virhe = e.getMessage();
+        }
+        
+        try {
+            this.kohteet.tallenna();
+        } catch (SailoException e) {
+            virhe += e.getMessage();
+        }
+        
+        try {
+            this.kohteenTekijat.tallenna();
+        } catch (SailoException e) {
+            virhe += e.getMessage();
+        }
+        
+        if (virhe.length() > 0) throw new SailoException(virhe);
+    }
+
+    
+    /**
      * Pääohjelma testaamista varten
      * @param args ei käytössä
      */

@@ -165,7 +165,11 @@ public class TrekisteriGUIController implements Initializable {
      * Tietojen tallennus.
      */
     private void tallenna() {
-        Dialogs.showMessageDialog("Ei osata vielä tallentaa.");
+        try {
+            this.rekisteri.tallenna();
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Tallentamisessa ongelma: " + e.getMessage());
+        }
     }
     
     
