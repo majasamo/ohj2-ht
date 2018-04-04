@@ -140,7 +140,7 @@ public class KohteenTekijat {
         
         if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
         
-        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), true))) {            
+        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), false))) {            
             for (KohteenTekija tekija : this.alkiot) {
                 kirjoittaja.println(tekija.toString());
             }

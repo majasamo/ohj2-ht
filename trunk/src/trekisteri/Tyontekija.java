@@ -146,7 +146,18 @@ public class Tyontekija {
     
     
     /**
-     * Selvittää ja tallentaa työtekijän tiedot tolppamerkein erotellusta merkkijonosta.
+     * Asettaa työntekijän id-numeron. Samalla varmistetaan, että
+     * seuraavaksi annettava id on ajan tasalla.
+     * @param numero
+     */
+    private void setId(int numero) {
+        this.tyolainenId = numero;
+        if (this.tyolainenId >= seuraavaId) seuraavaId = this.tyolainenId + 1;
+    }
+    
+    
+    /**
+     * Selvittää ja tallentaa työntekijän tiedot tolppamerkein erotellusta merkkijonosta.
      * @param tiedot työntekijän tiedot tolppamerkein erotettuna
      */
     public void parse(String tiedot) {
@@ -154,7 +165,7 @@ public class Tyontekija {
         
         // Luetaan tiedot. String-muuttujista ylimääräiset välilyönnit pois,
         // int-muuttujien oletusarvoiksi tämänhetkinen arvo (eli luultavasti 0).
-        this.tyolainenId = Mjonot.erota(rivi, '|', this.tyolainenId);
+        this.setId(Mjonot.erota(rivi, '|', this.tyolainenId));
         this.nimi = Mjonot.erota(rivi, '|').trim();
         this.hlonumero = Mjonot.erota(rivi, '|', this.hlonumero);
         this.aloitusvuosi = Mjonot.erota(rivi, '|', this.aloitusvuosi);

@@ -47,7 +47,6 @@ public class TrekisteriMain extends Application {
 	/**
 	 * Käynnistää käyttöliittymän.
 	 * @param args komentoriviparametrit
-	 * 
 	 */
 	public static void main(String[] args) {
 	    launch(args);

@@ -111,7 +111,7 @@ public class Kohteet {
         
         if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
         
-        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), true))) {            
+        try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), false))) {            
             for (Kohde kohde : this.alkiot) {
                 kirjoittaja.println(kohde.toString());
             }

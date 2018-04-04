@@ -16,7 +16,7 @@ public class KohteenTekija {
     private int tyolainenId;
     private int kohdeId;
     
-    private static int seuraaravaId = 1;
+    private static int seuraavaId = 1;
     
     
     /**
@@ -35,7 +35,7 @@ public class KohteenTekija {
      * @param kohdeId työntekijään liitettävän kohteen id-numero
      */
     public KohteenTekija(int tyolainenId, int kohdeId) {
-        // this.rekisteroi();  // TODO: Tarvitaanko tätä?
+        this.rekisteroi();  // TODO: Pitääköhän tämä tehdä muualla?
         this.tyolainenId = tyolainenId;
         this.kohdeId = kohdeId;
     }
@@ -83,8 +83,8 @@ public class KohteenTekija {
      */
     public void rekisteroi() {
         if (this.kohteenTekijaId != 0) return;
-        this.kohteenTekijaId = seuraaravaId;
-        seuraaravaId++;
+        this.kohteenTekijaId = seuraavaId;
+        seuraavaId++;
     }
     
     
@@ -113,6 +113,17 @@ public class KohteenTekija {
     public int getKohdeId() {
         return this.kohdeId;
     }
+
+
+    /**
+     * Asettaa kohteen tekijän id-numeron. Samalla varmistetaan, että
+     * seuraavaksi annettava id on ajan tasalla.
+     * @param numero
+     */
+    private void setId(int numero) {
+        this.kohteenTekijaId = numero;
+        if (this.kohteenTekijaId >= seuraavaId) seuraavaId = this.kohteenTekijaId + 1;
+    }    
     
     
     /**
@@ -122,7 +133,7 @@ public class KohteenTekija {
      */
     public void parse(String tiedot) {
         StringBuilder rivi = new StringBuilder(tiedot);
-        this.kohteenTekijaId = Mjonot.erota(rivi, '|', this.kohteenTekijaId);
+        this.setId(Mjonot.erota(rivi, '|', this.kohteenTekijaId));
         this.tyolainenId = Mjonot.erota(rivi, '|', this.tyolainenId);
         this.kohdeId = Mjonot.erota(rivi, '|', this.kohdeId);
     }

@@ -89,12 +89,23 @@ public class Kohde {
     
     
     /**
+     * Asettaa kohteen id-numeron. Samalla varmistetaan, ett‰
+     * seuraavaksi annettava id on ajan tasalla.
+     * @param numero
+     */
+    private void setId(int numero) {
+        this.kohdeId = numero;
+        if (this.kohdeId >= seuraavaId) seuraavaId = this.kohdeId + 1;
+    }    
+    
+    
+    /**
      * Selvitt‰‰ ja tallentaa kohteen tiedot tolppamerkein erotellusta merkkijonosta.
      * @param tiedot kohteen tiedot tolppamerkein eroteltuna
      */
     public void parse(String tiedot) {
         StringBuilder rivi = new StringBuilder(tiedot);
-        this.kohdeId = Mjonot.erota(rivi, '|', this.kohdeId);
+        this.setId(Mjonot.erota(rivi, '|', this.kohdeId));
         this.nimi = Mjonot.erota(rivi, '|').trim();
     }
     

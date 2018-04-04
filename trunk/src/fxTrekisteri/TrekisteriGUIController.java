@@ -177,7 +177,7 @@ public class TrekisteriGUIController implements Initializable {
      * Kysyy tiedoston nimen ja lukee kyseisen tiedoston.
      * @return true, jos onnistui, muuten false
      */
-    private boolean avaa() {  // Oletusk‰sittelij‰.
+    private boolean avaa() { 
         String uusiNimi = AvaaController.kysyNimi(null, this.nimi);
         if (uusiNimi == null) return false;
         this.lueHakemisto(uusiNimi);
@@ -271,6 +271,7 @@ public class TrekisteriGUIController implements Initializable {
         lisattavaKohde.taytaTiedot();
         this.rekisteri.lisaa(lisattavaKohde);  // T‰m‰ on siis hyvin tilap‰inen ratkaisu! (T‰ss‰h‰n kohde ja
                                                // kohteentekij‰ lis‰t‰‰n manuaalisesti erikseen.)
+        
         this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
         this.hae(this.tyontekijaValittuna.getId());
     }
