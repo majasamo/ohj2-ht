@@ -144,7 +144,7 @@ public class TrekisteriGUIController implements Initializable {
             os.println("----------");
             List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());
             for (Kohde kohde : kohteet) {
-                kohde.tulosta(os);
+                if (kohde != null) kohde.tulosta(os);
             }
         }        
     }
