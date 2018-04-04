@@ -85,7 +85,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     }
     
     
-    /**
+    /** 
      * Lukee työntekijöiden tiedot tiedostosta.
      * @param tiedosto luettavan tiedoston nimi ilman tiedostopäätettä
      * @throws SailoException jos tiedoston lukeminen ei onnistu
@@ -105,7 +105,6 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         } catch (FileNotFoundException e) {
             throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
         }
-
     }
     
     

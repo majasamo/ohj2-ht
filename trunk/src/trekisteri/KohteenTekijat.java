@@ -1,18 +1,23 @@
 package trekisteri;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * KohteenTekijat-luokka hallinnoi yksitt‰isi‰ kohteen tekijˆit‰.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 4.4.2018
  */
 public class KohteenTekijat {
     
     private Collection<KohteenTekija> alkiot = new LinkedList<KohteenTekija>();
+    private String perusnimi = "kohteenTekijat";
     
     
     /**
@@ -74,9 +79,77 @@ public class KohteenTekijat {
      */
     public void lisaa(int tyolainenId, int kohdeId) {
         KohteenTekija lisattava = new KohteenTekija(tyolainenId, kohdeId);
+        this.lisaa(lisattava);
+    }
+    
+    
+    /**
+     * Lis‰‰ luetteloon uuden kohteen tekij‰n.
+     * @param lisattava kohteen tekij‰, joka lis‰t‰‰n
+     */
+    public void lisaa(KohteenTekija lisattava) {
         this.alkiot.add(lisattava);
     }
-
+    
+    
+    /**
+     * Luetaan tiedostosta, jonka nimi on annettu aiemmin.
+     * @throws SailoException jos tiedoston lukeminen ei onnistu 
+     */
+    public void lueTiedostosta() throws SailoException {
+        this.lueTiedostosta(this.getTiedostonPerusnimi());
+    }
+    
+    
+    /** 
+     * Lukee kohteen tekijˆiden tiedot tiedostosta.
+     * @param tiedosto luettavan tiedoston nimi ilman tiedostop‰‰tett‰
+     * @throws SailoException jos tiedoston lukeminen ei onnistu
+     * TODO testit
+     */
+    public void lueTiedostosta(String tiedosto) throws SailoException {
+        setTiedostonPerusnimi(tiedosto);
+        try (Scanner lukija = new Scanner(new FileInputStream(new File(this.getTiedostonNimi())))) {
+            
+            while (lukija.hasNextLine()) {
+                String rivi = lukija.nextLine();
+                if ("".equals(rivi) || rivi.charAt(0) == ';') continue;
+                KohteenTekija tekija = new KohteenTekija();
+                tekija.parse(rivi);
+                this.lisaa(tekija);
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedosto " + this.getTiedostonNimi() + " ei aukea.");
+        }
+    }
+    
+    
+    /**
+     * Asettaa tiedoston perusnimen (ilman tiedostop‰‰tett‰).
+     * @param nimi asetettava nimi
+     */
+    public void setTiedostonPerusnimi(String nimi) {
+        this.perusnimi = nimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen (ilman tiedostop‰‰tett‰).
+     * @return tiedoston nimi
+     */
+    public String getTiedostonPerusnimi() {
+        return this.perusnimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen (tiedostonp‰‰te mukana).
+     * @return tallennettavan tiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return this.perusnimi + ".dat";
+    }
+    
     
     /**
      * P‰‰ohjelma testaamista varten.

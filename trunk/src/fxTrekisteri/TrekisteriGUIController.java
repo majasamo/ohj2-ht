@@ -24,7 +24,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 3.4.2018
+ * @version 4.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -175,20 +175,29 @@ public class TrekisteriGUIController implements Initializable {
     private boolean avaa() {  // Oletuskäsittelijä.
         String uusiNimi = AvaaController.kysyNimi(null, this.nimi);
         if (uusiNimi == null) return false;
-        //this.lueTiedosto(uusiNimi);
+        this.lueHakemisto(uusiNimi);
         return true;
     }
     
     
     /**
-     * 
-     * @param nimi
-     * @return
+     * Lukee rekisterin tiedot annetusta hakemistosta.
+     * @param hakemistonNimi hakemiston nimi
+     * @return mahdollinen virheilmoitus, null, jos ei virhettä
      */
-    private String lueTiedosto(String nimi) {
-        this.nimi = nimi;
-        //TODO: täydennä
-        return "";
+    private String lueHakemisto(String hakemistonNimi) {
+        this.nimi = hakemistonNimi;
+        
+        try {
+            this.rekisteri.lueTiedostoista(hakemistonNimi);
+            this.hae(0);
+            return null;
+        } catch (SailoException e) {
+            this.hae(0);
+            String virhe = e.getMessage();
+            if (virhe != null) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
     }
     
     

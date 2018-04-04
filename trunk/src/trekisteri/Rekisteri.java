@@ -1,18 +1,19 @@
 package trekisteri;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Luokka huolehtii muista kuin itse k‰yttˆliittym‰‰n kuuluvista asioista.
  * @author Marko Moilanen
- * @version 20.3.2018
+ * @version 4.4.2018
  */
 public class Rekisteri {
 
-    private final Tyontekijat tyolaiset = new Tyontekijat();
-    private final KohteenTekijat kohteenTekijat = new KohteenTekijat();
-    private final Kohteet kohteet = new Kohteet();
+    private Tyontekijat tyolaiset = new Tyontekijat();
+    private Kohteet kohteet = new Kohteet();
+    private KohteenTekijat kohteenTekijat = new KohteenTekijat();
     
     
     /**
@@ -88,6 +89,7 @@ public class Rekisteri {
      *   rekisteri.getTyolaisetLkm() === 2;
      *   
      *   // TODO: t‰h‰n lis‰‰ testej‰ sitten kun kaikki toimii.
+     *   // T‰m‰ testi ei viel‰ toimi!
      * </pre>
      */
     @SuppressWarnings("unused")
@@ -139,7 +141,42 @@ public class Rekisteri {
     public int getTyolaisetLkm() {
         return this.tyolaiset.getLkm();
     }
+
+    
+    /**
+     * Asettaa tiedostojen perusnimet (tyˆntekijˆille, kohteille ja kohteen
+     * tekijˆille).
+     * @param nimi kansion nimi
+     */
+    public void setTiedostot(String nimi) {
+        File hakemisto = new File(nimi);
+        hakemisto.mkdirs();
+        String hakemistonNimi = "";
+        if (nimi.length() > 0) hakemistonNimi = nimi + "/";
+        this.tyolaiset.setTiedostonPerusnimi(hakemistonNimi + "tyolaiset");
+        this.kohteet.setTiedostonPerusnimi(hakemistonNimi + "kohteet");
+        this.kohteenTekijat.setTiedostonPerusnimi(hakemistonNimi + "kohteenTekijat");
+    }
+    
+    
+    /**
+     * Lukee rekisteriin tulevat tiedot tiedostoista.
+     * @param nimi luettavan hakemiston nimi
+     * @throws SailoException jos lukeminen ei onnistu
+     * TODO: testit
+     */
+    public void lueTiedostoista(String nimi) throws SailoException {
+        // Aluksi tyhjennet‰‰n mahdolliset aiemmin tallennetut tiedot:
+        this.tyolaiset = new Tyontekijat();
+        this.kohteet = new Kohteet();
+        this.kohteenTekijat = new KohteenTekijat();
         
+        this.setTiedostot(nimi);
+        this.tyolaiset.lueTiedostosta();
+        this.kohteet.lueTiedostosta();
+        this.kohteenTekijat.lueTiedostosta();
+    }
+
     
     /**
      * P‰‰ohjelma testaamista varten
