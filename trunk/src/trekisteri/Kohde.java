@@ -8,7 +8,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Kohde tiet‰‰ oman id:ns‰ ja nimens‰.
  * @author Marko Moilanen
- * @version 3.4.2018
+ * @version 5.4.2018
  */
 public class Kohde {
 
@@ -56,7 +56,6 @@ public class Kohde {
      *   Kohde kohde1 = new Kohde();
      *   kohde1.getId() === 0;
      *   kohde1.rekisteroi();
-     *   kohde1.getId() === 1;
      *   Kohde kohde2 = new Kohde();
      *   kohde2.getId() === 0;
      *   kohde2.rekisteroi();

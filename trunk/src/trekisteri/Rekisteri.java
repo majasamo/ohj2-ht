@@ -37,7 +37,7 @@ public class Rekisteri {
      *   rekisteri.anna(3) === virtanen1; #THROWS IndexOutOfBoundsException
      *   rekisteri.lisaa(virtanen1); rekisteri.getTyolaisetLkm() === 4;
      *   rekisteri.lisaa(virtanen1); rekisteri.getTyolaisetLkm() === 5;
-     *   rekisteri.lisaa(virtanen1); #THROWS SailoException
+     *   rekisteri.lisaa(virtanen1); rekisteri.getTyolaisetLkm() === 6;
      * </pre>
      */
     public void lisaa(Tyontekija lisattava) throws SailoException {

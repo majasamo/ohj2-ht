@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * Kohteet-luokka hallinnoi yksittäisiä kohteita.
  * @author Marko Moilanen
- * @version 4.4.2018
+ * @version 5.4.2018
  */
 public class Kohteet {
 
@@ -80,7 +80,37 @@ public class Kohteet {
      * Lukee kohteiden tiedot tiedostosta.
      * @param tiedosto luettavan tiedoston nimi ilman tiedostopäätettä
      * @throws SailoException jos tiedoston lukeminen ei onnistu
-     * TODO testit
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * #import java.io.File;
+     * 
+     *   String tiedosto = "testiyritys/tyolaiset";
+     *   File fileTied = new File(tiedosto + ".dat");
+     *   File fileHak = new File("testiyritys");
+     *   fileHak.mkdir();
+     *   fileTied.delete();
+     *   
+     *   Kohteet kohteet = new Kohteet(); 
+     *   Kohde kohde1 = new Kohde(); kohde1.rekisteroi(); kohde1.taytaTiedot();
+     *   int nro1 = kohde1.getId();
+     *   Kohde kohde2 = new Kohde(); kohde2.rekisteroi(); kohde2.taytaTiedot();
+     *   int nro2 = kohde2.getId();
+     *   kohteet.lueTiedostosta(tiedosto);  #THROWS SailoException
+     *   
+     *   // Lisätään ja tallennetaan. Muutosten pitäisi tallentua tiedostoon.
+     *   kohteet.lisaa(kohde1);
+     *   kohteet.lisaa(kohde2);
+     *   kohteet.tallenna();
+     *   // Tuhotaan vanhat tiedot ja testataan, säilyivätkö tiedostoon tallennetut
+     *   // tiedot.
+     *   kohteet = new Kohteet();
+     *   kohteet.lueTiedostosta(tiedosto);
+     *   kohteet.anna(nro1).toString() === kohde1.toString();
+     *   kohteet.anna(nro2).toString() === kohde2.toString();
+     *   fileTied.delete() === true;
+     *   fileHak.delete() === true;
+     * </pre>
      */
     public void lueTiedostosta(String tiedosto) throws SailoException {
         setTiedostonPerusnimi(tiedosto);
@@ -104,7 +134,6 @@ public class Kohteet {
     /**
      * Tallentaa kohteet tiedostoon.
      * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
-     * TODO: testit
      */
     public void tallenna() throws SailoException {
         // TODO: Varmuuskopiointi?

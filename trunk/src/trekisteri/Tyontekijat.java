@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 4.4.2018
+ * @version 5.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -106,7 +106,38 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      * Lukee työntekijöiden tiedot tiedostosta.
      * @param tiedosto luettavan tiedoston nimi ilman tiedostopäätettä
      * @throws SailoException jos tiedoston lukeminen ei onnistu
-     * TODO testit
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * #import java.io.File;
+     * 
+     *   String tiedosto = "testiyritys/tyolaiset";
+     *   File fileTied = new File(tiedosto + ".dat");
+     *   File fileHak = new File("testiyritys");
+     *   fileHak.mkdir();
+     *   fileTied.delete();
+     *   
+     *   Tyontekijat tyontekijat = new Tyontekijat();
+     *   Tyontekija virtanen1 = new Tyontekija(); virtanen1.taytaTiedot();
+     *   Tyontekija virtanen2 = new Tyontekija(); virtanen2.taytaTiedot();
+     *   tyontekijat.lueTiedostosta(tiedosto);  #THROWS SailoException
+     *   
+     *   // Lisätään ja tallennetaan. Muutosten pitäisi tallentua tiedostoon.
+     *   tyontekijat.lisaa(virtanen1);
+     *   tyontekijat.lisaa(virtanen2);
+     *   tyontekijat.tallenna();
+     *   // Tuhotaan vanhat tiedot ja testataan, säilyivätkö tiedostoon tallennetut
+     *   // tiedot.
+     *   tyontekijat = new Tyontekijat();
+     *   tyontekijat.lueTiedostosta(tiedosto);
+     *   Iterator<Tyontekija> vipellin = tyontekijat.iterator();
+     *   vipellin.next().toString() === virtanen1.toString();  // Olioviitteiden vertaaminen ei toimi.
+     *   vipellin.next().toString() === virtanen2.toString();
+     *   vipellin.hasNext() === false;
+     *   
+     *   fileTied.delete() === true;
+     *   fileHak.delete() === true;
+     * </pre>
      */
     public void lueTiedostosta(String tiedosto) throws SailoException {
         setTiedostonPerusnimi(tiedosto);
@@ -130,7 +161,6 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     /**
      * Tallentaa työntekijät tiedostoon.
      * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
-     * TODO: testit
      */
     public void tallenna() throws SailoException {
         // TODO: Varmuuskopiointi?
