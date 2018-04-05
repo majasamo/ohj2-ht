@@ -85,7 +85,7 @@ public class Kohteet {
      * #THROWS SailoException
      * #import java.io.File;
      * 
-     *   String tiedosto = "testiyritys/tyolaiset";
+     *   String tiedosto = "testiyritys/kohteet";
      *   File fileTied = new File(tiedosto + ".dat");
      *   File fileHak = new File("testiyritys");
      *   fileHak.mkdir();
