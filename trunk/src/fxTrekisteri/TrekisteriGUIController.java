@@ -1,20 +1,16 @@
 package fxTrekisteri;
 
-import java.io.PrintStream;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
-import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Font;
+import javafx.scene.control.TextField;
 import trekisteri.Kohde;
 import trekisteri.Rekisteri;
 import trekisteri.SailoException;
@@ -24,12 +20,18 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 4.4.2018
+ * @version 11.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
     @FXML private ScrollPane panelTyontekija; 
+    
+    @FXML private TextField editNimi;
+    @FXML private TextField editHlonumero;
+    @FXML private TextField editAloitusvuosi;
+    @FXML private TextField editKoulutus;
+    @FXML private TextField editLisatietoja;
     
     
     @Override
@@ -126,7 +128,6 @@ public class TrekisteriGUIController implements Initializable {
     private String nimi = "putsaus";
     private Rekisteri rekisteri;
     private Tyontekija tyontekijaValittuna;
-    private TextArea areaTyontekija = new TextArea();
     
     
     /**
@@ -135,18 +136,13 @@ public class TrekisteriGUIController implements Initializable {
     private void naytaTyontekija() {
         this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
         if (this.tyontekijaValittuna == null) return;
-        this.areaTyontekija.setText("");
         
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(this.areaTyontekija)) {
-            this.tyontekijaValittuna.tulosta(os);
-            
-            // Näytetään tässä väliaikaisesti myös kohteet:
-            os.println("----------");
-            List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());
-            for (Kohde kohde : kohteet) {
-                if (kohde != null) kohde.tulosta(os);
-            }
-        }        
+        // Haetaan valittuna olevalta työntekijältä tarvittavat tiedot ja näytetään ne.
+        this.editNimi.setText(this.tyontekijaValittuna.getNimi());
+        this.editHlonumero.setText("" + this.tyontekijaValittuna.getHlonumero());
+        this.editAloitusvuosi.setText("" + this.tyontekijaValittuna.getAloitusvuosi());
+        this.editKoulutus.setText(this.tyontekijaValittuna.getKoulutus());
+        this.editLisatietoja.setText(this.tyontekijaValittuna.getLisatietoja());
     }
     
     
@@ -154,8 +150,6 @@ public class TrekisteriGUIController implements Initializable {
      * Alustaa työntekijälistan kuuntelijan.
      */
     private void alusta() {
-        this.panelTyontekija.setContent(this.areaTyontekija);
-        this.areaTyontekija.setFont(new Font("Courier New", 12));
         this.chooserTyontekijat.clear();
         this.chooserTyontekijat.addSelectionListener(e -> this.naytaTyontekija());
     }

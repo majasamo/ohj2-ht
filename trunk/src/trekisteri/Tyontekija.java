@@ -7,7 +7,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 3.4.2018
+ * @version 11.4.2018
  */
 public class Tyontekija {
     
@@ -134,16 +134,6 @@ public class Tyontekija {
         return this.tyolainenId;
     }
 
-
-    /**
-     * Palauttaa työntekijän nimen.
-     * TODO: jos tämän jossakin vaiheessa voi testata, niin tee testit.
-     * @return työntekijän nimi merkkijonona
-     */
-    public String getNimi() {
-        return this.nimi;
-    }
-    
     
     /**
      * Asettaa työntekijän id-numeron. Samalla varmistetaan, että
@@ -197,6 +187,60 @@ public class Tyontekija {
                   + this.koulutus + "|"
                   + this.lisatietoja;
     }
+
+    
+    
+    // Saantimetodit käyttöliittymässä näytettäville attribuuteille. 
+    //********************************************************************************
+    
+    
+    /**
+     * Palauttaa työntekijän nimen.
+     * TODO: jos tämän jossakin vaiheessa voi testata, niin tee testit.
+     * @return työntekijän nimi merkkijonona
+     */
+    public String getNimi() {
+        return this.nimi;
+    }
+
+    
+    /**
+     * Palauttaa työntekijän henkilönumeron.
+     * @return työntekijän henkilönumero
+     */
+    public int getHlonumero() {
+        return this.hlonumero;
+    }
+    
+    
+    /**
+     * Palauttaa työntekijän aloitusvuoden.
+     * @return työntekijän aloitusvuosi
+     */
+    public int getAloitusvuosi() {
+        return this.aloitusvuosi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedot työntekijän koulutuksesta.
+     * @return työntekijän koulutustiedot
+     */
+    public String getKoulutus() {
+        return this.koulutus;
+    }
+    
+    
+    /**
+     * Palauttaa muut mahdolliset työntekijää koskevat tiedot.
+     * @return lisätietoja-kentän sisältö
+     */
+    public String getLisatietoja() {
+        return this.lisatietoja;
+    }
+    
+    // Viivan yläpuolella saantimetodit käyttöliittymässä näytettäville attribuuteille.
+    //********************************************************************************    
 
     
     /**

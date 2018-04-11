@@ -104,11 +104,11 @@
                               <Label text="aloitusvuosi *" GridPane.rowIndex="2" />
                               <Label text="koulutus" GridPane.rowIndex="3" />
                               <Label text="lisätietoja" GridPane.rowIndex="4" />
-                              <TextField text="Hermanson Emmi Johanna" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField text="9813" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField text="2013" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <TextField text="Laitoshuoltaja 2014" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                              <TextField GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                              <TextField fx:id="editNimi" text="Hermanson Emmi Johanna" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <TextField fx:id="editHlonumero" text="9813" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <TextField fx:id="editAloitusvuosi" text="2013" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField fx:id="editKoulutus" text="Laitoshuoltaja 2014" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                              <TextField fx:id="editLisatietoja" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" top="10.0" />

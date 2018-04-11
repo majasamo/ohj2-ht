@@ -1,6 +1,7 @@
 package fxTrekisteri;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import trekisteri.Rekisteri;
 import javafx.scene.Scene;
@@ -37,7 +38,7 @@ public class TrekisteriMain extends Application {
             });
 
             primaryStage.show();
-            trekisteriCtrl.avaa();
+            if (!trekisteriCtrl.avaa()) Platform.exit();
             
             /*Application.Parameters params = getParameters();
             if (params.getRaw().size() > 0) 
