@@ -34,7 +34,7 @@ public class TrekisteriGUIController implements Initializable {
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        alusta();
+        this.alusta();
         
     }
     
@@ -151,7 +151,7 @@ public class TrekisteriGUIController implements Initializable {
     
     
     /**
-     * Alustaa jäsenlistan kuuntelijan.
+     * Alustaa työntekijälistan kuuntelijan.
      */
     private void alusta() {
         this.panelTyontekija.setContent(this.areaTyontekija);
@@ -177,7 +177,7 @@ public class TrekisteriGUIController implements Initializable {
      * Kysyy tiedoston nimen ja lukee kyseisen tiedoston.
      * @return true, jos onnistui, muuten false
      */
-    private boolean avaa() { 
+    public boolean avaa() { 
         String uusiNimi = AvaaController.kysyNimi(null, this.nimi);
         if (uusiNimi == null) return false;
         this.lueHakemisto(uusiNimi);
@@ -190,7 +190,7 @@ public class TrekisteriGUIController implements Initializable {
      * @param hakemistonNimi hakemiston nimi
      * @return mahdollinen virheilmoitus, null, jos ei virhettä
      */
-    private String lueHakemisto(String hakemistonNimi) {
+    public String lueHakemisto(String hakemistonNimi) {
         this.nimi = hakemistonNimi;
         
         try {
