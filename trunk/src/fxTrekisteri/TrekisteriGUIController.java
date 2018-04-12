@@ -20,7 +20,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 11.4.2018
+ * @version 12.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -171,7 +171,7 @@ public class TrekisteriGUIController implements Initializable {
      * Kysyy tiedoston nimen ja lukee kyseisen tiedoston.
      * @return true, jos onnistui, muuten false
      */
-    public boolean avaa() { 
+    public boolean avaa() {
         String uusiNimi = AvaaController.kysyNimi(null, this.nimi);
         if (uusiNimi == null) return false;
         this.lueHakemisto(uusiNimi);
@@ -247,9 +247,10 @@ public class TrekisteriGUIController implements Initializable {
     /**
      * Muuttaa työntekijän tietoja.
      */
-    private void muokkaaTyontekija() { // Oletuskäsittelijä.
-        ModalController.showModal(TrekisteriGUIController.class.getResource("MuokkaaView.fxml"), 
-                "Muokkaa työntekijää", null, "");
+    private void muokkaaTyontekija() { 
+        //ModalController.showModal(TrekisteriGUIController.class.getResource("MuokkaaView.fxml"), 
+           //     "Muokkaa työntekijää", null, "");
+        MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna);
     }
         
     

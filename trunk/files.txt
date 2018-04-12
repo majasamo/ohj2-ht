@@ -57,6 +57,7 @@ src/fxTrekisteri/AvaaController.java  = kontrolleri työnantajan tietojen avaamis
 src/fxTrekisteri/UusiView.fxml  = dialogi uuden työntekijän lisäämiseksi
 src/fxTrekisteri/UusiKohdeView.fxml  = dialogi uuden kohteen lisäämikseksi
 src/fxTrekisteri/MuokkaaView.fxml  = dialogi työntekijän tietojen muokkaamiseksi
+src/fxTrekisteri/MuokkaaController.java  = kontrolleri työntekijän tietojen muokkaamiseksi
 =
 =
 = <h3>Ajettava ohjelma</h3>
