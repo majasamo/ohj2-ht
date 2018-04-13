@@ -62,6 +62,9 @@
                </padding>
             </HBox>
          </right>
+         <left>
+            <Label fx:id="labelVirhe" text="Label" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </bottom>
 </BorderPane>

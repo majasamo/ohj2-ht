@@ -7,9 +7,9 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 11.4.2018
+ * @version 13.4.2018
  */
-public class Tyontekija {
+public class Tyontekija implements Cloneable {
     
     private int tyolainenId;
     private String nimi = "";
@@ -187,10 +187,31 @@ public class Tyontekija {
                   + this.koulutus + "|"
                   + this.lisatietoja;
     }
+    
+    
+    /**
+     * Palauttaa työntekijän kloonin.
+     * @return työntekijän klooni
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     *   Tyontekija tyol = new Tyontekija();
+     *   tyol.parse("21 | Virtanen Petteri  | 2013 | ei ole |  ");
+     *   Tyontekija kopio = tyol.clone();
+     *   
+     *   tyol.toString() === kopio.toString();
+     *   kopio.parse("24 | Saarinen Sanna | 2011 | laitoshuoltaja 2014 | ");
+     *   tyol.toString().equals(kopio.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Tyontekija clone() throws CloneNotSupportedException {
+        return (Tyontekija) super.clone();
+    }
 
     
     
-    // Saantimetodit käyttöliittymässä näytettäville attribuuteille. 
+    // Saanti- ja muokkausmetodit käyttöliittymässä näytettäville attribuuteille. 
     //********************************************************************************
     
     
@@ -239,7 +260,81 @@ public class Tyontekija {
         return this.lisatietoja;
     }
     
-    // Viivan yläpuolella saantimetodit käyttöliittymässä näytettäville attribuuteille.
+        
+    /**
+     * Asettaa työntekijän nimen.
+     * @param uusiNimi työntekijälle annettava nimi
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    public String setNimi(String uusiNimi) {
+        if (uusiNimi.equals(""))
+            return "pakollinen tieto";
+        this.nimi = uusiNimi;
+        return null;
+    }
+    
+    
+    /**
+     * Asettaa työntekijän henkilönumeron.
+     * @param uusiNumero työntekijälle annettava henkilönumero
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    public String setHlonumero(String uusiNumero) {
+        int uusi;
+        try {
+            uusi = Integer.parseInt(uusiNumero);
+        } catch (NumberFormatException e) {
+            return "ei ole kokonaisluku";
+        }
+        
+        if (!tarkastaHlonro(uusi))
+            return "numeron pitää olla nelinumeroinen";
+        this.hlonumero = uusi;
+        return null;
+    }
+    
+    
+    /**
+     * Asettaa työntekijän aloitusvuoden.
+     * @param uusiAloitusvuosi työntekijälle annettava aloitusvuosi
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    public String setAloitusvuosi(String uusiAloitusvuosi) {
+        int uusi;
+        try {
+            uusi = Integer.parseInt(uusiAloitusvuosi);
+        } catch (NumberFormatException e) {
+            return "ei ole kokonaisluku";
+        }        
+        
+        this.aloitusvuosi = uusi;
+        return null;
+    }
+
+    
+    /**
+     * Asettaa työntekijän koulutustiedot.
+     * @param uusiKoulutus työntekijän koulutustiedot
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    public String setKoulutus(String uusiKoulutus) {
+        this.koulutus = uusiKoulutus;
+        return null;
+    }
+
+    
+    /**
+     * Asettaa muut mahdolliset työntekijää koskevat tiedot.
+     * @param uusiLisatietoja lisätietoja-kentän teksti
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    public String setLisatietoja(String uusiLisatietoja) {
+        this.lisatietoja = uusiLisatietoja;
+        return null;
+    }
+    
+            
+    // Viivan yläpuolella saanti- ja muokkausmetodit käyttöliittymässä näytettäville attribuuteille.
     //********************************************************************************    
 
     

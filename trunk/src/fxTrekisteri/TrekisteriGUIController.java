@@ -20,7 +20,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 12.4.2018
+ * @version 13.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -128,6 +128,7 @@ public class TrekisteriGUIController implements Initializable {
     private String nimi = "putsaus";
     private Rekisteri rekisteri;
     private Tyontekija tyontekijaValittuna;
+    private TextField[] tiedot;
     
     
     /**
@@ -137,21 +138,19 @@ public class TrekisteriGUIController implements Initializable {
         this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
         if (this.tyontekijaValittuna == null) return;
         
-        // Haetaan valittuna olevalta työntekijältä tarvittavat tiedot ja näytetään ne.
-        this.editNimi.setText(this.tyontekijaValittuna.getNimi());
-        this.editHlonumero.setText("" + this.tyontekijaValittuna.getHlonumero());
-        this.editAloitusvuosi.setText("" + this.tyontekijaValittuna.getAloitusvuosi());
-        this.editKoulutus.setText(this.tyontekijaValittuna.getKoulutus());
-        this.editLisatietoja.setText(this.tyontekijaValittuna.getLisatietoja());
+        MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);
     }
     
     
     /**
-     * Alustaa työntekijälistan kuuntelijan.
+     * Tekee tarvittavat alustukset. TODO: tarkenna.
      */
     private void alusta() {
         this.chooserTyontekijat.clear();
         this.chooserTyontekijat.addSelectionListener(e -> this.naytaTyontekija());
+        
+        this.tiedot = new TextField[] { this.editNimi, this.editHlonumero, this.editAloitusvuosi,
+                                       this.editKoulutus, this.editLisatietoja };        
     }
     
     
@@ -247,10 +246,12 @@ public class TrekisteriGUIController implements Initializable {
     /**
      * Muuttaa työntekijän tietoja.
      */
-    private void muokkaaTyontekija() { 
-        //ModalController.showModal(TrekisteriGUIController.class.getResource("MuokkaaView.fxml"), 
-           //     "Muokkaa työntekijää", null, "");
-        MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna);
+    private void muokkaaTyontekija() {        
+        try {
+            MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Ongelma kloonin luomisessa: " + e.getMessage());
+        }
     }
         
     
