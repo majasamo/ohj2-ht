@@ -17,7 +17,7 @@ import trekisteri.Tyontekija;
 /**
  * Kontrolleri työntekijän tietojen muokkaamista varten.
  * @author Marko Moilanen
- * @version 13.4.2018
+ * @version 14.4.2018
  */
 public class MuokkaaController implements ModalControllerInterface<Tyontekija>, Initializable {
 
@@ -30,13 +30,16 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
     
     private Tyontekija tyontekijaValittuna;
     private TextField[] tiedot;
-
     
     
     /**
-     * Käsittelee OK-napin painalluksen.
+     * Käsittelee Tallenna-napin painalluksen.
      */
-    @FXML private void handleOK() {
+    @FXML private void handleTallenna() {
+        if (this.tyontekijaValittuna != null && this.tyontekijaValittuna.getNimi().trim().length() == 0) {
+            this.naytaVirhe("Nimi ei saa olla tyhjä.");  // TODO: Miten tämä pitäisi tehdä? Tämähän on kopioitu
+            return;                                      // Lappalaisen koodista.
+        }
         ModalController.closeStage(this.editNimi);          
     }
     
@@ -45,7 +48,8 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
      * Käsittelee Peruuta-napin painalluksen.
      */
     @FXML private void handlePeruuta() {
-        ModalController.closeStage(this.editNimi);  // Etsi editNimi-attribuutista, mikä
+        this.tyontekijaValittuna = null;
+        ModalController.closeStage(this.labelVirhe);  // Etsi editNimi-attribuutista, mikä
     }                                               // dialogi suljetaan.
     
     
@@ -57,8 +61,7 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
     
     @Override
     public Tyontekija getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.tyontekijaValittuna;
     }
 
     
@@ -81,12 +84,12 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
      */
     private void alusta() {
         this.tiedot = new TextField[] { this.editNimi, this.editHlonumero, this.editAloitusvuosi,
-                                       this.editKoulutus, this.editLisatietoja };
-        editNimi.setOnKeyReleased(e -> this.nimiMuuttui());
-        editHlonumero.setOnKeyReleased(e -> this.hlonumeroMuuttui());
-        editAloitusvuosi.setOnKeyReleased(e -> this.aloitusvuosiMuuttui());
-        editKoulutus.setOnKeyReleased(e -> this.koulutusMuuttui());
-        editLisatietoja.setOnKeyReleased(e -> this.lisatietojaMuuttui());
+                                        this.editKoulutus, this.editLisatietoja };
+        int i = 0;
+        for (TextField tieto : this.tiedot) {
+            int k = ++i;
+            tieto.setOnKeyReleased(e -> kasitteleMuutos(k, (TextField) e.getSource()));            
+        }
     }                                                
     
     
@@ -106,57 +109,35 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
     
     
     /**
-     * Asettaa nimi-kenttään uuden tekstin.
+     * Käsittelee työntekijän tietoihin tulleen muutoksen.
+     * @param k sen kentän numero, johon muutos tuli
+     * @param tieto muuttunut kenttä
      */
-    private void nimiMuuttui() {
-        String uusi = this.editNimi.getText();
-        String virhe = this.tyontekijaValittuna.setNimi(uusi);
-        if (virhe == null) return;
-    }
-    
-    
-    /**
-     * Asettaa henkilönumero-kenttään  uuden numeron.
-     */
-    private void hlonumeroMuuttui() {
-        String uusi = this.editHlonumero.getText();
-        String virhe = this.tyontekijaValittuna.setHlonumero(uusi);
-
-        if (virhe == null) {
-            Dialogs.setToolTipText(this.editHlonumero, "");
-            this.editHlonumero.getStyleClass().removeAll("virhe");
+    private void kasitteleMuutos(int k, TextField tieto) {
+        if (this.tyontekijaValittuna == null) return;
+        String teksti = tieto.getText();
+        String virhe;;
+        
+        switch (k) {
+            case 1 : virhe = this.tyontekijaValittuna.setNimi(teksti); break;
+            case 2 : virhe = this.tyontekijaValittuna.setHlonumero(teksti); break;
+            case 3 : virhe = this.tyontekijaValittuna.setAloitusvuosi(teksti); break;
+            case 4 : virhe = this.tyontekijaValittuna.setKoulutus(teksti); break;
+            case 5 : virhe = this.tyontekijaValittuna.setLisatietoja(teksti); break;
+            default : virhe = null; break;
+        }
+        
+        if (virhe == null) {  // Jos virhettä ei ole, niin 
+            Dialogs.setToolTipText(tieto, "");
+            tieto.getStyleClass().removeAll("virhe");
             this.naytaVirhe(virhe);
         } else {
-            Dialogs.setToolTipText(this.editHlonumero, virhe);
-            this.editHlonumero.getStyleClass().add("virhe");
-            this.naytaVirhe(virhe);   
-        }               
+            Dialogs.setToolTipText(tieto, virhe);
+            tieto.getStyleClass().add("virhe");
+            this.naytaVirhe(virhe);
+        }
     }
-    
-    
-    /**
-     * Asettaa aloitusvuosi-kenttään uuden numeron.
-     */
-    private void aloitusvuosiMuuttui() {
-        String uusi = this.editAloitusvuosi.getText();
-        this.tyontekijaValittuna.setAloitusvuosi(uusi);
-    }
-    
-    
-    /**
-     * Asettaa koulutus-kenttään uuden tekstin.
-     */
-    private void koulutusMuuttui() {
-        String uusi = this.editKoulutus.getText();
-        this.tyontekijaValittuna.setKoulutus(uusi);
-    }
-    
-    
-    private void lisatietojaMuuttui() {
-        String uusi = this.editLisatietoja.getText();
-        this.tyontekijaValittuna.setLisatietoja(uusi);
-    }
-    
+
     
     /**
      * Näyttää työntekijän tiedot. 

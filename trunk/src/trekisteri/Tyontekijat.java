@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 5.4.2018
+ * @version 14.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -76,6 +76,80 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      */
     public int getLkm() {
         return this.lkm;
+    }
+    
+    
+    /**
+     * Etsii rekisteristä työntekijän, jolla on sama id-numero kuin 
+     * korvaajalla, ja korvaa ensiksi mainitun. Jos kyseisen id-numeron omaavaa
+     * työntekijää ei ole, korvaaja lisätään uutena työntekijänä.
+     * @param korvaaja korvaava työntekijä
+     * @example 
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     *   Tyontekija tyol1 = new Tyontekija();
+     *   tyol1.rekisteroi(); int id1 = tyol1.getId();
+     *   Tyontekija tyol2 = new Tyontekija();
+     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   
+     *   Tyontekijat luettelo = new Tyontekijat();
+     *   luettelo.lisaa(tyol1); luettelo.lisaa(tyol2);
+     *   
+     *   Tyontekija tyol1B = tyol1.clone();
+     *   Tyontekija extra = new Tyontekija(); 
+     *   extra.rekisteroi(); int idE = extra.getId();
+     *   
+     *   luettelo.getLkm() === 2;
+     *   luettelo.korvaa(tyol1B);
+     *   luettelo.getLkm() === 2;
+     *   luettelo.hae(id1) === tyol1B;
+     *   
+     *   luettelo.korvaa(extra);
+     *   luettelo.getLkm() === 3;
+     *   luettelo.hae(idE) === extra;
+     * </pre>
+     */
+    public void korvaa(Tyontekija korvaaja) {
+        for (int i = 0; i < this.lkm; i++) {
+            if (this.alkiot[i].getId() == korvaaja.getId()) {
+                this.alkiot[i] = korvaaja;
+                this.onkoMuutettu = true;
+                return;
+            }               
+        }
+        
+        this.lisaa(korvaaja);
+        this.onkoMuutettu = true;
+    }
+    
+    
+    /**
+     * Palauttaa työntekijän, jolla on annettu id-numero.
+     * @param tyolainenId id-numero, jonka perusteella haetaan
+     * @return annettua id-numeroa vastaava työntekijä. Jos id ei vastaa
+     * yhtään tietorakenteeseen tallennettua työntekijää, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija tyol1 = new Tyontekija();
+     *   tyol1.rekisteroi(); int id1 = tyol1.getId();
+     *   Tyontekija tyol2 = new Tyontekija();
+     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   int id3 = id1 + id2; 
+     *
+     *   Tyontekijat luettelo = new Tyontekijat();
+     *   luettelo.lisaa(tyol1); luettelo.lisaa(tyol2);
+     *   
+     *   luettelo.hae(id1) === tyol1;
+     *   luettelo.hae(id2) === tyol2;
+     *   luettelo.hae(id3) === null;
+     * </pre>
+     */
+    public Tyontekija hae(int tyolainenId) {
+        for (Tyontekija tyontekija : this) {
+            if (tyontekija.getId() == tyolainenId) return tyontekija;
+        }
+        
+        return null;
     }
     
     
@@ -286,7 +360,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      * Pääohjelma testaamista varten.
      * @param args ei käytössä
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         Tyontekijat tyontekijat = new Tyontekijat();
         
         Tyontekija virtanen = new Tyontekija();

@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane minWidth="400.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTrekisteri.MuokkaaController">
+<BorderPane stylesheets="@trekisteri.css" minWidth="400.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTrekisteri.MuokkaaController">
    <top>
-      <Label text="Muokkaa työntekijän tietoja" BorderPane.alignment="CENTER" />
+      <Label text="Työntekijän tiedot" BorderPane.alignment="CENTER" />
    </top>
    <center>
       <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -54,7 +54,7 @@
          <right>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOK" text="Tallenna" />
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" />
                   <Button cancelButton="true" mnemonicParsing="false" onAction="#handlePeruuta" text="Peruuta" />
                </children>
                <padding>
@@ -63,7 +63,7 @@
             </HBox>
          </right>
          <left>
-            <Label fx:id="labelVirhe" text="Label" BorderPane.alignment="CENTER" />
+            <Label fx:id="labelVirhe" text="" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </bottom>

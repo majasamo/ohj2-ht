@@ -20,7 +20,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 13.4.2018
+ * @version 14.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -219,19 +219,14 @@ public class TrekisteriGUIController implements Initializable {
     /**
      * Lisää uuden työntekijän.
      */
-    private void lisaaTyontekija() {  // Oletuskäsittelijä.
-        Tyontekija tyontekija = new Tyontekija();
-        tyontekija.rekisteroi();
-        tyontekija.taytaTiedot();
-        try {
-            this.rekisteri.lisaa(tyontekija);
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ei onnistu: " + e.getMessage());
-            return;
-        }
-        this.hae(tyontekija.getId());        
-        //ModalController.showModal(TrekisteriGUIController.class.getResource("UusiView.fxml"), "Lisää työntekijä", 
-                //null, "");
+    private void lisaaTyontekija() {
+        Tyontekija uusi = new Tyontekija();
+        uusi = MuokkaaController.kysyTyontekija(null, uusi);
+        if (uusi == null) return;
+        
+        uusi.rekisteroi();
+        this.rekisteri.lisaa(uusi);
+        this.hae(uusi.getId());
     }
 
     
@@ -248,8 +243,13 @@ public class TrekisteriGUIController implements Initializable {
      */
     private void muokkaaTyontekija() {        
         try {
-            MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
+            Tyontekija tyontekija;
+            tyontekija = MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
+            if (tyontekija == null) return;  // Tässä tapauksessa painettiin Peruuta-nappia.
+            this.rekisteri.korvaa(tyontekija);
+            this.hae(tyontekija.getId());
         } catch (CloneNotSupportedException e) {
+            // Tämän ei pitäisi koskaan tapahtua:
             System.out.println("Ongelma kloonin luomisessa: " + e.getMessage());
         }
     }

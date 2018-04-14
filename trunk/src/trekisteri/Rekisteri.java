@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
- * @version 4.4.2018
+ * @version 14.4.2018
  */
 public class Rekisteri {
 
@@ -19,7 +19,6 @@ public class Rekisteri {
     /**
      * Lisää rekisteriin uuden työntekijän.
      * @param lisattava työntekijä, joka lisätään
-     * @throws SailoException jos lisääminen ei onnistu
      * @example
      * <pre name="test">
      *   #THROWS SailoException
@@ -40,7 +39,7 @@ public class Rekisteri {
      *   rekisteri.lisaa(virtanen1); rekisteri.getTyolaisetLkm() === 6;
      * </pre>
      */
-    public void lisaa(Tyontekija lisattava) throws SailoException {
+    public void lisaa(Tyontekija lisattava) {
         this.tyolaiset.lisaa(lisattava);
     }
     
@@ -122,7 +121,7 @@ public class Rekisteri {
     }
     
     
-    /**
+    /**p
      * Palauttaa i:nnen rekisterissä olevan työntekijän.
      * TODO: rakennusteline.
      * @param i luku, joka kertoo, kuinka mones työntekijä halutaan
@@ -156,6 +155,68 @@ public class Rekisteri {
         this.tyolaiset.setTiedostonPerusnimi(hakemistonNimi + "tyolaiset");
         this.kohteet.setTiedostonPerusnimi(hakemistonNimi + "kohteet");
         this.kohteenTekijat.setTiedostonPerusnimi(hakemistonNimi + "kohteenTekijat");
+    }
+    
+    
+    /**
+     * Etsii rekisteristä työntekijän, jolla on sama id-numero kuin 
+     * korvaajalla, ja korvaa ensiksi mainitun. Jos kyseisen id-numeron omaavaa
+     * työntekijää ei ole, korvaaja lisätään uutena työntekijänä.
+     * @param korvaaja korvaava työntekijä
+     * @example 
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     *   Tyontekija tyol1 = new Tyontekija();
+     *   tyol1.rekisteroi(); int id1 = tyol1.getId();
+     *   Tyontekija tyol2 = new Tyontekija();
+     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   
+     *   Rekisteri rekisteri = new Rekisteri();
+     *   rekisteri.lisaa(tyol1); rekisteri.lisaa(tyol2);
+     *   
+     *   Tyontekija tyol1B = tyol1.clone();
+     *   Tyontekija extra = new Tyontekija(); 
+     *   extra.rekisteroi(); int idE = extra.getId();
+     *   
+     *   rekisteri.getTyolaisetLkm() === 2;
+     *   rekisteri.korvaa(tyol1B);
+     *   rekisteri.getTyolaisetLkm() === 2;
+     *   rekisteri.hae(id1) === tyol1B;
+     *   
+     *   rekisteri.korvaa(extra);
+     *   rekisteri.getTyolaisetLkm() === 3;
+     *   rekisteri.hae(idE) === extra;
+     * </pre>
+
+     */
+    public void korvaa(Tyontekija korvaaja) {
+        this.tyolaiset.korvaa(korvaaja);
+    }
+    
+    
+    /**
+     * Palauttaa työntekijän, jolla on annettu id-numero.
+     * @param tyolainenId id-numero, jonka perusteella haetaan
+     * @return annettua id-numeroa vastaava työntekijä. Jos id ei vastaa
+     * yhtään tietorakenteeseen tallennettua työntekijää, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija tyol1 = new Tyontekija();
+     *   tyol1.rekisteroi(); int id1 = tyol1.getId();
+     *   Tyontekija tyol2 = new Tyontekija();
+     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   int id3 = id1 + id2; 
+     *
+     *   Rekisteri rekisteri = new Rekisteri();
+     *   rekisteri.lisaa(tyol1); rekisteri.lisaa(tyol2);
+     *   
+     *   rekisteri.hae(id1) === tyol1;
+     *   rekisteri.hae(id2) === tyol2;
+     *   rekisteri.hae(id3) === null;
+     * </pre>
+     */
+    public Tyontekija hae(int tyolainenId) {
+        return this.tyolaiset.hae(tyolainenId);
     }
     
     
@@ -221,18 +282,13 @@ public class Rekisteri {
         virtanen2.rekisteroi();
         virtanen2.taytaTiedot();
         
-        try {
-            rekisteri.lisaa(virtanen1);
-            rekisteri.lisaa(virtanen2);
-            rekisteri.lisaa(virtanen2);
-            rekisteri.lisaa(virtanen2);
-            rekisteri.lisaa(virtanen2);
-            rekisteri.lisaa(virtanen2);
-        } catch (SailoException e) {
-            // e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
-        
+        rekisteri.lisaa(virtanen1);
+        rekisteri.lisaa(virtanen2);
+        rekisteri.lisaa(virtanen2);
+        rekisteri.lisaa(virtanen2);
+        rekisteri.lisaa(virtanen2);
+        rekisteri.lisaa(virtanen2);
+
         System.out.println();        
         for (int i = 0; i < rekisteri.getTyolaisetLkm(); i++) {
             Tyontekija tyontekija = rekisteri.anna(i);

@@ -7,7 +7,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 13.4.2018
+ * @version 14.4.2018
  */
 public class Tyontekija implements Cloneable {
     
@@ -267,7 +267,9 @@ public class Tyontekija implements Cloneable {
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String setNimi(String uusiNimi) {
-        if (uusiNimi.equals(""))
+        String syote = uusiNimi.trim();
+        
+        if (syote.equals(""))
             return "pakollinen tieto";
         this.nimi = uusiNimi;
         return null;
@@ -280,9 +282,14 @@ public class Tyontekija implements Cloneable {
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String setHlonumero(String uusiNumero) {
+        String syote = uusiNumero.trim();
+        
+        if (syote.length() == 0)
+            return "pakollinen tieto";
+        
         int uusi;
         try {
-            uusi = Integer.parseInt(uusiNumero);
+            uusi = Integer.parseInt(syote);
         } catch (NumberFormatException e) {
             return "ei ole kokonaisluku";
         }
@@ -300,9 +307,14 @@ public class Tyontekija implements Cloneable {
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String setAloitusvuosi(String uusiAloitusvuosi) {
+        String syote = uusiAloitusvuosi.trim();
+        
+        if (syote.length() == 0) 
+            return "pakollinen tieto";
+        
         int uusi;
         try {
-            uusi = Integer.parseInt(uusiAloitusvuosi);
+            uusi = Integer.parseInt(syote);
         } catch (NumberFormatException e) {
             return "ei ole kokonaisluku";
         }        
@@ -318,7 +330,7 @@ public class Tyontekija implements Cloneable {
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String setKoulutus(String uusiKoulutus) {
-        this.koulutus = uusiKoulutus;
+        this.koulutus = uusiKoulutus.trim();
         return null;
     }
 
@@ -329,7 +341,7 @@ public class Tyontekija implements Cloneable {
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String setLisatietoja(String uusiLisatietoja) {
-        this.lisatietoja = uusiLisatietoja;
+        this.lisatietoja = uusiLisatietoja.trim();
         return null;
     }
     

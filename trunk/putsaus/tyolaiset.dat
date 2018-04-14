@@ -1,10 +1,9 @@
-;Oy Putsaus Ab
-;tid |sukunimi etunimet                   |henkilönumero|aloitusvuosi|koulutus               |lisätietoja
-1    |Taavitsainen-Möttönen Irmeli Kaarina|1453         |1994        |laitoshuoltaja  2001   |
-3    |Röppönen Ernesti Eerikinpoika       |8776         |2016        |                       |vain illat ja viikonloput
-4    |Susiaho Eveliina Karoliina          |1953         |2000        |siivoustyönohjaaja 2010|palveluohjaaja
-5    |Viita-aho Janika Camilla            |6093         |2009        |laitoshuoltaja 2012    |vain kevyet kohteet (selkä leikattu)
-6    |Tötteröaho Kustaa Jaakko            |1087         |2011        |                       |mieluiten peruspesut
-7    |Lörvänder Jani Erik Håkan           |8612         |2017        |                       |vain illat ja viikonloput
-8    |Riisimetsä Saara Tytti              |8976         |2015        |laitoshuoltaja 2017    |
-9    |Hermanson Emmi Johanna              |9813         |2013        |laitoshuoltaja 2014    |
+1|Taavitsainen-Möttönen Irmeli Kaarina|1453|1994|laitoshuoltaja  2001|
+3|Röppönen Ernesti Eerikinpoika|8776|2016||vain illat ja viikonloput
+4|Susiaho Eveliina Karoliina|1953|2000|siivoustyönohjaaja 2010|palveluohjaaja
+5|Viita-aho Janika Camilla|6093|2009|laitoshuoltaja 2012|vain kevyet kohteet (selkä leikattu)
+6|Tötteröaho Kustaa Jaakko|1087|2011||mieluiten peruspesut
+7|Lörvänder Jani Erik Håkan|8612|2017||vain illat ja viikonloput
+8|Riisimetsä Saara Tytti|8976|2015|laitoshuoltaja 2017|
+9|Hermanson Emmi Johanna|9813|2013|laitoshuoltaja 2014|
+10|jaska|2018|2000||
