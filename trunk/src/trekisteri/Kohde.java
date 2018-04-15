@@ -10,7 +10,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author Marko Moilanen
  * @version 15.4.2018
  */
-public class Kohde {
+public class Kohde implements Comparable<Kohde> {
 
     private int kohdeId;
     private String nimi;
@@ -83,6 +83,13 @@ public class Kohde {
         if (this.getId() != 0) return;  // Jos id on jo annettu, ei tehd‰ mit‰‰n.
         this.kohdeId = seuraavaId;
         seuraavaId++;
+    }
+
+    
+    //TODO testit
+    @Override
+    public int compareTo(Kohde verrattava) {
+        return this.getNimi().compareTo(verrattava.getNimi());
     }
 
     

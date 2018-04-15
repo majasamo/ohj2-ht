@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * KohteenTekijat-luokka hallinnoi yksittäisiä kohteen tekijöitä.
  * @author Marko Moilanen
- * @version 4.4.2018
+ * @version 15.4.2018
  */
 public class KohteenTekijat {
     
@@ -92,6 +92,54 @@ public class KohteenTekijat {
      */
     public void lisaa(KohteenTekija lisattava) {
         this.alkiot.add(lisattava);
+        this.onkoMuutettu = true;
+    }
+    
+     
+    /**
+     * Poistaa kohteen tekijän tietorakenteesta.
+     * @param tyolainenId poistettavan kohteen tekijän työntekijän id-numero
+     * @param kohdeId poistettavan kohteen tekijän kohteen id-numero
+     * @example
+     * <pre name="test">
+     *   Tyontekija t1 = new Tyontekija(); t1.rekisteroi();
+     *   Tyontekija t2 = new Tyontekija(); t2.rekisteroi();
+     *
+     *   Kohde k1 = new Kohde(); k1.rekisteroi(); int id1 = k1.getId();
+     *   Kohde k2 = new Kohde(); k2.rekisteroi(); int id2 = k2.getId();
+     *   
+     *   KohteenTekijat tekijat = new KohteenTekijat();
+     *   tekijat.lisaa(t1.getId(), id1);
+     *   tekijat.lisaa(t1.getId(), id2);
+     *   tekijat.lisaa(t2.getId(), id2);
+     *   
+     *   List<Integer> tulos1 = new ArrayList<Integer>();
+     *   tulos1.add(id1);
+     *   tulos1.add(id2);
+     *   List<Integer> tulos2 = new ArrayList<Integer>();
+     *   tulos2.add(id2);
+     * 
+     *   tekijat.annaKohdeIdt(t1.getId()).equals(tulos1) === true;
+     *   tekijat.annaKohdeIdt(t2.getId()).equals(tulos2) === true;
+     *   
+     *   tekijat.poista(t2.getId(), id1);
+     *   tekijat.annaKohdeIdt(t2.getId()).equals(tulos2) === true;
+     *   
+     *   tekijat.poista(t1.getId(), id1);
+     *   tekijat.poista(t1.getId(), id2);
+     *   tekijat.annaKohdeIdt(t1.getId()).isEmpty() === true;
+     * </pre>
+     */
+    public void poista(int tyolainenId, int kohdeId) {
+        KohteenTekija poistettava = null;
+        for (KohteenTekija kt : this.alkiot) {
+            if (kt.getTyolainenId() == tyolainenId && kt.getKohdeId() == kohdeId) {
+                poistettava = kt;
+                break;
+            }            
+        }
+        
+        this.alkiot.remove(poistettava);
         this.onkoMuutettu = true;
     }
     

@@ -7,9 +7,9 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 14.4.2018
+ * @version 15.4.2018
  */
-public class Tyontekija implements Cloneable {
+public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     
     private int tyolainenId;
     private String nimi = "";
@@ -209,6 +209,12 @@ public class Tyontekija implements Cloneable {
         return (Tyontekija) super.clone();
     }
 
+    
+    // TODO testit
+    @Override
+    public int compareTo(Tyontekija verrattava) {
+        return this.getNimi().compareTo(verrattava.getNimi());
+    }
     
     
     // Saanti- ja muokkausmetodit käyttöliittymässä näytettäville attribuuteille. 

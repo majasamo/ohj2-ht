@@ -1,6 +1,7 @@
 package fxTrekisteri;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
@@ -129,6 +130,7 @@ public class TrekisteriGUIController implements Initializable {
     private String nimi = "putsaus";
     private Rekisteri rekisteri;
     private Tyontekija tyontekijaValittuna;
+    private Kohde kohdeValittuna;
     private TextField[] tiedot;
     
     
@@ -150,10 +152,11 @@ public class TrekisteriGUIController implements Initializable {
     private void naytaKohteet() {
         if (this.tyontekijaValittuna == null) return;
         
+        List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());        
         this.chooserKohteet.clear();
-        for (Kohde kohde : this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId())) {
+        for (Kohde kohde : kohteet) {
             this.chooserKohteet.add(kohde.getNimi(), kohde);
-        }
+        }        
     }
     
     
@@ -196,17 +199,17 @@ public class TrekisteriGUIController implements Initializable {
     /**
      * Lukee rekisterin tiedot annetusta hakemistosta.
      * @param hakemistonNimi hakemiston nimi
-     * @return mahdollinen virheilmoitus, null, jos ei virhettä
+     * @return mahdollinen virheilmoitus. Jos virhettä ei ole, palautetaan null.
      */
     public String lueHakemisto(String hakemistonNimi) {
         this.nimi = hakemistonNimi;
         
         try {
             this.rekisteri.lueTiedostoista(hakemistonNimi);
-            this.hae(0);
+            this.haeTyontekijat(0);
             return null;
         } catch (SailoException e) {
-            this.hae(0);
+            this.haeTyontekijat(0);
             String virhe = e.getMessage();
             if (virhe != null) Dialogs.showMessageDialog(virhe);
             return virhe;
@@ -215,15 +218,15 @@ public class TrekisteriGUIController implements Initializable {
     
     
     /**
-     * Hakee työntekijän tiedot listaan.
-     * @param sen työntekijän numero, joka haun jälkeen aktivoidaan
+     * Hakee työntekijät listaan.
+     * @param tyontekijaId sen työntekijän id-numero, joka haun jälkeen aktivoidaan
      */
-    private void hae(int tnro) {
+    private void haeTyontekijat(int tyontekijaId) {
         this.chooserTyontekijat.clear();
         int aktivoitava = 0;
         for (int i = 0; i < this.rekisteri.getTyolaisetLkm(); i++) {
             Tyontekija tyontekija = this.rekisteri.anna(i);
-            if (tyontekija.getId() == tnro) aktivoitava = i;
+            if (tyontekija.getId() == tyontekijaId) aktivoitava = i;
             this.chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
         }
         
@@ -241,7 +244,7 @@ public class TrekisteriGUIController implements Initializable {
         
         uusi.rekisteroi();
         this.rekisteri.lisaa(uusi);
-        this.hae(uusi.getId());
+        this.haeTyontekijat(uusi.getId());
     }
 
     
@@ -262,7 +265,7 @@ public class TrekisteriGUIController implements Initializable {
             tyontekija = MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
             if (tyontekija == null) return;  // Tässä tapauksessa painettiin Peruuta-nappia.
             this.rekisteri.korvaa(tyontekija);
-            this.hae(tyontekija.getId());
+            this.haeTyontekijat(tyontekija.getId());
         } catch (CloneNotSupportedException e) {
             // Tämän ei pitäisi koskaan tapahtua:
             System.out.println("Ongelma kloonin luomisessa: " + e.getMessage());
@@ -284,7 +287,7 @@ public class TrekisteriGUIController implements Initializable {
                                                // kohteentekijä lisätään manuaalisesti erikseen.)
         
         this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
-        this.hae(this.tyontekijaValittuna.getId());
+        this.haeTyontekijat(this.tyontekijaValittuna.getId());
     }
     
     
@@ -292,7 +295,17 @@ public class TrekisteriGUIController implements Initializable {
      * Poistaa kohteen työntekijän kohdeluettelosta.
      */
     private void poistaKohde() {
-        Dialogs.showMessageDialog("Ei toimi vielä.");
+        this.kohdeValittuna = this.chooserKohteet.getSelectedObject();
+        if (this.kohdeValittuna == null) return;
+        
+        // Selvitetään, mikä työntekijä ja mikä kohde on valittuna, ja poistetaan
+        // niitä vastaava yhteys (kohtee tekijä -olio).
+        int tyolainenId = this.tyontekijaValittuna.getId();
+        int kohdeId = this.kohdeValittuna.getId();
+        this.rekisteri.poista(tyolainenId, kohdeId);
+        
+        // Päivitetään näkymä.
+        this.naytaKohteet();
     }
     
     

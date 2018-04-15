@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
- * @version 14.4.2018
+ * @version 15.4.2018
  */
 public class Rekisteri {
 
@@ -98,13 +98,13 @@ public class Rekisteri {
         // luo se.
         // Lisää uusi kohteenTekijä.
     }
-
+    
     
     /**
-     * Palauttaa listan työntekijän kohteista.
+     * Palauttaa järjestetyn listan työntekijän kohteista.
      * @param tyolainenId sen työntekijän id-numero, jonka
      * kohteet halutaan
-     * @return työntekijän kohteet listana
+     * @return työntekijän kohteet listana. Kohteet järjestetään aakkosjärjestykseen.
      * TODO: testit (voi tehdä vasta sitten kun tässä luokassa on kohteiden ja työntekijöiden
      * lisääminen)
      */
@@ -117,11 +117,22 @@ public class Rekisteri {
             loydetyt.add(lisattava);
         }
         
+        loydetyt.sort(null);
         return loydetyt;
     }
     
     
-    /**p
+    /**
+     * Poistaa työntekijältä kohteen.
+     * @param tyolainenId sen työntekijän id, jolta kohde poistetaan
+     * @param kohdeId  poistettavan kohteen id
+     */
+    public void poista(int tyolainenId, int kohdeId) {
+        this.kohteenTekijat.poista(tyolainenId, kohdeId);
+    }
+    
+    
+    /**
      * Palauttaa i:nnen rekisterissä olevan työntekijän.
      * TODO: rakennusteline.
      * @param i luku, joka kertoo, kuinka mones työntekijä halutaan
@@ -140,7 +151,7 @@ public class Rekisteri {
     public int getTyolaisetLkm() {
         return this.tyolaiset.getLkm();
     }
-
+    
     
     /**
      * Asettaa tiedostojen perusnimet (työntekijöille, kohteille ja kohteen
