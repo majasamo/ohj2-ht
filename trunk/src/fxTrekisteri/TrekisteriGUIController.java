@@ -20,11 +20,12 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 14.4.2018
+ * @version 15.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
+    @FXML private ListChooser<Kohde> chooserKohteet;
     @FXML private ScrollPane panelTyontekija; 
     
     @FXML private TextField editNimi;
@@ -139,6 +140,20 @@ public class TrekisteriGUIController implements Initializable {
         if (this.tyontekijaValittuna == null) return;
         
         MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);
+        this.naytaKohteet();
+    }
+    
+    
+    /**
+     * Näyttää valittuna olevan työntekijän kohteet.
+     */
+    private void naytaKohteet() {
+        if (this.tyontekijaValittuna == null) return;
+        
+        this.chooserKohteet.clear();
+        for (Kohde kohde : this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId())) {
+            this.chooserKohteet.add(kohde.getNimi(), kohde);
+        }
     }
     
     

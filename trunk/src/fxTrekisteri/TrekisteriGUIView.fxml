@@ -123,7 +123,7 @@
                   <Label text="Työntekijän kohteet" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <ListChooser rivit="Q-Market Huitsinnevada&#10;Silmälasiliike Opsis&#10;SuperHyperFashion" BorderPane.alignment="CENTER" />
+                  <ListChooser fx:id="chooserKohteet" rivit="Q-Market Huitsinnevada&#10;Silmälasiliike Opsis&#10;SuperHyperFashion" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </items>

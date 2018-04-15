@@ -169,7 +169,7 @@ public class Rekisteri {
      *   Tyontekija tyol1 = new Tyontekija();
      *   tyol1.rekisteroi(); int id1 = tyol1.getId();
      *   Tyontekija tyol2 = new Tyontekija();
-     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   tyol2.rekisteroi();
      *   
      *   Rekisteri rekisteri = new Rekisteri();
      *   rekisteri.lisaa(tyol1); rekisteri.lisaa(tyol2);

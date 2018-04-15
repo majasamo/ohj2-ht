@@ -90,7 +90,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      *   Tyontekija tyol1 = new Tyontekija();
      *   tyol1.rekisteroi(); int id1 = tyol1.getId();
      *   Tyontekija tyol2 = new Tyontekija();
-     *   tyol2.rekisteroi(); int id2 = tyol2.getId();
+     *   tyol2.rekisteroi();
      *   
      *   Tyontekijat luettelo = new Tyontekijat();
      *   luettelo.lisaa(tyol1); luettelo.lisaa(tyol2);

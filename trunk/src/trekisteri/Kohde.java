@@ -8,7 +8,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Kohde tiet‰‰ oman id:ns‰ ja nimens‰.
  * @author Marko Moilanen
- * @version 5.4.2018
+ * @version 15.4.2018
  */
 public class Kohde {
 
@@ -24,6 +24,15 @@ public class Kohde {
      */
     public int getId() {
         return this.kohdeId;
+    }
+    
+    
+    /**
+     * Palauttaa kohteen nimen.
+     * @return kohteen nimi
+     */
+    public String getNimi() {
+        return this.nimi;
     }
     
     
