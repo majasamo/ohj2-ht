@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
@@ -27,6 +28,8 @@ public class TrekisteriGUIController implements Initializable {
     
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
     @FXML private ListChooser<Kohde> chooserKohteet;
+    @FXML private ComboBoxChooser<String> chooserHakuehto;
+    @FXML private TextField textFieldHakusana;
     @FXML private ScrollPane panelTyontekija; 
     
     @FXML private TextField editNimi;
@@ -38,8 +41,7 @@ public class TrekisteriGUIController implements Initializable {
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        this.alusta();
-        
+        this.alusta();        
     }
     
     
@@ -121,6 +123,22 @@ public class TrekisteriGUIController implements Initializable {
      */
     @FXML private void handleTietoja() {
         this.naytaTiedot();
+    }
+    
+    
+    /**
+     * Käsittelee hakuehdon valinnan.
+     */
+    @FXML private void handleHakuehto() {
+        this.haeTyontekijat(0);
+    }
+    
+    
+    /**
+     * Käsittelee hakusanan antamisen.
+     */
+    @FXML private void handleHakusana() {
+        this.haeTyontekijat(0);
     }
     
     
@@ -224,8 +242,14 @@ public class TrekisteriGUIController implements Initializable {
     private void haeTyontekijat(int tyontekijaId) {
         this.chooserTyontekijat.clear();
         int aktivoitava = 0;
-        for (int i = 0; i < this.rekisteri.getTyolaisetLkm(); i++) {
-            Tyontekija tyontekija = this.rekisteri.anna(i);
+        
+        String hakuehto = this.chooserHakuehto.getSelectedText();
+        String hakusana = this.textFieldHakusana.getText();        
+        List<Tyontekija> tyontekijat = this.rekisteri.hae(hakuehto, hakusana);
+        
+        
+        for (int i = 0; i < tyontekijat.size(); i++) {
+            Tyontekija tyontekija = tyontekijat.get(i);
             if (tyontekija.getId() == tyontekijaId) aktivoitava = i;
             this.chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
         }

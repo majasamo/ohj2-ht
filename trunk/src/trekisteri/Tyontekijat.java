@@ -5,14 +5,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import fi.jyu.mit.ohj2.WildChars;
 
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 14.4.2018
+ * @version 16.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -151,6 +154,153 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         
         return null;
     }
+    
+    
+    /**
+     * Palauttaa listan työntekijöistä, jotka toteuttavat annetun hakuehdon.
+     * @param hakuehto ehto, jonka mukaan haetaan. Ehdon on oltava jokin työntekijän tietoihin
+     * kuuluva kenttä.
+     * @param hakusana merkkijono, jonka perusteella haetaan
+     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakuehto on tyhjä 
+     * tai koostuu pelkistä välilyönneistä, palautetaan
+     * kaikki työntekijät. Työntekijät järjestetään aakkosjärjestykseen nimen mukaan.
+     * @example
+     * <pre name="test">
+     * #import java.util.List;
+     * #import java.util.ArrayList;
+     *   Tyontekijat tekijat = new Tyontekijat();
+     *   Tyontekija tyol1 = new Tyontekija(); tyol1.parse("1|Virtanen Jaakko|1111|2000|ei ole|");
+     *   Tyontekija tyol2 = new Tyontekija(); tyol2.parse("2|Ahonen Jaakko|1110|1994|on|");
+     *   Tyontekija tyol3 = new Tyontekija(); tyol3.parse("3|Virtanen Petteri|2222|1995|on|");
+     *   Tyontekija tyol4 = new Tyontekija(); tyol4.parse("4|Suhonen Jaakko|3333|2014|ei ole|");
+     *   tekijat.lisaa(tyol1); tekijat.lisaa(tyol2); tekijat.lisaa(tyol3); tekijat.lisaa(tyol4);
+     *   
+     *   List<Tyontekija> tulos1 = new ArrayList<Tyontekija>(); 
+     *   tulos1.add(tyol2); tulos1.add(tyol4); tulos1.add(tyol1);
+     *   tekijat.hae("nimi", "Jaakko  ").equals(tulos1) === true;
+     *   
+     *   List<Tyontekija> tulos2 = new ArrayList<Tyontekija>();
+     *   tekijat.hae("nimi", "ei").equals(tulos2) === true;
+     *   tekijat.hae("aloitusvuosi", "198").equals(tulos2) === true;
+     *   tekijat.hae("lisätietoja", "peruspesut").equals(tulos2) === true;
+     *   
+     *   List<Tyontekija> tulos3 = new ArrayList<Tyontekija>();
+     *   tulos3.add(tyol4); tulos3.add(tyol1);
+     *   tekijat.hae("koulutus", "ei").equals(tulos3) === true;
+     *   tekijat.hae("aloitusvuosi", "2").equals(tulos3) === true;
+     *   
+     *   List<Tyontekija> tulos4 = new ArrayList<Tyontekija>();
+     *   tulos4.add(tyol4);
+     *   tekijat.hae("aloitusvuosi", "201").equals(tulos4) === true;
+     * </pre>
+     */
+    public List<Tyontekija> hae(String hakuehto, String hakusana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        String ehto = hakuehto.trim();
+        String sana = hakusana.trim().toLowerCase();
+        
+        if (ehto.equals("nimi")) {
+            tulos = this.haeNimi(sana);
+        } else if (ehto.equals("henkilönumero")) {
+            tulos = this.haeHlonumero(sana);
+        } else if (ehto.equals("aloitusvuosi")) {
+            tulos = this.haeAloitusvuosi(sana);
+        } else if (ehto.equals("koulutus")) {
+            tulos = this.haeKoulutus(sana);
+        } else if (ehto.equals("lisätietoja")) {
+            tulos = this.haeLisatietoja(sana);
+        } else {
+            // Ei tehdä mitään.
+        }
+        
+        tulos.sort(null);
+        return tulos;
+    }
+    
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden nimi tai nimen osa täsmää hakusanan kanssa.
+     * @param sana hakusana
+     * @return lista työntekijöistä, joiden nimi tai nimen osa täsmää hakusanan kanssa
+     */
+    private ArrayList<Tyontekija> haeNimi(String sana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        
+        for (Tyontekija tyontekija : this) {
+            if (WildChars.wildmat(tyontekija.getNimi().toLowerCase(), "*" + sana + "*"))
+                tulos.add(tyontekija);
+        }
+        
+        return tulos;
+    }
+
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden henkilönumero tai sen osa täsmää hakusanan kanssa.
+     * @param sana hakusana
+     * @return lista työntekijöistä, joiden henkilönumero tai sen osa täsmää hakusanan kanssa
+     */
+    private ArrayList<Tyontekija> haeHlonumero(String sana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        
+        for (Tyontekija tyontekija : this) {
+            if (WildChars.wildmat("" + tyontekija.getHlonumero(), "*" + sana + "*"))
+                tulos.add(tyontekija);
+        }
+        
+        return tulos;
+    }    
+
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden aloitusvuosi tai sen osa täsmää hakusanan kanssa.
+     * @param sana hakusana
+     * @return lista työntekijöistä, joiden aloitusvuosi tai sen osa täsmää hakusanan kanssa
+     */
+    private ArrayList<Tyontekija> haeAloitusvuosi(String sana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        
+        for (Tyontekija tyontekija : this) {
+            if (WildChars.wildmat("" + tyontekija.getAloitusvuosi(), "*" + sana + "*"))
+                tulos.add(tyontekija);
+        }
+        
+        return tulos;
+    }    
+
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden koulutus-kentän sisältö tai sen osa täsmää hakusanan kanssa.
+     * @param sana hakusana
+     * @return lista työntekijöistä, joiden koulutus-kentän sisältö tai sen osa täsmää hakusanan kanssa
+     */
+    private ArrayList<Tyontekija> haeKoulutus(String sana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        
+        for (Tyontekija tyontekija : this) {
+            if (WildChars.wildmat(tyontekija.getKoulutus(), "*" + sana + "*"))
+                tulos.add(tyontekija);
+        }
+        
+        return tulos;
+    }    
+        
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden lisätietoja-kentän sisältö tai sen osa täsmää hakusanan kanssa.
+     * @param sana hakusana
+     * @return lista työntekijöistä, joiden lisätietoja-kentän sisältö tai sen osa täsmää hakusanan kanssa
+     */
+    private ArrayList<Tyontekija> haeLisatietoja(String sana) {
+        ArrayList<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        
+        for (Tyontekija tyontekija : this) {
+            if (WildChars.wildmat(tyontekija.getLisatietoja(), "*" + sana + "*"))
+                tulos.add(tyontekija);
+        }
+        
+        return tulos;
+    }        
     
     
     /**
@@ -361,27 +511,17 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      * @param args ei käytössä
      */
     public static void main(String[] args) {        
-        Tyontekijat tyontekijat = new Tyontekijat();
-        
-        Tyontekija virtanen = new Tyontekija();
-        virtanen.rekisteroi();
-        virtanen.taytaTiedot();
-        
-        Tyontekija virtanen2 = new Tyontekija();
-        virtanen2.rekisteroi();
-        virtanen2.taytaTiedot();
-                       
-        tyontekijat.lisaa(virtanen);
-        tyontekijat.lisaa(virtanen2);
-        tyontekijat.lisaa(virtanen2);
-        tyontekijat.lisaa(virtanen2);
-        tyontekijat.lisaa(virtanen2);
-        tyontekijat.lisaa(virtanen2);                
-        
-        for (int i = 0; i < tyontekijat.getLkm(); i++) {
-            Tyontekija tyontekija = tyontekijat.anna(i);
-            System.out.println("Työntekijä nro " + i);
-            tyontekija.tulosta(System.out);
-        }
+             
+        Tyontekijat tekijat = new Tyontekijat();
+        Tyontekija tyol1 = new Tyontekija(); tyol1.parse("1|Virtanen Jaakko|1111|ei ole|");
+        Tyontekija tyol2 = new Tyontekija(); tyol2.parse("2|Ahonen Jaakko|1110|on|");
+        Tyontekija tyol3 = new Tyontekija(); tyol3.parse("3|Virtanen Petteri|2222|on|");
+        Tyontekija tyol4 = new Tyontekija(); tyol4.parse("4|Suhonen Jaakko|3333|ei ole|");
+        tekijat.lisaa(tyol1); tekijat.lisaa(tyol2); tekijat.lisaa(tyol3); tekijat.lisaa(tyol4);
+
+        List<Tyontekija> tulos1 = new ArrayList<Tyontekija>(); tulos1.add(tyol2); tulos1.add(tyol1);
+        tekijat.hae("nimi", "Jaakko  ");//.equals(tulos1);
+        tekijat.hae("henkilönumero", "3");
+
     }
 }

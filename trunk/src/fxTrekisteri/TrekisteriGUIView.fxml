@@ -72,8 +72,8 @@
                   <VBox BorderPane.alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hakuehto" />
-                        <ComboBoxChooser maxWidth="300.0" rivit="nimi&#10;henkilönumero&#10;aloitusvuosi&#10;koulutus&#10;lisätietoja&#10;kohteet" />
-                        <TextField fx:id="hakusana" />
+                        <ComboBoxChooser fx:id="chooserHakuehto" onAction="#handleHakuehto" maxWidth="300.0" rivit="nimi&#10;henkilönumero&#10;aloitusvuosi&#10;koulutus&#10;lisätietoja&#10;kohteet" />
+                        <TextField fx:id="textFieldHakusana" onKeyReleased="#handleHakusana"/>
                         <Label alignment="CENTER" maxWidth="300.0" text="Työntekijät" />
                      </children>
                   </VBox>
@@ -104,10 +104,10 @@
                               <Label text="aloitusvuosi *" GridPane.rowIndex="2" />
                               <Label text="koulutus" GridPane.rowIndex="3" />
                               <Label text="lisätietoja" GridPane.rowIndex="4" />
-                              <TextField fx:id="editNimi" text="Hermanson Emmi Johanna" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField fx:id="editHlonumero" text="9813" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField fx:id="editAloitusvuosi" text="2013" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <TextField fx:id="editKoulutus" text="Laitoshuoltaja 2014" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                              <TextField fx:id="editNimi" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <TextField fx:id="editHlonumero" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <TextField fx:id="editAloitusvuosi" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField fx:id="editKoulutus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
                               <TextField fx:id="editLisatietoja" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
                            </children>
                            <padding>

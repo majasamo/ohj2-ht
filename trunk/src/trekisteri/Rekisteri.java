@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
- * @version 15.4.2018
+ * @version 16.4.2018
  */
 public class Rekisteri {
 
@@ -228,6 +228,21 @@ public class Rekisteri {
      */
     public Tyontekija hae(int tyolainenId) {
         return this.tyolaiset.hae(tyolainenId);
+    }
+    
+    
+    /**
+     * Palauttaa listan työntekijöistä, jotka toteuttavat annetun hakuehdon.
+     * @param hakuehto ehto, jonka mukaan haetaan. Ehdon on oltava jokin työntekijän tietoihin
+     * kuuluva kenttä.
+     * @param hakusana merkkijono, jonka perusteella haetaan
+     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakuehto on
+     * tyhjä tai koostuu pelkistä välilyönneistä, palautetaan
+     * kaikki työntekijät. Työntekijät järjestetään aakkosjärjestykseen nimen mukaan.
+     */
+    public List<Tyontekija> hae(String hakuehto, String hakusana) {
+        return this.tyolaiset.hae(hakuehto, hakusana);
+        //todo: testit ja metodi toimimaan myös kohteiden kanssa.
     }
     
     
