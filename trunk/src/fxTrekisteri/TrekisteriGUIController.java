@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import trekisteri.Kohde;
 import trekisteri.Rekisteri;
 import trekisteri.SailoException;
@@ -22,7 +23,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 15.4.2018
+ * @version 17.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -31,6 +32,7 @@ public class TrekisteriGUIController implements Initializable {
     @FXML private ComboBoxChooser<String> chooserHakuehto;
     @FXML private TextField textFieldHakusana;
     @FXML private ScrollPane panelTyontekija; 
+    @FXML private GridPane gridTyontekija; 
     
     @FXML private TextField editNimi;
     @FXML private TextField editHlonumero;
@@ -131,6 +133,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     @FXML private void handleHakuehto() {
         this.haeTyontekijat(0);
+        this.naytaTyontekija();
     }
     
     
@@ -139,6 +142,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     @FXML private void handleHakusana() {
         this.haeTyontekijat(0);
+        this.naytaTyontekija();
     }
     
     
@@ -156,11 +160,12 @@ public class TrekisteriGUIController implements Initializable {
      * Näyttää valittuna olevan työntekijän tiedot.
      */
     private void naytaTyontekija() {
-        this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();
-        if (this.tyontekijaValittuna == null) return;
-        
+        this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();        
         MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);
         this.naytaKohteet();
+        
+        // Jos ketään ei ole valittuna, ei näytetä mitään. 
+        this.gridTyontekija.setVisible(this.tyontekijaValittuna != null);
     }
     
     
@@ -168,13 +173,23 @@ public class TrekisteriGUIController implements Initializable {
      * Näyttää valittuna olevan työntekijän kohteet.
      */
     private void naytaKohteet() {
-        if (this.tyontekijaValittuna == null) return;
+        // Jos valittua työntekijää ei ole, ei näytetä mitään eikä jatketa ohjelman
+        // suoritusta.
+        if (this.tyontekijaValittuna == null) {
+            this.chooserKohteet.setVisible(false);
+            return;
+        }
         
+        this.chooserKohteet.setVisible(true);
+        
+        // Jos tyontekijaValittuna == null, sen id:n hakeminen aiheuttaa NullPointerExceptionin.
+        // Siksi edellä oleva if-lause tarvitaan.
         List<Kohde> kohteet = this.rekisteri.annaKohteet(this.tyontekijaValittuna.getId());        
         this.chooserKohteet.clear();
         for (Kohde kohde : kohteet) {
             this.chooserKohteet.add(kohde.getNimi(), kohde);
-        }        
+        }
+        
     }
     
     
@@ -246,7 +261,6 @@ public class TrekisteriGUIController implements Initializable {
         String hakuehto = this.chooserHakuehto.getSelectedText();
         String hakusana = this.textFieldHakusana.getText();        
         List<Tyontekija> tyontekijat = this.rekisteri.hae(hakuehto, hakusana);
-        
         
         for (int i = 0; i < tyontekijat.size(); i++) {
             Tyontekija tyontekija = tyontekijat.get(i);
