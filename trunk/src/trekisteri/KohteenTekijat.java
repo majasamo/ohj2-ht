@@ -94,15 +94,6 @@ public class KohteenTekijat {
      * @return lista kohdetta tekevien työntekijöiden id-numeroista
      * @example
      * <pre name="test">
-     *   Kohde k1 = new Kohde(); k1.parse("1|Firma");
-     *   Kohde k2 = new Kohde(); k2.parse("2|Yritys");
-     *   Kohde k3 = new Kohde(); k3.parse("4|Oy");
-     *   
-     *   Tyontekija t1 = new Tyontekija(); t1.parse("1");
-     *   Tyontekija t2 = new Tyontekija(); t2.parse("3");
-     *   Tyontekija t3 = new Tyontekija(); t3.parse("4");
-     *   Tyontekija t4 = new Tyontekija(); t4.parse("5");
-     *   
      *   // Työntekijä-id:t: 1, 2, 4, 5.
      *   // Kohde-id:t: 1, 2, 3.
      *   

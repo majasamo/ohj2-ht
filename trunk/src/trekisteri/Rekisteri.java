@@ -239,6 +239,7 @@ public class Rekisteri {
      * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakusana on
      * tyhjä tai koostuu pelkistä välilyönneistä, palautetaan
      * kaikki työntekijät. Työntekijät järjestetään aakkosjärjestykseen nimen mukaan.
+     * @example
      */
     public List<Tyontekija> hae(String hakuehto, String hakusana) {
         // Hakuehtona on kohde:
@@ -246,7 +247,7 @@ public class Rekisteri {
         
         // Hakuehtona on jokin työntekijän kenttä:
         return this.tyolaiset.hae(hakuehto, hakusana);
-        //todo: testit ja metodi toimimaan myös kohteiden kanssa.
+        //TODO: testit 
     }
     
     
