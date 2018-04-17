@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse käyttöliittymään kuuluvista asioista.
  * @author Marko Moilanen
- * @version 16.4.2018
+ * @version 17.4.2018
  */
 public class Rekisteri {
 
@@ -234,15 +234,50 @@ public class Rekisteri {
     /**
      * Palauttaa listan työntekijöistä, jotka toteuttavat annetun hakuehdon.
      * @param hakuehto ehto, jonka mukaan haetaan. Ehdon on oltava jokin työntekijän tietoihin
-     * kuuluva kenttä.
+     * kuuluva kenttä tai "kohteet".
      * @param hakusana merkkijono, jonka perusteella haetaan
-     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakuehto on
+     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakusana on
      * tyhjä tai koostuu pelkistä välilyönneistä, palautetaan
      * kaikki työntekijät. Työntekijät järjestetään aakkosjärjestykseen nimen mukaan.
      */
     public List<Tyontekija> hae(String hakuehto, String hakusana) {
+        // Hakuehtona on kohde:
+        if (hakuehto.equals("kohteet")) return this.haeKohteella(hakusana);
+        
+        // Hakuehtona on jokin työntekijän kenttä:
         return this.tyolaiset.hae(hakuehto, hakusana);
         //todo: testit ja metodi toimimaan myös kohteiden kanssa.
+    }
+    
+    
+    /**
+     * Palauttaa listan työntekijöistä, joiden jokin kohde sisältää annetun hakusanan.
+     * @param hakusana merkkijono, jonka perusteella haetaan
+     * @return järjestetty lista ehdon toteuttavista työtekijöistä. Jos hakusana
+     * on tyhjä tai koostuu pelkistä välilyönneistä, palautetaan kaikki
+     * työntekijät. Työntekijät järjestetään aakkosjärjestykseen
+     * nimen mukaan.
+     */
+    private List<Tyontekija> haeKohteella(String hakusana) {
+        List<Integer> kohdeIdt = this.kohteet.hae(hakusana);
+        List<Integer> tyolainenIdt = new ArrayList<Integer>();
+        
+        // Lisätään jokainen kohdetta vastaava työntekijä-id
+        // listaan, mutta vain yhden kerran.
+        for (int kohdeId : kohdeIdt) {
+            for (int tyolainenId : this.kohteenTekijat.hae(kohdeId)) {
+                if (!tyolainenIdt.contains(tyolainenId))
+                    tyolainenIdt.add(tyolainenId);
+            }
+        }
+        
+        List<Tyontekija> tulos = new ArrayList<Tyontekija>();
+        for (int tyolainenId : tyolainenIdt) {
+            tulos.add(this.tyolaiset.hae(tyolainenId));
+        }
+        tulos.sort(null);
+        
+        return tulos;
     }
     
     

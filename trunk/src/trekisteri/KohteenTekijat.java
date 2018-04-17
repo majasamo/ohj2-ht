@@ -87,6 +87,59 @@ public class KohteenTekijat {
     
     
     /**
+     * Palauttaa listan niiden työntekijöiden id-numeroista, 
+     * jotka ovat ovat annettua kohdeId:tä vastaavan kohteen
+     * tekijöitä.
+     * @param kohdeId sen kohteen id-numero, jonka työntekijöitä haetaan
+     * @return lista kohdetta tekevien työntekijöiden id-numeroista
+     * @example
+     * <pre name="test">
+     *   Kohde k1 = new Kohde(); k1.parse("1|Firma");
+     *   Kohde k2 = new Kohde(); k2.parse("2|Yritys");
+     *   Kohde k3 = new Kohde(); k3.parse("4|Oy");
+     *   
+     *   Tyontekija t1 = new Tyontekija(); t1.parse("1");
+     *   Tyontekija t2 = new Tyontekija(); t2.parse("3");
+     *   Tyontekija t3 = new Tyontekija(); t3.parse("4");
+     *   Tyontekija t4 = new Tyontekija(); t4.parse("5");
+     *   
+     *   // Työntekijä-id:t: 1, 2, 4, 5.
+     *   // Kohde-id:t: 1, 2, 3.
+     *   
+     *   KohteenTekijat kt = new KohteenTekijat();
+     *   kt.lisaa(1, 1); kt.lisaa(1, 2); 
+     *   kt.lisaa(2, 1); 
+     *   kt.lisaa(4, 2);
+     *   kt.lisaa(5, 1);
+     *   
+     *   List<Integer> tulos1 = new ArrayList<Integer>();
+     *   tulos1.add(1); tulos1.add(2); tulos1.add(5);
+     *   List<Integer> vastaus1 = kt.hae(1); vastaus1.sort(null);
+     *   tulos1.equals(vastaus1) === true;
+     *   
+     *   List<Integer> tulos2 = new ArrayList<Integer>();
+     *   tulos2.add(1); tulos2.add(4);
+     *   List<Integer> vastaus2 = kt.hae(2); vastaus2.sort(null);
+     *   tulos2.equals(vastaus2) === true;
+     *   
+     *   List<Integer> tulos3 = new ArrayList<Integer>();
+     *   List<Integer> vastaus3 = kt.hae(3); vastaus3.sort(null);
+     *   tulos3.equals(vastaus3) === true;
+     * </pre>
+     */
+    public List<Integer> hae(int kohdeId) {
+        List<Integer> tulos = new ArrayList<Integer>();
+        
+        for (KohteenTekija kt : this.alkiot) {
+            if (kt.getKohdeId() == kohdeId)
+                tulos.add(kt.getTyolainenId());
+        }
+        
+        return tulos;
+    }
+    
+    
+    /**
      * Lisää luetteloon uuden kohteen tekijän.
      * @param lisattava kohteen tekijä, joka lisätään
      */

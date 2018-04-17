@@ -161,7 +161,8 @@ public class TrekisteriGUIController implements Initializable {
      */
     private void naytaTyontekija() {
         this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();        
-        MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);
+        MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);  // Jos tyontekijaValittuna == null,
+                                                                                   // kutsuttu metodi ei tee mit‰‰n.
         this.naytaKohteet();
         
         // Jos ket‰‰n ei ole valittuna, ei n‰ytet‰ mit‰‰n. 
@@ -188,8 +189,7 @@ public class TrekisteriGUIController implements Initializable {
         this.chooserKohteet.clear();
         for (Kohde kohde : kohteet) {
             this.chooserKohteet.add(kohde.getNimi(), kohde);
-        }
-        
+        }        
     }
     
     

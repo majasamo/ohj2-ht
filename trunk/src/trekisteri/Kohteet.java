@@ -7,12 +7,15 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
+
+import fi.jyu.mit.ohj2.WildChars;
 
 /**
  * Kohteet-luokka hallinnoi yksittäisiä kohteita.
  * @author Marko Moilanen
- * @version 5.4.2018
+ * @version 17.4.2018
  */
 public class Kohteet {
 
@@ -64,6 +67,56 @@ public class Kohteet {
             if (kohde.getId() == kohdeId) return kohde;
         }
         return null;
+    }
+    
+    
+    /**
+     * Palauttaa listan niiden kohteiden id-numeroista, joiden nimi tai nimen
+     * osa täsmää annetun hakusanan kanssa.
+     * @param hakusana hakusana, jolla haetaan
+     * @return lista hakusanaa vastaavien kohteiden id-numeroista. Jos hakusana
+     * on tyhjä tai koostuu pelkistä välilyönnteistä, palautetaan kaikkien
+     * kohteiden id:t.
+     * @example
+     * <pre name="test">
+     * #import java.util.List;
+     * #import java.util.ArrayList;
+     *   Kohde k1 = new Kohde(); k1.parse("1|Firma");
+     *   Kohde k2 = new Kohde(); k2.parse("2|Sepon autohuolto");
+     *   Kohde k3 = new Kohde(); k3.parse("3|Mikon varaosa");
+     *   Kohde k4 = new Kohde(); k4.parse("4|Mikan varaosa");
+     *   
+     *   Kohteet kohteet = new Kohteet();
+     *   kohteet.lisaa(k1); kohteet.lisaa(k2); kohteet.lisaa(k3); kohteet.lisaa(k4);
+     *   
+     *   List<Integer> tulos1 = new ArrayList<Integer>();
+     *   tulos1.add(1); tulos1.add(2); tulos1.add(3); tulos1.add(4);
+     *   List<Integer> vastaus1 = kohteet.hae(""); vastaus1.sort(null);
+     *   tulos1.equals(vastaus1) === true;
+     *   List<Integer> vastaus2 = kohteet.hae("  "); vastaus2.sort(null);
+     *   tulos1.equals(vastaus1) === true;
+     *   
+     *   List<Integer> tulos2 = new ArrayList<Integer>();
+     *   tulos2.add(3); tulos2.add(4);
+     *   List<Integer> vastaus3 = kohteet.hae(" Mik"); vastaus3.sort(null);
+     *   tulos2.equals(vastaus3) === true;
+     *   
+     *   List<Integer> tulos3 = new ArrayList<Integer>();
+     *   tulos3.add(1);
+     *   List<Integer> vastaus4 = kohteet.hae(" f "); vastaus4.sort(null);
+     *   tulos3.equals(vastaus4) === true;
+     * </pre>
+     */
+    public List<Integer> hae(String hakusana) {
+        String sana = hakusana.trim().toLowerCase();        
+        List<Integer> tulos = new ArrayList<Integer>();
+        
+        for (Kohde kohde : this.alkiot) {
+            if (WildChars.wildmat(kohde.getNimi().toLowerCase(), "*" + sana + "*"))
+                tulos.add(kohde.getId());
+        }
+
+        return tulos;
     }
     
     

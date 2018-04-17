@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.WildChars;
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 16.4.2018
+ * @version 17.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -161,7 +161,7 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      * @param hakuehto ehto, jonka mukaan haetaan. Ehdon on oltava jokin työntekijän tietoihin
      * kuuluva kenttä.
      * @param hakusana merkkijono, jonka perusteella haetaan
-     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakuehto on tyhjä 
+     * @return järjestetty lista ehdon toteuttavista työntekijöistä. Jos hakusana on tyhjä 
      * tai koostuu pelkistä välilyönneistä, palautetaan
      * kaikki työntekijät. Työntekijät järjestetään aakkosjärjestykseen nimen mukaan.
      * @example
