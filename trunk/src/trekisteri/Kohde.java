@@ -37,28 +37,6 @@ public class Kohde implements Comparable<Kohde> {
     
     
     /**
-     * T‰ytt‰‰ kohteen tiedot.
-     * TODO: t‰m‰ on rakennusteline.
-     */
-    public void taytaTiedot() {
-        this.nimi = "Avotoimistoh‰ss‰kk‰ Oy " + rand(1, 100);  // Per‰‰n satunnainen luku erottelun vuoksi.
-    }
-
-
-    /**
-     * Antaa satunnaisen kokonaisluvun annetulta v‰lilt‰
-     * TODO: t‰m‰ metodi poistetaan, kun sit‰ ei tarvita.
-     * @param ala alaraja
-     * @param yla yl‰raja
-     * @return satunnaisluku v‰lilt‰ [ala, yla[
-     */
-    public static int rand(int ala, int yla) {
-        double n = (yla - ala) * Math.random() + ala; 
-        return (int) Math.round(n);
-    }
-    
-    
-    /**
      * Antaa kohteelle id:n.
      * @example
      * <pre name="test">
@@ -86,7 +64,19 @@ public class Kohde implements Comparable<Kohde> {
     }
 
     
-    //TODO testit
+    /**
+     * @example
+     * <pre name="test">
+     *   Kohde k1 = new Kohde(); k1.parse("1|Firma");
+     *   Kohde k2 = new Kohde(); k2.parse("2|Pankki");
+     *   Kohde k3 = new Kohde(); k3.parse("3|Pankki");
+     *   
+     *   (k1.compareTo(k2) < 0) === true;
+     *   (k1.compareTo(k3) < 0) === true;
+     *   (k2.compareTo(k1) > 0) === true;
+     *   k2.compareTo(k3) === 0;
+     * </pre>
+     */
     @Override
     public int compareTo(Kohde verrattava) {
         return this.getNimi().compareTo(verrattava.getNimi());
@@ -99,7 +89,6 @@ public class Kohde implements Comparable<Kohde> {
      */
     public void tulosta(PrintStream out) {
         out.println(this.kohdeId + " " + this.nimi);
-        //TODO: korjaa (tarvitaanko t‰t‰?)
     }
     
     

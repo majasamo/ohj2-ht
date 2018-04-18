@@ -180,9 +180,9 @@ public class Kohteet {
      *   fileTied.delete();
      *   
      *   Kohteet kohteet = new Kohteet(); 
-     *   Kohde kohde1 = new Kohde(); kohde1.rekisteroi(); kohde1.taytaTiedot();
+     *   Kohde kohde1 = new Kohde(); kohde1.rekisteroi(); kohde1.parse("1|Firma Oy");
      *   int nro1 = kohde1.getId();
-     *   Kohde kohde2 = new Kohde(); kohde2.rekisteroi(); kohde2.taytaTiedot();
+     *   Kohde kohde2 = new Kohde(); kohde2.rekisteroi(); kohde2.parse("4|Pankki Ab");
      *   int nro2 = kohde2.getId();
      *   kohteet.lueTiedostosta(tiedosto);  #THROWS SailoException
      *   
@@ -263,26 +263,4 @@ public class Kohteet {
     public String getTiedostonNimi() {
         return this.perusnimi + ".dat";
     }
-       
-    
-    /**
-     * Pääohjelma testaamista varten.
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Kohteet kohteet = new Kohteet();
-        Kohde kohde1 = new Kohde();
-        Kohde kohde2 = new Kohde();
-        System.out.println(kohteet.getLkm());
-        
-        kohteet.lisaa(kohde1);
-        System.out.println(kohteet.getLkm());
-        
-        kohteet.lisaa(kohde2);
-        System.out.println(kohteet.getLkm());
-        
-        kohteet.lisaa(kohde1);
-        System.out.println(kohteet.getLkm());
-    }
-
 }

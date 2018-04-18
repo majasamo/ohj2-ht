@@ -7,7 +7,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Työntekijä tietää omat tietonsa ja id-numeronsa (eri kuin henkilönumero).
  * @author Marko Moilanen
- * @version 15.4.2018
+ * @version 18.4.2018
  */
 public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     
@@ -19,19 +19,6 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     private String lisatietoja = "";
     
     private static int seuraavaId = 1;
-    
-    
-    /**
-     * Antaa satunnaisen kokonaisluvun annetulta väliltä
-     * TODO: tämä metodi poistetaan, kun sitä ei tarvita.
-     * @param ala alaraja
-     * @param yla yläraja
-     * @return satunnaisluku väliltä [ala, yla[
-     */
-    public static int rand(int ala, int yla) {
-        double n = (yla - ala) * Math.random() + ala; 
-        return (int) Math.round(n);
-    }
     
     
     /**
@@ -59,21 +46,7 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     public static boolean tarkastaHlonro(int hlonro) {
         return (1000 <= hlonro && hlonro <= 9999);
     }
-    
-    
-    /**
-     * Apumetodi, joka täyttää testiarvot.
-     * Henkilönumero arvotaan.
-     * TODO: tämä metodi poistetaan, kun sitä ei enää tarvita.
-     */
-    public void taytaTiedot() {
-        this.nimi = "Hermanson Taavi-Ernesti";
-        this.hlonumero = rand(1000, 9999);
-        this.aloitusvuosi = 2012;
-        this.koulutus = "";
-        this.lisatietoja = "";
-    }
-    
+        
          
     /**
      * Tulostaa työntekijän tiedot.
@@ -121,8 +94,6 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
         if (this.getId() != 0) return;  // Jos id on jo annettu, ei tehdä mitään.
         this.tyolainenId = seuraavaId;
         seuraavaId++;
-        // TODO: Kun tiedosto luetaan, kuinka saadaan seuraavaId pidettyä oikeana?
-        // Nykyisellä toteutuksella homma ei toimi.
     }
     
     
@@ -210,7 +181,20 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     }
 
     
-    // TODO testit
+    /**
+     * @example
+     * <pre name="test">
+     *   Tyontekija t1 = new Tyontekija(); t1.parse("1|Virtanen");
+     *   Tyontekija t2 = new Tyontekija(); t2.parse("2|Makkonen");
+     *   Tyontekija t3 = new Tyontekija(); t3.parse("3|Virtanen");
+     *   
+     *   t1.compareTo(t1) === 0;
+     *   (t1.compareTo(t2) > 0) === true;
+     *   (t2.compareTo(t1) < 0) === true;
+     *   (t2.compareTo(t3) < 0) === true;
+     *   t1.compareTo(t3) === 0;
+     * </pre>
+     */
     @Override
     public int compareTo(Tyontekija verrattava) {
         return this.getNimi().compareTo(verrattava.getNimi());
@@ -223,7 +207,6 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
     
     /**
      * Palauttaa työntekijän nimen.
-     * TODO: jos tämän jossakin vaiheessa voi testata, niin tee testit.
      * @return työntekijän nimi merkkijonona
      */
     public String getNimi() {
@@ -271,13 +254,21 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
      * Asettaa työntekijän nimen.
      * @param uusiNimi työntekijälle annettava nimi
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija t = new Tyontekija();
+     *   t.setNimi("   ") === "pakollinen tieto";
+     *   t.setNimi("") === "pakollinen tieto";
+     *   t.setNimi("   Jake") === null;
+     *   t.getNimi() === "Jake";
+     * </pre>
      */
     public String setNimi(String uusiNimi) {
         String syote = uusiNimi.trim();
         
         if (syote.equals(""))
             return "pakollinen tieto";
-        this.nimi = uusiNimi;
+        this.nimi = syote;
         return null;
     }
     
@@ -286,6 +277,16 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
      * Asettaa työntekijän henkilönumeron.
      * @param uusiNumero työntekijälle annettava henkilönumero
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija t = new Tyontekija();
+     *   t.setHlonumero("  ") === "pakollinen tieto";
+     *   t.setHlonumero("") === "pakollinen tieto";
+     *   t.setHlonumero("asdf") === "ei ole kokonaisluku";
+     *   t.setHlonumero("1154.8 ") === "ei ole kokonaisluku";
+     *   t.setHlonumero("  2241") === null;
+     *   t.getHlonumero() === 2241;
+     * </pre>
      */
     public String setHlonumero(String uusiNumero) {
         String syote = uusiNumero.trim();
@@ -311,6 +312,15 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
      * Asettaa työntekijän aloitusvuoden.
      * @param uusiAloitusvuosi työntekijälle annettava aloitusvuosi
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija t = new Tyontekija();
+     *   t.setAloitusvuosi("") === "pakollinen tieto";
+     *   t.setAloitusvuosi("  ") === "pakollinen tieto";
+     *   t.setAloitusvuosi("luku") === "ei ole kokonaisluku";
+     *   t.setAloitusvuosi(" 1995 ") === null;
+     *   t.getAloitusvuosi() === 1995;
+     * </pre>
      */
     public String setAloitusvuosi(String uusiAloitusvuosi) {
         String syote = uusiAloitusvuosi.trim();
@@ -334,6 +344,18 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
      * Asettaa työntekijän koulutustiedot.
      * @param uusiKoulutus työntekijän koulutustiedot
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija t = new Tyontekija();
+     *   t.setKoulutus("") === null;
+     *   t.getKoulutus() === "";
+     *   
+     *   t.setKoulutus("  ") === null;
+     *   t.getKoulutus() === "";
+     *   
+     *   t.setKoulutus("   joo ") === null;
+     *   t.getKoulutus() === "joo";
+     * </pre>
      */
     public String setKoulutus(String uusiKoulutus) {
         this.koulutus = uusiKoulutus.trim();
@@ -345,6 +367,15 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
      * Asettaa muut mahdolliset työntekijää koskevat tiedot.
      * @param uusiLisatietoja lisätietoja-kentän teksti
      * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     * @example
+     * <pre name="test">
+     *   Tyontekija t = new Tyontekija();
+     *   t.setLisatietoja("  ") === null;
+     *   t.getLisatietoja() === "";
+     *   
+     *   t.setLisatietoja("  vain viikonloput  ") === null;
+     *   t.getLisatietoja() === "vain viikonloput";
+     * </pre>
      */
     public String setLisatietoja(String uusiLisatietoja) {
         this.lisatietoja = uusiLisatietoja.trim();
@@ -354,30 +385,4 @@ public class Tyontekija implements Cloneable, Comparable<Tyontekija> {
             
     // Viivan yläpuolella saanti- ja muokkausmetodit käyttöliittymässä näytettäville attribuuteille.
     //********************************************************************************    
-
-    
-    /**
-     * Pääohjelma, jossa testataan luokkaa.
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Tyontekija mottonen = new Tyontekija();
-        Tyontekija virtanen = new Tyontekija();
-        
-        mottonen.rekisteroi();
-        virtanen.rekisteroi();
-        
-        mottonen.tulosta(System.out); System.out.println();
-        virtanen.tulosta(System.out); System.out.println();
-        
-        mottonen.taytaTiedot();
-        virtanen.taytaTiedot();
-        
-        mottonen.tulosta(System.out); System.out.println();
-        virtanen.tulosta(System.out); System.out.println();
-        
-        Tyontekija matti = new Tyontekija();
-        matti.parse(" 18 |   Virtanen Matti |");
-        System.out.println(matti);
-    }
 }

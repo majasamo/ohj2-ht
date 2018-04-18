@@ -355,7 +355,6 @@ public class Tyontekijat implements Iterable<Tyontekija> {
     
     /**
      * Palauttaa i:nnen työntekijän.
-     * TODO: tämä on rakennusteline. ... vai onko?
      * @param i luku,joka kertoo, kuinka mones työntekijä halutaan
      * @return i:s työntekijä
      * @throws IndexOutOfBoundsException jos i on sallitun alueen ulkopuolella 
@@ -392,8 +391,8 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      *   fileTied.delete();
      *   
      *   Tyontekijat tyontekijat = new Tyontekijat();
-     *   Tyontekija virtanen1 = new Tyontekija(); virtanen1.taytaTiedot();
-     *   Tyontekija virtanen2 = new Tyontekija(); virtanen2.taytaTiedot();
+     *   Tyontekija virtanen1 = new Tyontekija(); virtanen1.parse("1|Virtanen Matti");
+     *   Tyontekija virtanen2 = new Tyontekija(); virtanen2.parse("2|Virtanen Pekka");
      *   tyontekijat.lueTiedostosta(tiedosto);  #THROWS SailoException
      *   
      *   // Lisätään ja tallennetaan. Muutosten pitäisi tallentua tiedostoon.
@@ -437,8 +436,6 @@ public class Tyontekijat implements Iterable<Tyontekija> {
      * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
      */
     public void tallenna() throws SailoException {
-        // TODO: Varmuuskopiointi?
-        
         if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
         
         try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), false))) {            
@@ -553,25 +550,5 @@ public class Tyontekijat implements Iterable<Tyontekija> {
             if (!hasNext()) throw new NoSuchElementException("Ei enää alkioita.");
             return anna(this.kohdalla++);
         }
-    }
-    
-    
-    /**
-     * Pääohjelma testaamista varten.
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {        
-             
-        Tyontekijat tekijat = new Tyontekijat();
-        Tyontekija tyol1 = new Tyontekija(); tyol1.parse("1|Virtanen Jaakko|1111|ei ole|");
-        Tyontekija tyol2 = new Tyontekija(); tyol2.parse("2|Ahonen Jaakko|1110|on|");
-        Tyontekija tyol3 = new Tyontekija(); tyol3.parse("3|Virtanen Petteri|2222|on|");
-        Tyontekija tyol4 = new Tyontekija(); tyol4.parse("4|Suhonen Jaakko|3333|ei ole|");
-        tekijat.lisaa(tyol1); tekijat.lisaa(tyol2); tekijat.lisaa(tyol3); tekijat.lisaa(tyol4);
-
-        List<Tyontekija> tulos1 = new ArrayList<Tyontekija>(); tulos1.add(tyol2); tulos1.add(tyol1);
-        tekijat.hae("nimi", "Jaakko  ");//.equals(tulos1);
-        tekijat.hae("henkilönumero", "3");
-
-    }
+    }    
 }
