@@ -36,11 +36,17 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
      * Käsittelee Tallenna-napin painalluksen.
      */
     @FXML private void handleTallenna() {
-        if (this.tyontekijaValittuna != null && this.tyontekijaValittuna.getNimi().trim().length() == 0) {
-            this.naytaVirhe("Nimi ei saa olla tyhjä.");  // TODO: Miten tämä pitäisi tehdä? Tämähän on kopioitu
-            return;                                      // Lappalaisen koodista.
+        int i = 0;
+        for (TextField tieto : this.tiedot) {
+            int k = ++i;
+            String virhe = this.tarkastaKentta(k, tieto);
+            if (virhe != null) {
+                this.naytaVirhe(virhe);
+                return;
+            }
         }
-        ModalController.closeStage(this.editNimi);          
+
+        ModalController.closeStage(this.editNimi);       
     }
     
     
@@ -82,7 +88,7 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
     //********************************************************************************    
     
     /**
-     * Tekee tarvittavat alustukset. TODO: tarkenna.
+     * Tekee tarvittavat alustukset.
      */
     private void alusta() {
         this.tiedot = new TextField[] { this.editNimi, this.editHlonumero, this.editAloitusvuosi,
@@ -97,7 +103,7 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
     
     /**
      * Näyttää virheilmituksen.
-     * @param virhe virheilmoitus
+     * @param virhe virhe merkkijonona
      */
     private void naytaVirhe(String virhe) {
         if (virhe == null || virhe.equals("")) {
@@ -117,19 +123,9 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
      */
     private void kasitteleMuutos(int k, TextField tieto) {
         if (this.tyontekijaValittuna == null) return;
-        String teksti = tieto.getText();
-        String virhe;;
-        
-        switch (k) {
-            case 1 : virhe = this.tyontekijaValittuna.setNimi(teksti); break;
-            case 2 : virhe = this.tyontekijaValittuna.setHlonumero(teksti); break;
-            case 3 : virhe = this.tyontekijaValittuna.setAloitusvuosi(teksti); break;
-            case 4 : virhe = this.tyontekijaValittuna.setKoulutus(teksti); break;
-            case 5 : virhe = this.tyontekijaValittuna.setLisatietoja(teksti); break;
-            default : virhe = null; break;
-        }
-        
-        if (virhe == null) {  // Jos virhettä ei ole, niin 
+        String virhe = this.tarkastaKentta(k, tieto);
+                
+        if (virhe == null) {
             Dialogs.setToolTipText(tieto, "");
             tieto.getStyleClass().removeAll("virhe");
             this.naytaVirhe(virhe);
@@ -139,7 +135,28 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
             this.naytaVirhe(virhe);
         }
     }
-
+    
+    
+    /**
+     * Tarkastaa kentän tiedot ja palauttaa virheilmoituksen.
+     * @param k kentän numero
+     * @param tieto kenttään tuleva tieto
+     * @return virheilmoitus. Jos virhettä ei ole, palautetaan null.
+     */
+    private String tarkastaKentta(int k, TextField tieto) {
+        String teksti = tieto.getText();
+        String virhe;
+        switch (k) {
+            case 1 : virhe = this.tyontekijaValittuna.setNimi(teksti); break;
+            case 2 : virhe = this.tyontekijaValittuna.setHlonumero(teksti); break;
+            case 3 : virhe = this.tyontekijaValittuna.setAloitusvuosi(teksti); break;
+            case 4 : virhe = this.tyontekijaValittuna.setKoulutus(teksti); break;
+            case 5 : virhe = this.tyontekijaValittuna.setLisatietoja(teksti); break;
+            default : virhe = null; break;
+        }
+        
+        return virhe;
+    }
     
     /**
      * Näyttää työntekijän tiedot. 

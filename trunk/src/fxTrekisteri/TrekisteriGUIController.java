@@ -204,7 +204,7 @@ public class TrekisteriGUIController implements Initializable {
     private void alusta() {
         this.chooserTyontekijat.clear();
         this.chooserTyontekijat.addSelectionListener(e -> this.naytaTyontekija());
-        
+                
         this.tiedot = new TextField[] { this.editNimi, this.editHlonumero, this.editAloitusvuosi,
                                        this.editKoulutus, this.editLisatietoja };        
     }
@@ -292,10 +292,9 @@ public class TrekisteriGUIController implements Initializable {
 
     
     /**
-     * Poistaa tyontekijän.
+     * Poistaa työntekijän.
      */
     private void poistaTyontekija() {
-        this.tyontekijaValittuna = this.chooserTyontekijat.getSelectedObject();
         if (this.tyontekijaValittuna == null) return;
         
         this.rekisteri.poista(this.tyontekijaValittuna.getId());
@@ -323,13 +322,11 @@ public class TrekisteriGUIController implements Initializable {
      * Lisää kohteen työntekijän kohdeluetteloon.
      */
     private void lisaaKohde() { 
-        this.tyontekijaValittuna = this.chooserTyontekijat.getSelectedObject();
         if (this.tyontekijaValittuna == null) return;
         
         String kohdeNimi = UusiKohdeController.kysyNimi(null, "");
         this.rekisteri.lisaa(this.tyontekijaValittuna.getId(), kohdeNimi);
         this.haeTyontekijat(this.tyontekijaValittuna.getId());
-        this.naytaKohteet();
     }
     
     
