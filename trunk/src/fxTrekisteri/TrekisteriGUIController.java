@@ -166,7 +166,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     private void naytaTyontekija() {
         this.tyontekijaValittuna = chooserTyontekijat.getSelectedObject();        
-        MuokkaaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);  // Jos tyontekijaValittuna == null,
+        TyontekijaController.naytaTyontekija(this.tyontekijaValittuna, this.tiedot);  // Jos tyontekijaValittuna == null,
                                                                                    // kutsuttu metodi ei tee mit‰‰n.
         this.naytaKohteet();
         
@@ -239,7 +239,7 @@ public class TrekisteriGUIController implements Initializable {
      * @param hakemistonNimi hakemiston nimi
      * @return mahdollinen virheilmoitus. Jos virhett‰ ei ole, palautetaan null.
      */
-    public String lueHakemisto(String hakemistonNimi) {
+    private String lueHakemisto(String hakemistonNimi) {
         this.nimi = hakemistonNimi;
         
         try {
@@ -282,7 +282,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     private void lisaaTyontekija() {
         Tyontekija uusi = new Tyontekija();
-        uusi = MuokkaaController.kysyTyontekija(null, uusi);
+        uusi = TyontekijaController.kysyTyontekija(null, uusi);
         if (uusi == null) return;
         
         uusi.rekisteroi();
@@ -308,7 +308,7 @@ public class TrekisteriGUIController implements Initializable {
     private void muokkaaTyontekija() {        
         try {
             Tyontekija tyontekija;
-            tyontekija = MuokkaaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
+            tyontekija = TyontekijaController.kysyTyontekija(null, this.tyontekijaValittuna.clone());
             if (tyontekija == null) return;  // T‰ss‰ tapauksessa painettiin Peruuta-nappia.
             this.rekisteri.korvaa(tyontekija);
             this.haeTyontekijat(tyontekija.getId());
