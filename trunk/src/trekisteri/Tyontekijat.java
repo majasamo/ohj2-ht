@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.WildChars;
 /**
  * Työntekijat-luokka hallinnoi yksittäisiä työntekijöitä.
  * @author Marko Moilanen
- * @version 17.4.2018
+ * @version 18.4.2018
  */
 public class Tyontekijat implements Iterable<Tyontekija> {
     
@@ -153,6 +153,56 @@ public class Tyontekijat implements Iterable<Tyontekija> {
         }
         
         return null;
+    }
+    
+    
+    /**
+     * Poistaa työntekijän tietorakenteesta.
+     * @param tyolainenId poistettavan työntekijän id-numero
+     * <pre name="test">
+     *   Tyontekija t1 = new Tyontekija(); t1.parse("1|Virtanen");
+     *   Tyontekija t2 = new Tyontekija(); t2.parse("5|Kaikkonen");
+     *   Tyontekija t3 = new Tyontekija(); t3.parse("8|Kainulainen");
+     *   Tyontekija t4 = new Tyontekija(); t4.parse("9|Jokinen");
+     *   Tyontekijat tekijat = new Tyontekijat();
+     *   tekijat.lisaa(t1); tekijat.lisaa(t2); tekijat.lisaa(t3); tekijat.lisaa(t4);
+     *   tekijat.getLkm() === 4;
+     *   
+     *   tekijat.poista(1);
+     *   tekijat.getLkm() === 3;
+     *   tekijat.poista(2);  // Yritetään poistaa olematon työntekijä.
+     *   tekijat.getLkm() === 3;
+     *   tekijat.poista(9);
+     *   tekijat.getLkm() === 2;
+     *   tekijat.poista(9);  // Saman työntekijän poisto toiseen kertaan.
+     *   tekijat.getLkm() === 2;
+     *   tekijat.poista(5);
+     *   tekijat.getLkm() === 1;
+     *   tekijat.poista(8);
+     *   tekijat.getLkm() === 0;
+     * </pre>
+     */
+    public void poista(int tyolainenId) {
+        int poistettavanIndeksi = 0;
+        boolean poistetaan = false;
+        
+        // Selvitetään, onko poistettavaa alkiota ja mikä on sen indeksi.
+        for (int i = 0; i < this.lkm; i++) {
+            if (tyolainenId == this.alkiot[i].getId()) {
+                poistettavanIndeksi = i;
+                poistetaan = true;  // Tämä tarvitaan siltä varalta, että 0:s alkio poistetaan:
+                break;              // poistettavanIdeksi alustuu aina nollaksi.
+            }
+        }
+
+        if (!poistetaan) return;
+        
+        // Suoritetaan poistaminen kirjoittamalla seuraava alkio aina edellisen päälle.
+        for (int i = poistettavanIndeksi + 1; i < this.lkm; i++) {
+            this.alkiot[i - 1] = this.alkiot[i];
+        }
+        this.lkm--;
+        this.onkoMuutettu = true;
     }
     
     

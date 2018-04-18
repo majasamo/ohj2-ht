@@ -189,6 +189,52 @@ public class KohteenTekijat {
     
     
     /**
+     * Poistaa kaikki työntekijää vastaavat kohteen tekijät.
+     * @param tyolainenId sen työntekijän id-numero, jota vastaavat
+     * kohteen tekijät poistetaan
+     * @example
+     * <pre name="test">
+     *   KohteenTekija kt1 = new KohteenTekija(); kt1.parse("1|1|1");
+     *   KohteenTekija kt2 = new KohteenTekija(); kt2.parse("2|2|1");
+     *   KohteenTekija kt3 = new KohteenTekija(); kt3.parse("3|2|3");
+     *   KohteenTekija kt4 = new KohteenTekija(); kt4.parse("8|4|1");
+     *   KohteenTekija kt5 = new KohteenTekija(); kt5.parse("9|2|4");
+     *   KohteenTekijat tekijat = new KohteenTekijat();
+     *   tekijat.lisaa(kt1); tekijat.lisaa(kt2); tekijat.lisaa(kt3); tekijat.lisaa(kt4); tekijat.lisaa(kt5);
+     *   
+     *   List<Integer> tulos1 = new ArrayList<Integer>(); tulos1.add(1);
+     *   List<Integer> vast1 = tekijat.annaKohdeIdt(1);
+     *   vast1.equals(tulos1) === true;
+     *   tekijat.poista(1);
+     *   List<Integer> tulos2 = new ArrayList<Integer>();
+     *   List<Integer> vast2 = tekijat.annaKohdeIdt(1);
+     *   vast2.equals(tulos2) === true;
+     *   
+     *   List<Integer> tulos3 = new ArrayList<Integer>(); tulos3.add(1); tulos3.add(3); tulos3.add(4);
+     *   List<Integer> vast3 = tekijat.annaKohdeIdt(2); //vast3.sort(null); 
+     *   vast3.equals(tulos3) === true;
+     *   tekijat.poista(2);
+     *   List<Integer> tulos4 = new ArrayList<Integer>();
+     *   List<Integer> vast4 = tekijat.annaKohdeIdt(2);
+     *   vast4.equals(tulos4) === true;
+     * </pre>
+     */
+    public void poista(int tyolainenId) {
+        // Kerätään ensin lista poistettavista.        
+        List<KohteenTekija> poistettavat = new ArrayList<KohteenTekija>();        
+        for (KohteenTekija kt : this.alkiot) {
+            if (tyolainenId == kt.getTyolainenId())
+                poistettavat.add(kt);
+        }
+        
+        // Poistetaan:
+        this.alkiot.removeAll(poistettavat);
+        
+        this.onkoMuutettu = true;
+    }
+    
+    
+    /**
      * Luetaan tiedostosta, jonka nimi on annettu aiemmin.
      * @throws SailoException jos tiedoston lukeminen ei onnistu 
      */
@@ -276,39 +322,6 @@ public class KohteenTekijat {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Kohde kohde1 = new Kohde();
-        kohde1.taytaTiedot();
-        kohde1.rekisteroi();
-        
-        Kohde kohde2 = new Kohde();
-        kohde2.taytaTiedot();
-        kohde2.rekisteroi();
-        
-        Kohde kohde3 = new Kohde();
-        kohde3.taytaTiedot();
-        kohde3.rekisteroi();
-        
-        Tyontekija tyol1 = new Tyontekija();
-        tyol1.rekisteroi();
-        
-        Tyontekija tyol2 = new Tyontekija();
-        tyol2.rekisteroi();
-        
-        KohteenTekijat tekijat = new KohteenTekijat(); // Työntekijä - kohde
-        tekijat.lisaa(tyol1.getId(), kohde1.getId());  // 1 - 1
-        tekijat.lisaa(tyol1.getId(), kohde2.getId());  // 1 - 2
-        tekijat.lisaa(tyol1.getId(), kohde3.getId());  // 1 - 3
-        tekijat.lisaa(tyol2.getId(), kohde1.getId());  // 2 - 1        
-        
-        List<Integer> ykkosenKohteet = tekijat.annaKohdeIdt(tyol1.getId());        
-        List<Integer> kakkosenKohteet = tekijat.annaKohdeIdt(tyol2.getId());
-        
-        for (int id : ykkosenKohteet) {
-            System.out.println(id);
-        }
-        System.out.println("-------");        
-        for (int id : kakkosenKohteet) {
-            System.out.println(id);
-        }
+        //
     }
 }

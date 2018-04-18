@@ -17,7 +17,7 @@ import trekisteri.Tyontekija;
 /**
  * Kontrolleri työntekijän tietojen muokkaamista varten.
  * @author Marko Moilanen
- * @version 14.4.2018
+ * @version 18.4.2018
  */
 public class MuokkaaController implements ModalControllerInterface<Tyontekija>, Initializable {
 
@@ -49,8 +49,8 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
      */
     @FXML private void handlePeruuta() {
         this.tyontekijaValittuna = null;
-        ModalController.closeStage(this.labelVirhe);  // Etsi editNimi-attribuutista, mikä
-    }                                               // dialogi suljetaan.
+        ModalController.closeStage(this.labelVirhe);  // Etsi labelVirhe-attribuutista, mikä
+    }                                                 // dialogi suljetaan.
     
     
     @Override
@@ -67,8 +67,7 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
     
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
-        
+        // Tähän ei tarvitse ainakaan vielä laittaa mitään.
     }
 
     
@@ -78,6 +77,9 @@ public class MuokkaaController implements ModalControllerInterface<Tyontekija>, 
         naytaTyontekija(this.tyontekijaValittuna, this.tiedot);
     }
     
+    
+    // Suoraan käyttöliittymään liittyvät asiat ovat tämän yläpuolella.
+    //********************************************************************************    
     
     /**
      * Tekee tarvittavat alustukset. TODO: tarkenna.

@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.WildChars;
 /**
  * Kohteet-luokka hallinnoi yksittäisiä kohteita.
  * @author Marko Moilanen
- * @version 17.4.2018
+ * @version 18.4.2018
  */
 public class Kohteet {
 
@@ -121,6 +121,41 @@ public class Kohteet {
     
     
     /**
+     * Palauttaa kohteen nimeä vastaavan id-numeron. Jos kohdetta ei ole, se luodaan.
+     * @param nimi kohteen nimi
+     * @return nimeä vastaava kohdeId
+     * @example
+     * <pre name="test">
+     *   Kohde k1 = new Kohde(); k1.rekisteroi(); k1.parse("|Maansiirto Oy");
+     *   Kohde k2 = new Kohde(); k2.rekisteroi(); k2.parse("|Urakointi Ky");
+     *   Kohteet kohteet = new Kohteet(); kohteet.lisaa(k1); kohteet.lisaa(k2);
+     *   
+     *   kohteet.haeId("Maansiirto Oy") === k1.getId();
+     *   kohteet.haeId("Urakointi Ky") === k2.getId();
+     *   kohteet.getLkm() === 2;
+     *   kohteet.haeId("Yritys");
+     *   kohteet.getLkm() === 3;
+     * </pre>
+     */
+    public int haeId(String nimi) {
+        // Jos nimi on jo olemassa, palautetaan sitä vastaava id.
+        for(Kohde kohde : this.alkiot) {
+            if (kohde.getNimi().equals(nimi))
+                return kohde.getId();
+        }
+        
+        // Jos nimellä ei löydy kohdetta, luodaan uusi kohde, lisätään se
+        // ja palautetaan sen id.
+        Kohde uusi = new Kohde();
+        uusi.rekisteroi();
+        uusi.parse("|" + nimi);
+        this.lisaa(uusi);
+        this.onkoMuutettu = true;
+        return uusi.getId();
+    }
+    
+    
+    /**
      * Luetaan tiedostosta, jonka nimi on annettu aiemmin.
      * @throws SailoException jos tiedoston lukeminen ei onnistu 
      */
@@ -189,8 +224,6 @@ public class Kohteet {
      * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
      */
     public void tallenna() throws SailoException {
-        // TODO: Varmuuskopiointi?
-        
         if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
         
         try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), false))) {            

@@ -8,7 +8,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Kohde tietää oman id:nsä ja nimensä.
  * @author Marko Moilanen
- * @version 15.4.2018
+ * @version 18.4.2018
  */
 public class Kohde implements Comparable<Kohde> {
 
@@ -160,17 +160,10 @@ public class Kohde implements Comparable<Kohde> {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Kohde kohde1 = new Kohde();
-        Kohde kohde2 = new Kohde();
-        
-        kohde1.tulosta(System.out);
-        kohde2.tulosta(System.out);
-        
-        kohde1.rekisteroi(); kohde1.taytaTiedot();
-        kohde2.rekisteroi(); kohde2.taytaTiedot();
-        
-        kohde1.tulosta(System.out);
-        kohde2.tulosta(System.out);
+        Kohde k = new Kohde();
+        k.rekisteroi();
+        k.parse("|jokinNimi");
+        System.out.println(k);
 
     }
 }

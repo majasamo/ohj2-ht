@@ -27,7 +27,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 17.4.2018
+ * @version 18.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -89,6 +89,7 @@ public class TrekisteriGUIController implements Initializable {
      */
     @FXML private void handlePoistaTyontekija() {
         this.poistaTyontekija();
+        this.haeTyontekijat(0);
     }
     
     
@@ -294,7 +295,10 @@ public class TrekisteriGUIController implements Initializable {
      * Poistaa tyontekijän.
      */
     private void poistaTyontekija() {
-        Dialogs.showMessageDialog("Ei toimi vielä.");
+        this.tyontekijaValittuna = this.chooserTyontekijat.getSelectedObject();
+        if (this.tyontekijaValittuna == null) return;
+        
+        this.rekisteri.poista(this.tyontekijaValittuna.getId());
     }
     
     
@@ -318,18 +322,14 @@ public class TrekisteriGUIController implements Initializable {
     /**
      * Lisää kohteen työntekijän kohdeluetteloon.
      */
-    private void lisaaKohde() { // Oletuskäsittelijä.
-        //ModalController.showModal(TrekisteriGUIController.class.getResource("UusiKohdeView.fxml"), "Lisää kohde",
-                //null, "");
-        // Väliaikainen ratkaisu: tehdään uusi kohde, täytetään se höpöhöpötiedoilla ja lisätään luetteloon.
-        Kohde lisattavaKohde = new Kohde();
-        lisattavaKohde.rekisteroi();
-        lisattavaKohde.taytaTiedot();
-        this.rekisteri.lisaa(lisattavaKohde);  // Tämä on siis hyvin tilapäinen ratkaisu! (Tässähän kohde ja
-                                               // kohteentekijä lisätään manuaalisesti erikseen.)
+    private void lisaaKohde() { 
+        this.tyontekijaValittuna = this.chooserTyontekijat.getSelectedObject();
+        if (this.tyontekijaValittuna == null) return;
         
-        this.rekisteri.lisaaKohteenTekija(this.tyontekijaValittuna.getId(), lisattavaKohde.getId());
+        String kohdeNimi = UusiKohdeController.kysyNimi(null, "");
+        this.rekisteri.lisaa(this.tyontekijaValittuna.getId(), kohdeNimi);
         this.haeTyontekijat(this.tyontekijaValittuna.getId());
+        this.naytaKohteet();
     }
     
     
@@ -337,11 +337,12 @@ public class TrekisteriGUIController implements Initializable {
      * Poistaa kohteen työntekijän kohdeluettelosta.
      */
     private void poistaKohde() {
+        this.tyontekijaValittuna = this.chooserTyontekijat.getSelectedObject();
         this.kohdeValittuna = this.chooserKohteet.getSelectedObject();
-        if (this.kohdeValittuna == null) return;
+        if (this.tyontekijaValittuna == null || this.kohdeValittuna == null) return;
         
         // Selvitetään, mikä työntekijä ja mikä kohde on valittuna, ja poistetaan
-        // niitä vastaava yhteys (kohtee tekijä -olio).
+        // niitä vastaava yhteys (kohteen tekijä -olio).
         int tyolainenId = this.tyontekijaValittuna.getId();
         int kohdeId = this.kohdeValittuna.getId();
         this.rekisteri.poista(tyolainenId, kohdeId);

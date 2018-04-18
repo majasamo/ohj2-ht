@@ -59,20 +59,21 @@ public class Rekisteri {
     
     
     /**
-     * Lisää työntekijälle uuden kohteen.
+     * Lisää työntekijälle uuden kohteen. Jos annetun nimistä kohdetta ei ole vielä
+     * olemassa, se luodaan ja tallennetaan tietorakenteeseen.
      * @param tyolainenId sen työntekijän id, jolle kohde lisätään
-     * @param kohdeId sen kohteen id, joka työntekijälle lisätään
+     * @param kohdeNimi sen kohteen nimi, joka työntekijälle lisätään
+     * TODO testit?
      */
-    public void lisaaKohteenTekija(int tyolainenId, int kohdeId) {
-        // Huom.! Tämä ei koske tyontekijat-attribuuttiin. Lopullisessa ohjelmassa työntekijä
-        // on olemassa ennen kuin sille lisätään kohdetta.
-        this.kohteenTekijat.lisaa(tyolainenId, kohdeId);
-        // TODO: Testit! Testejä ei voi vielä lisätä.
+    public void lisaaKohteenTekija(int tyolainenId, String kohdeNimi) {
+        //
     }
 
     
     /**
-     * Lisää työntekijälle uuden kohteen. 
+     * Lisää työntekijälle uuden kohteen. Jos annetun nimistä kohdetta ei vielä ole, 
+     * se luodaan ja lisätään tietorakenteeseen. Jos taas nimeä vastaava kohde on
+     * olemassa (tarkalleen samanlaisena), uutta kohdetta ei luoda.
      * @param tyolainenId sen työntekijän id, jolle kohde lisätään
      * @param kohdeNimi lisättävän kohteen nimi
      * @example
@@ -91,12 +92,9 @@ public class Rekisteri {
      *   // Tämä testi ei vielä toimi!
      * </pre>
      */
-    @SuppressWarnings("unused")
     public void lisaa(int tyolainenId, String kohdeNimi) {
-        // TODO: täydennä.
-        // Tarkista, onko nimeä vastaava kohde olemassa. Jos ei ole,
-        // luo se.
-        // Lisää uusi kohteenTekijä.
+        int kohdeId = this.kohteet.haeId(kohdeNimi);
+        this.kohteenTekijat.lisaa(tyolainenId, kohdeId);
     }
     
     
@@ -129,6 +127,16 @@ public class Rekisteri {
      */
     public void poista(int tyolainenId, int kohdeId) {
         this.kohteenTekijat.poista(tyolainenId, kohdeId);
+    }
+    
+    
+    /**
+     * Poistaa työntekijän.
+     * @param tyolainenId poistettavan työntekijän id-numero
+     */
+    public void poista(int tyolainenId) {
+        this.tyolaiset.poista(tyolainenId);
+        this.kohteenTekijat.poista(tyolainenId);
     }
     
     
