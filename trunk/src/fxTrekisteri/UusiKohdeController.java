@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 /**
  * Kontrolleri uuden kohteen lis‰‰mist‰ varten.
  * @author Marko Moilanen
- * @version 18.4.2018
+ * @version 19.4.2018
  */
 public class UusiKohdeController implements ModalControllerInterface<String> {
 
@@ -25,7 +25,7 @@ public class UusiKohdeController implements ModalControllerInterface<String> {
     
     @Override
     public void handleShown() {
-        // T‰h‰n ei tarvitse ainakaan viel‰ laittaa mit‰‰n.
+        this.textNimi.requestFocus();
     }
 
     

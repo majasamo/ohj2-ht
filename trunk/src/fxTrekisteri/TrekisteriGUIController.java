@@ -27,7 +27,7 @@ import trekisteri.Tyontekija;
 /**
  * Käsittelee käyttöliittymän tapahtumat.
  * @author Marko Moilanen
- * @version 18.4.2018
+ * @version 19.4.2018
  */
 public class TrekisteriGUIController implements Initializable {
     
@@ -199,7 +199,7 @@ public class TrekisteriGUIController implements Initializable {
     
     
     /**
-     * Tekee tarvittavat alustukset. TODO: tarkenna.
+     * Tekee tarvittavat alustukset.
      */
     private void alusta() {
         this.chooserTyontekijat.clear();
@@ -325,6 +325,7 @@ public class TrekisteriGUIController implements Initializable {
         if (this.tyontekijaValittuna == null) return;
         
         String kohdeNimi = UusiKohdeController.kysyNimi(null, "");
+        if (kohdeNimi == null) return;  // Tässä tapauksessa painettiin Peruuta-nappia.
         this.rekisteri.lisaa(this.tyontekijaValittuna.getId(), kohdeNimi);
         this.haeTyontekijat(this.tyontekijaValittuna.getId());
     }
