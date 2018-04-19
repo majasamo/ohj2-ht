@@ -8,7 +8,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 /**
  * KohteenTekija yhdistää toisiinsa yhden kohteen ja yhden työntekijän.
  * @author Marko Moilanen
- * @version 3.4.2018
+ * @version 19.4.2018
  */
 public class KohteenTekija {
 
@@ -35,7 +35,7 @@ public class KohteenTekija {
      * @param kohdeId työntekijään liitettävän kohteen id-numero
      */
     public KohteenTekija(int tyolainenId, int kohdeId) {
-        this.rekisteroi();  // TODO: Pitääköhän tämä tehdä muualla?
+        //this.rekisteroi();  // TODO: Pitääköhän tämä tehdä muualla?
         this.tyolainenId = tyolainenId;
         this.kohdeId = kohdeId;
     }
@@ -174,42 +174,5 @@ public class KohteenTekija {
      */
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
-    }
-    
-    
-    /**
-     * Pääohjelma testaamista varten.
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Tyontekija virtanen1 = new Tyontekija();
-        Tyontekija virtanen2 = new Tyontekija();
-        virtanen1.rekisteroi();
-        virtanen2.rekisteroi();
-        Kohde kohde1 = new Kohde();
-        Kohde kohde2 = new Kohde();
-        kohde1.rekisteroi();
-        kohde2.rekisteroi();
-        
-        KohteenTekija tekija1 = new KohteenTekija(virtanen1, kohde1);
-        tekija1.tulosta(System.out);
-        tekija1.rekisteroi();
-        tekija1.tulosta(System.out);
-        
-        System.out.println("**********");
-        
-        KohteenTekija tekija2 = new KohteenTekija(virtanen1, kohde2);
-        tekija2.tulosta(System.out);
-        tekija2.rekisteroi();
-        tekija2.tulosta(System.out);
-        
-        System.out.println("**********");
-        
-        KohteenTekija tekija3 = new KohteenTekija(virtanen2, kohde2);
-        tekija3.tulosta(System.out);
-        tekija3.rekisteroi();
-        tekija3.tulosta(System.out);
-        tekija3.rekisteroi();
-        tekija3.tulosta(System.out);
-    }
+    }        
 }

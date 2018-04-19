@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * KohteenTekijat-luokka hallinnoi yksittäisiä kohteen tekijöitä.
  * @author Marko Moilanen
- * @version 15.4.2018
+ * @version 19.4.2018
  */
 public class KohteenTekijat {
     
@@ -32,16 +32,16 @@ public class KohteenTekijat {
      * #import java.util.List;
      * #import java.util.ArrayList;
      *   Kohde kohde1 = new Kohde();
-     *   kohde1.rekisteroi(); kohde1.taytaTiedot();
+     *   kohde1.rekisteroi();
      *   Kohde kohde2 = new Kohde();
-     *   kohde2.rekisteroi(); kohde2.taytaTiedot();
+     *   kohde2.rekisteroi();
      *   Kohde kohde3 = new Kohde();
-     *   kohde3.rekisteroi(); kohde3.taytaTiedot();
+     *   kohde3.rekisteroi();
      *   
      *   Tyontekija tyol1 = new Tyontekija();
-     *   tyol1.rekisteroi(); tyol1.taytaTiedot();
+     *   tyol1.rekisteroi();
      *   Tyontekija tyol2 = new Tyontekija();
-     *   tyol2.rekisteroi(); tyol2.taytaTiedot();
+     *   tyol2.rekisteroi();
      *   
      *   KohteenTekijat tekijat = new KohteenTekijat();
      *   tekijat.lisaa(tyol1.getId(), kohde1.getId());
@@ -82,6 +82,7 @@ public class KohteenTekijat {
      */
     public void lisaa(int tyolainenId, int kohdeId) {
         KohteenTekija lisattava = new KohteenTekija(tyolainenId, kohdeId);
+        lisattava.rekisteroi();
         this.lisaa(lisattava);
     }
     
@@ -247,7 +248,34 @@ public class KohteenTekijat {
      * Lukee kohteen tekijöiden tiedot tiedostosta.
      * @param tiedosto luettavan tiedoston nimi ilman tiedostopäätettä
      * @throws SailoException jos tiedoston lukeminen ei onnistu
-     * TODO testit
+     * <pre name="test">
+     * #THROWS SailoException
+     * #import java.io.File;
+     *   String tiedosto = "testiyritys/kohteenTekijat";
+     *   File fileTied = new File(tiedosto + ".dat");
+     *   File fileHak = new File("testiyritys");
+     *   fileHak.mkdir();
+     *   fileTied.delete();
+     *   
+     *   KohteenTekijat tekijat = new KohteenTekijat(); 
+     *   KohteenTekija kt1 = new KohteenTekija(); kt1.rekisteroi(); kt1.parse("|2|18"); 
+     *   KohteenTekija kt2 = new KohteenTekija(); kt2.rekisteroi(); kt2.parse("|2|4");
+     *   tekijat.lueTiedostosta(tiedosto);  #THROWS SailoException
+     *   
+     *   // Lisätään ja tallennetaan. Muutosten pitäisi tallentua tiedostoon.
+     *   tekijat.lisaa(kt1);
+     *   tekijat.lisaa(kt2);
+     *   tekijat.tallenna();
+     *   // Tuhotaan vanhat tiedot ja testataan, säilyivätkö tiedostoon tallennetut
+     *   // tiedot.
+     *   tekijat = new KohteenTekijat();
+     *   tekijat.lueTiedostosta(tiedosto);
+     *   List<Integer> tulos = new ArrayList<Integer>(); tulos.add(4); tulos.add(18);
+     *   List<Integer> vastaus = tekijat.annaKohdeIdt(2); vastaus.sort(null);
+     *   tulos.equals(vastaus) === true;
+     *   fileTied.delete() === true;
+     *   fileHak.delete() === true;
+     * </pre>
      */
     public void lueTiedostosta(String tiedosto) throws SailoException {
         setTiedostonPerusnimi(tiedosto);
@@ -271,11 +299,8 @@ public class KohteenTekijat {
     /**
      * Tallentaa kohteen tekijät tiedostoon.
      * @throws SailoException jos tiedostoon kirjoittaminen ei onnistu
-     * TODO: testit
      */
     public void tallenna() throws SailoException {
-        // TODO: Varmuuskopiointi?
-        
         if (!this.onkoMuutettu) return;  // Ei tallenneta turhaan.
         
         try (PrintStream kirjoittaja = new PrintStream(new FileOutputStream(this.getTiedostonNimi(), false))) {            
@@ -314,14 +339,5 @@ public class KohteenTekijat {
      */
     public String getTiedostonNimi() {
         return this.perusnimi + ".dat";
-    }
-    
-    
-    /**
-     * Pääohjelma testaamista varten.
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        //
     }
 }

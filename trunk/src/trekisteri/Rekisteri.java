@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Luokka huolehtii muista kuin itse k‰yttˆliittym‰‰n kuuluvista asioista.
  * @author Marko Moilanen
- * @version 17.4.2018
+ * @version 19.4.2018
  */
 public class Rekisteri {
 
@@ -48,7 +48,7 @@ public class Rekisteri {
      * Lis‰‰ uuden kohteen.
      * @param lisattava lis‰tt‰v‰ kohde
      */
-    public void lisaa(Kohde lisattava) {
+    private void lisaa(Kohde lisattava) {
         // TODO: Testej‰ ei ole, koska kohteet-attribuuttiin ei p‰‰st‰ k‰siksi.
         // Jos attribuutille joskus joudutaan tekem‰‰n saantimetodi, niin lis‰‰
         // testit.
