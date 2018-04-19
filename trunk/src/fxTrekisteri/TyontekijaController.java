@@ -17,7 +17,7 @@ import trekisteri.Tyontekija;
 /**
  * Kontrolleri työntekijän tietojen muokkaamista varten.
  * @author Marko Moilanen
- * @version 18.4.2018
+ * @version 19.4.2018
  */
 public class TyontekijaController implements ModalControllerInterface<Tyontekija>, Initializable {
 
@@ -28,7 +28,8 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
     @FXML private TextField editLisatietoja;
     @FXML private Label labelVirhe;
     
-    private Tyontekija tyontekijaValittuna;
+    private Tyontekija vastaus = null;
+    private Tyontekija tyontekijaValittuna ;
     private TextField[] tiedot;
     
     
@@ -45,7 +46,8 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
                 return;
             }
         }
-
+        
+        this.vastaus = this.tyontekijaValittuna;
         ModalController.closeStage(this.editNimi);       
     }
     
@@ -54,7 +56,7 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
      * Käsittelee Peruuta-napin painalluksen.
      */
     @FXML private void handlePeruuta() {
-        this.tyontekijaValittuna = null;
+        this.vastaus = null;
         ModalController.closeStage(this.labelVirhe);  // Etsi labelVirhe-attribuutista, mikä
     }                                                 // dialogi suljetaan.
     
@@ -67,7 +69,7 @@ public class TyontekijaController implements ModalControllerInterface<Tyontekija
     
     @Override
     public Tyontekija getResult() {
-        return this.tyontekijaValittuna;
+        return this.vastaus;
     }
 
     
